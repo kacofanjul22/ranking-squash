@@ -37,13 +37,11 @@ main{max-width:860px;margin:0 auto;padding:24px 16px;}
 .loader-txt{font-size:13px;color:var(--muted);}
 .error-box{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.25);border-radius:10px;padding:16px;font-size:13px;color:var(--down);margin:20px 0;line-height:1.6;}
 
-/* stats */
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;}
 .stat{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 16px;}
 .stat-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
 .stat-val{font-size:14px;font-weight:600;color:var(--text);}
 
-/* filtro categoría */
 .cat-filter{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
 .cat-btn{padding:5px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--border2);background:transparent;color:var(--muted);transition:all .15s;font-family:'DM Sans',sans-serif;}
 .cat-btn.active{background:var(--surface2);color:var(--text);border-color:var(--border2);}
@@ -52,7 +50,6 @@ main{max-width:860px;margin:0 auto;padding:24px 16px;}
 .cat-btn.act-c{background:rgba(74,222,128,.12);color:var(--cc);border-color:var(--cc);}
 .cat-btn.act-d{background:rgba(251,146,60,.12);color:var(--cd);border-color:var(--cd);}
 
-/* tabla ranking */
 .table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
 table{width:100%;border-collapse:collapse;}
 thead th{padding:10px 12px;text-align:left;font-size:10px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid var(--border);}
@@ -77,15 +74,19 @@ td{padding:9px 12px;vertical-align:middle;}
 .arr-d{width:0;height:0;border-left:4px solid transparent;border-right:4px solid transparent;border-top:6px solid var(--down);display:inline-block;}
 .dot-same{width:5px;height:5px;border-radius:50%;background:var(--muted);display:inline-block;}
 
-/* resultados */
 .fecha-selector{display:flex;align-items:center;gap:12px;margin-bottom:20px;}
 .fecha-selector label{font-size:13px;color:var(--muted);white-space:nowrap;}
-.fecha-select{background:var(--surface);border:1px solid var(--border2);border-radius:8px;color:var(--text);padding:8px 14px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;cursor:pointer;min-width:180px;}
+.fecha-select{background:var(--surface);border:1px solid var(--border2);border-radius:8px;color:var(--text);padding:8px 14px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;cursor:pointer;min-width:160px;}
 .fecha-select:focus{border-color:var(--accent);}
 .fecha-select option{background:#0b1117;}
 
+.resumen-fecha{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:16px;display:flex;gap:24px;flex-wrap:wrap;}
+.resumen-item{font-size:12px;color:var(--muted);}
+.resumen-item strong{color:var(--text);font-size:15px;display:block;margin-bottom:2px;}
+
 .partido{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:13px 16px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
 .partido.especial{border-color:rgba(192,132,252,.4);background:rgba(192,132,252,.04);}
+.partido.pendiente-row{opacity:.6;}
 .p-left{flex:1;}
 .p-match{font-size:13px;font-weight:500;line-height:1.4;}
 .p-ganador{color:var(--accent);}
@@ -94,19 +95,9 @@ td{padding:9px 12px;vertical-align:middle;}
 .p-sub{font-size:11px;color:var(--muted);font-family:'DM Sans',sans-serif;display:block;text-align:right;margin-top:3px;}
 .p-pending{color:var(--warn);font-size:12px;white-space:nowrap;}
 .especial-tag{display:inline-block;font-size:10px;color:var(--ca);background:rgba(192,132,252,.12);padding:2px 8px;border-radius:8px;border:1px solid rgba(192,132,252,.25);margin-left:8px;vertical-align:middle;}
-.resumen-fecha{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:16px;display:flex;gap:24px;}
-.resumen-item{font-size:12px;color:var(--muted);}
-.resumen-item strong{color:var(--text);font-size:14px;display:block;margin-bottom:2px;}
 
-/* próximos */
-.note-box{background:rgba(0,196,255,.06);border:1px solid rgba(0,196,255,.2);border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:var(--accent);line-height:1.6;}
-.warn-box{background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.25);border-radius:10px;padding:14px 16px;margin-bottom:16px;font-size:13px;color:var(--warn);line-height:1.6;}
-.prox-card{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:12px 16px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
-.prox-info{font-size:13px;font-weight:500;line-height:1.5;}
-.prox-date{font-size:13px;font-weight:600;color:var(--cc);text-align:right;white-space:nowrap;}
-.prox-period{font-size:11px;color:var(--muted);display:block;text-align:right;margin-top:2px;}
+.sec-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin:20px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--border);}
 
-/* reglamento */
 .reg-wrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;}
 .reg-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:var(--accent);margin-bottom:16px;}
 .reg-item{padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;line-height:1.7;color:#b0c4d8;}
@@ -117,7 +108,7 @@ td{padding:9px 12px;vertical-align:middle;}
   .stats{grid-template-columns:1fr 1fr;}
   header{padding:0 12px;}
   .logo{font-size:20px;}
-  .resumen-fecha{flex-wrap:wrap;gap:12px;}
+  .resumen-fecha{gap:12px;}
 }
 </style>
 </head>
@@ -137,7 +128,6 @@ td{padding:9px 12px;vertical-align:middle;}
 <nav>
   <button class="tab-btn active" onclick="goTab('ranking',this)">Ranking general</button>
   <button class="tab-btn" onclick="goTab('resultados',this)">Resultados</button>
-  <button class="tab-btn" onclick="goTab('proximos',this)">Próximos partidos</button>
   <button class="tab-btn" onclick="goTab('reglamento',this)">Reglamento</button>
 </nav>
 
@@ -189,20 +179,13 @@ td{padding:9px 12px;vertical-align:middle;}
     </div>
   </div>
 
-  <!-- PRÓXIMOS -->
-  <div id="tab-proximos" class="tab-content">
-    <div id="proximos-content">
-      <div class="loader"><div class="spinner"></div></div>
-    </div>
-  </div>
-
   <!-- REGLAMENTO -->
   <div id="tab-reglamento" class="tab-content">
     <div class="reg-wrap">
       <div class="reg-title">Reglamento — Ranking x Desafíos 2026</div>
       <div class="reg-item"><span class="reg-num">1</span>El Ranking se publicará en los canales de difusión de la asociación.</div>
       <div class="reg-item"><span class="reg-num">2</span>Los jugadores de ranking <strong>par</strong> deberán desafiar al de ranking <strong>impar</strong> ubicado 3 puestos más arriba. Ej: #12 debe desafiar a #9.</div>
-      <div class="reg-item"><span class="reg-num">3</span>Si el par <strong>gana</strong>: sube 4 puestos, el impar baja 4. Si el par <strong>pierde</strong>: baja 1 puesto, el impar sube 1. Ej: #10 desafía a #7 — si gana #10 pasa a #6 y #7 pasa a #11. Si pierde, #10 va a #11 y #7 va a #6.</div>
+      <div class="reg-item"><span class="reg-num">3</span>Si el par <strong>gana</strong>: sube 4 puestos, el impar baja 4. Si el par <strong>pierde</strong>: baja 1 puesto, el impar sube 1. Ej: #10 desafía a #7 — si gana #10 pasa a #6 y #7 a #11. Si pierde, #10 va a #11 y #7 va a #6.</div>
       <div class="reg-item"><span class="reg-num">4</span>Los desafíos se juegan en dos períodos mensuales: del 2 al 14, y del 16 al 30/31.</div>
       <div class="reg-item"><span class="reg-num">5</span>El desafío implica la coordinación del encuentro (primeros 5 días de publicado el ranking). El partido deberá disputarse dentro de las fechas previstas.</div>
       <div class="reg-item"><span class="reg-num">6</span>La comunicación del resultado deberá ser realizada por el par hasta el día 14 o el 30/31 según corresponda.</div>
@@ -220,36 +203,20 @@ td{padding:9px 12px;vertical-align:middle;}
 
 <script>
 // ─── CONFIG ──────────────────────────────────────────────────────────────────
-const SHEET_ID   = "1w2nWgdB_ZBoA8EQhwf86ahNlE2O4dhQUVI7aUQRm76Y";
-const GID_JUG    = "41624303";   // hoja JUGADORES
-const GID_RES    = "0";          // hoja RESULTADOS
+const SHEET_ID = "1w2nWgdB_ZBoA8EQhwf86ahNlE2O4dhQUVI7aUQRm76Y";
+const GID_JUG  = "41624303";
+const GID_RES  = "0";
 
 function csvUrl(gid) {
-  return `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${gid}&cachebust=${Date.now()}`;
+  return `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${gid}&cb=${Date.now()}`;
 }
 
-// ─── STATE ───────────────────────────────────────────────────────────────────
 let jugadores   = [];
 let resultados  = [];
 let rankingCalc = [];
-let fechaActual = "";
 let currentCat  = "todos";
 
 // ─── CSV PARSER ──────────────────────────────────────────────────────────────
-function parseCSV(text) {
-  const lines = text.trim().split("\n");
-  if (lines.length < 2) return [];
-  const headers = splitLine(lines[0]).map(h => h.toUpperCase().trim());
-  return lines.slice(1)
-    .map(line => {
-      const vals = splitLine(line);
-      const obj = {};
-      headers.forEach((h, i) => obj[h] = (vals[i] || "").trim());
-      return obj;
-    })
-    .filter(row => Object.values(row).some(v => v !== ""));
-}
-
 function splitLine(line) {
   const vals = []; let cur = "", inQ = false;
   for (const c of line) {
@@ -261,14 +228,26 @@ function splitLine(line) {
   return vals.map(v => v.replace(/^"|"$/g, "").trim());
 }
 
-// ─── FETCH ───────────────────────────────────────────────────────────────────
+function parseCSV(text) {
+  const lines = text.trim().split("\n");
+  if (lines.length < 2) return [];
+  const headers = splitLine(lines[0]).map(h => h.toUpperCase().trim());
+  return lines.slice(1)
+    .map(line => {
+      const vals = splitLine(line);
+      const obj  = {};
+      headers.forEach((h, i) => obj[h] = (vals[i] || "").trim());
+      return obj;
+    })
+    .filter(row => Object.values(row).some(v => v !== ""));
+}
+
 async function fetchCSV(gid) {
   const res = await fetch(csvUrl(gid));
   if (!res.ok) throw new Error(`Error ${res.status}`);
   const text = await res.text();
-  if (text.includes("<!DOCTYPE") || text.includes("<html")) {
+  if (text.includes("<!DOCTYPE") || text.includes("<html"))
     throw new Error("La planilla no está publicada públicamente");
-  }
   return parseCSV(text);
 }
 
@@ -288,37 +267,51 @@ function calcRanking(jug, res) {
     return players.findIndex(p => p.nombre.toLowerCase().trim() === n);
   }
 
-  // Ordenar por fecha y procesar en orden
+  // Procesar en orden de fecha
   const ordered = [...res]
     .filter(r => r.DESAFIANTE && r.ACEPTANTE && r.GAMES_D !== "" && r.GAMES_A !== "")
     .sort((a, b) => parseInt(a.FECHA || 0) - parseInt(b.FECHA || 0));
 
   for (const r of ordered) {
-    const gd  = parseInt(r.GAMES_D);
-    const ga  = parseInt(r.GAMES_A);
+    const gd = parseInt(r.GAMES_D);
+    const ga = parseInt(r.GAMES_A);
     if (isNaN(gd) || isNaN(ga)) continue;
 
-    const nota    = (r.NOTA || "").toUpperCase().trim();
+    const nota     = (r.NOTA || "").toUpperCase().trim();
     const especial = nota === "ESPECIAL";
-    const ganadorD = gd > ga;
+    const ganadorD = gd > ga;   // ganó el DESAFIANTE?
     const id = getIdx(r.DESAFIANTE);
     const ia = getIdx(r.ACEPTANTE);
     if (id === -1 || ia === -1) continue;
 
     if (especial) {
-      // Partido especial: el ganador toma la posición del perdedor si está detrás
-      if (ganadorD && id > ia) {
-        players.splice(ia, 0, players.splice(id, 1)[0]);
-      } else if (!ganadorD && ia > id) {
-        players.splice(id, 0, players.splice(ia, 1)[0]);
+      // Partido especial: el ganador ocupa la posición del perdedor
+      // Solo mueve si el ganador está detrás del perdedor en el ranking
+      if (ganadorD) {
+        // Foguet (DESAFIANTE) gana a Navarro (ACEPTANTE)
+        // Foguet sube a donde está Navarro (posición más arriba = índice menor)
+        if (id > ia) {
+          players.splice(ia, 0, players.splice(id, 1)[0]);
+        } else {
+          // Ganador ya está arriba, igual lo ponemos en la posición del perdedor
+          players.splice(ia, 0, players.splice(id, 1)[0]);
+        }
+      } else {
+        // ACEPTANTE gana
+        if (ia > id) {
+          players.splice(id, 0, players.splice(ia, 1)[0]);
+        } else {
+          players.splice(id, 0, players.splice(ia, 1)[0]);
+        }
       }
     } else {
+      // Regla estándar par/impar
       if (ganadorD) {
-        // par gana → sube 4
+        // par gana → sube 4 posiciones
         const t = Math.max(0, id - 4);
         players.splice(t, 0, players.splice(id, 1)[0]);
       } else {
-        // par pierde → baja 1
+        // par pierde → baja 1 posición
         const t = Math.min(players.length - 1, id + 1);
         players.splice(t, 0, players.splice(id, 1)[0]);
       }
@@ -378,7 +371,6 @@ function filterCat(cat, btn) {
 
 // ─── RENDER RESULTADOS ───────────────────────────────────────────────────────
 function renderResultados() {
-  // Agrupar fechas únicas
   const fechas = [...new Set(
     resultados.filter(r => r.FECHA).map(r => r.FECHA.trim())
   )].sort((a, b) => parseInt(a) - parseInt(b));
@@ -392,7 +384,6 @@ function renderResultados() {
     sel.appendChild(opt);
   });
 
-  // Mostrar la última fecha por defecto
   if (fechas.length) {
     const ultima = fechas[fechas.length - 1];
     sel.value = ultima;
@@ -403,30 +394,45 @@ function renderResultados() {
   }
 }
 
+function tieneResultado(r) {
+  return r.GAMES_D !== "" && r.GAMES_A !== "" &&
+         !isNaN(parseInt(r.GAMES_D)) && !isNaN(parseInt(r.GAMES_A));
+}
+
 function mostrarFecha(fecha) {
-  fechaActual = fecha;
   const partidos = resultados.filter(r => (r.FECHA || "").trim() === fecha);
 
+  // Separar: normales jugados / normales pendientes / especiales
+  const normJugados  = partidos.filter(r => (r.NOTA||"").toUpperCase().trim() !== "ESPECIAL" &&  tieneResultado(r));
+  const normPendient = partidos.filter(r => (r.NOTA||"").toUpperCase().trim() !== "ESPECIAL" && !tieneResultado(r));
+  const especiales   = partidos.filter(r => (r.NOTA||"").toUpperCase().trim() === "ESPECIAL");
+
   // Resumen
-  const jugados  = partidos.filter(r => r.GAMES_D !== "" && r.GAMES_A !== "" && !isNaN(parseInt(r.GAMES_D)));
-  const pend     = partidos.length - jugados.length;
+  const total   = partidos.length;
+  const jugados = normJugados.length + especiales.filter(tieneResultado).length;
+  const pend    = normPendient.length;
   document.getElementById("resumen-box").innerHTML = `
     <div class="resumen-fecha">
-      <div class="resumen-item"><strong>${partidos.length}</strong>partidos totales</div>
-      <div class="resumen-item"><strong>${jugados.length}</strong>jugados</div>
+      <div class="resumen-item"><strong>${total}</strong>partidos totales</div>
+      <div class="resumen-item"><strong>${jugados}</strong>jugados</div>
       ${pend > 0 ? `<div class="resumen-item"><strong style="color:var(--warn)">${pend}</strong>pendientes</div>` : ""}
     </div>`;
 
-  // Separar especiales de normales
-  const normales  = partidos.filter(r => (r.NOTA || "").toUpperCase().trim() !== "ESPECIAL");
-  const especiales = partidos.filter(r => (r.NOTA || "").toUpperCase().trim() === "ESPECIAL");
-
   let html = "";
-  normales.forEach(r  => html += partidoHtml(r, false));
 
+  // Primero los jugados
+  normJugados.forEach(r => { html += partidoHtml(r, false); });
+
+  // Especiales
   if (especiales.length) {
-    html += `<div style="margin-top:20px;margin-bottom:12px;font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:1px;color:var(--ca)">Partidos especiales</div>`;
-    especiales.forEach(r => html += partidoHtml(r, true));
+    html += `<div class="sec-label">Partidos especiales</div>`;
+    especiales.forEach(r => { html += partidoHtml(r, true); });
+  }
+
+  // Pendientes al final
+  if (normPendient.length) {
+    html += `<div class="sec-label">Pendientes</div>`;
+    normPendient.forEach(r => { html += partidoHtml(r, false); });
   }
 
   document.getElementById("partidos-list").innerHTML = html ||
@@ -434,106 +440,38 @@ function mostrarFecha(fecha) {
 }
 
 function partidoHtml(r, esEsp) {
-  const gd = parseInt(r.GAMES_D), ga = parseInt(r.GAMES_A);
-  const ok = !isNaN(gd) && !isNaN(ga) && r.GAMES_D !== "" && r.GAMES_A !== "";
-  const ganD   = ok && gd > ga;
-  const ganNom = ganD ? r.DESAFIANTE : r.ACEPTANTE;
-  const perNom = ganD ? r.ACEPTANTE  : r.DESAFIANTE;
+  const gd = parseInt(r.GAMES_D);
+  const ga = parseInt(r.GAMES_A);
+  const ok = tieneResultado(r);
 
-  const matchHtml = ok
-    ? `<span class="p-ganador">${ganNom}</span> <span style="color:var(--muted)">vs</span> <span class="p-perdedor">${perNom}</span>${esEsp ? '<span class="especial-tag">especial</span>' : ''}`
-    : `${r.DESAFIANTE} <span style="color:var(--muted)">vs</span> ${r.ACEPTANTE}${esEsp ? '<span class="especial-tag">especial</span>' : ''}`;
+  // El ganador siempre aparece primero con su score mayor
+  // Si ganó el DESAFIANTE: mostrar "Desafiante gana_score – pierde_score Aceptante"
+  // Si ganó el ACEPTANTE:  mostrar "Aceptante gana_score – pierde_score Desafiante"
+  let matchHtml, resHtml;
 
-  const resHtml = ok
-    ? `<div class="p-result">${gd}–${ga}<span class="p-sub">games</span></div>`
-    : `<div class="p-pending">pendiente</div>`;
+  if (ok) {
+    const ganadorD = gd > ga;
+    const ganNom   = ganadorD ? r.DESAFIANTE : r.ACEPTANTE;
+    const perNom   = ganadorD ? r.ACEPTANTE  : r.DESAFIANTE;
+    const ganScore = ganadorD ? gd : ga;   // siempre el mayor (score del ganador)
+    const perScore = ganadorD ? ga : gd;   // siempre el menor (score del perdedor)
 
-  return `<div class="partido${esEsp ? " especial" : ""}">
+    matchHtml = `<span class="p-ganador">${ganNom}</span>`
+              + `<span style="color:var(--muted)"> vs </span>`
+              + `<span class="p-perdedor">${perNom}</span>`
+              + (esEsp ? `<span class="especial-tag">especial</span>` : "");
+
+    resHtml = `<div class="p-result">${ganScore}–${perScore}<span class="p-sub">games</span></div>`;
+  } else {
+    matchHtml = `${r.DESAFIANTE}<span style="color:var(--muted)"> vs </span>${r.ACEPTANTE}`
+              + (esEsp ? `<span class="especial-tag">especial</span>` : "");
+    resHtml = `<div class="p-pending">pendiente</div>`;
+  }
+
+  return `<div class="partido${esEsp ? " especial" : ""}${!ok ? " pendiente-row" : ""}">
     <div class="p-left"><div class="p-match">${matchHtml}</div></div>
     <div>${resHtml}</div>
   </div>`;
-}
-
-// ─── RENDER PRÓXIMOS ─────────────────────────────────────────────────────────
-function renderProximos() {
-  const el  = document.getElementById("proximos-content");
-  const hoy = new Date();
-  const dia = hoy.getDate();
-
-  // Solo mostrar exactamente el día 1 o el día 15
-  if (dia !== 1 && dia !== 15) {
-    const proximoDia = dia < 15 ? 15 : 1;
-    const proximoMes = dia < 15 ? "" : " del mes que viene";
-    el.innerHTML = `<div class="warn-box">
-      Los próximos partidos se publican el <strong>día 1</strong> y el <strong>día 15</strong> de cada mes,
-      una vez que todos los resultados de la fecha anterior estén cargados.<br>
-      Próxima publicación: <strong>día ${proximoDia}${proximoMes}</strong>.
-    </div>`;
-    return;
-  }
-
-  // Verificar pendientes en la última fecha
-  const ultimaFecha = resultados.filter(r => r.FECHA).length
-    ? Math.max(...resultados.filter(r => r.FECHA).map(r => parseInt(r.FECHA)))
-    : 0;
-
-  const pendientes = resultados.filter(r => {
-    if (parseInt(r.FECHA || 0) !== ultimaFecha) return false;
-    if ((r.NOTA || "").toUpperCase().trim() === "ESPECIAL") return false;
-    return r.GAMES_D === "" || r.GAMES_A === "" || isNaN(parseInt(r.GAMES_D)) || isNaN(parseInt(r.GAMES_A));
-  });
-
-  if (pendientes.length > 0) {
-    el.innerHTML = `<div class="warn-box">
-      Hay <strong>${pendientes.length} partido${pendientes.length > 1 ? "s" : ""} pendiente${pendientes.length > 1 ? "s" : ""}</strong>
-      sin resultado en la Fecha ${ultimaFecha}.<br>
-      Los próximos partidos se publican cuando <strong>todos los resultados estén cargados</strong>.
-    </div>
-    ${pendientes.map(p => `
-      <div class="partido">
-        <div class="p-match">${p.DESAFIANTE} <span style="color:var(--muted)">vs</span> ${p.ACEPTANTE}</div>
-        <div class="p-pending">sin resultado</div>
-      </div>`).join("")}`;
-    return;
-  }
-
-  // Todo ok → generar cruces
-  const sigFecha = ultimaFecha + 1;
-  const periodo  = dia === 1 ? 1 : 2;
-  const [ini, fin] = dia === 1 ? ["2", "14"] : ["16", "30"];
-  const mes = hoy.toLocaleString("es-AR", { month: "long" });
-
-  let html = `<div class="note-box">
-    <strong>Fecha ${sigFecha} · Período ${periodo}</strong> &mdash; ${ini} al ${fin} de ${mes}<br>
-    <span style="opacity:.8">Los jugadores de posición par desafían al impar ubicado 3 puestos arriba.</span>
-  </div>`;
-
-  let count = 0;
-  rankingCalc.forEach(p => {
-    if (p.pos % 2 === 0) {
-      const rival = rankingCalc.find(r => r.pos === p.pos - 3);
-      if (rival) {
-        count++;
-        html += `<div class="prox-card">
-          <div class="prox-info">
-            <strong>#${p.pos} ${p.nombre}</strong>
-            <span style="color:var(--muted);margin:0 8px">vs</span>
-            <strong>#${rival.pos} ${rival.nombre}</strong>
-            <span style="margin-left:8px">
-              <span class="cat-pill ${catCls[p.bombo] || 'pill-b'}">${p.bombo}</span>
-            </span>
-          </div>
-          <div>
-            <div class="prox-date">${ini}–${fin} ${mes.slice(0,3)}</div>
-            <div class="prox-period">Período ${periodo} · Fecha ${sigFecha}</div>
-          </div>
-        </div>`;
-      }
-    }
-  });
-
-  if (!count) html += `<p style="color:var(--muted);font-size:13px">No se encontraron cruces para generar.</p>`;
-  el.innerHTML = html;
 }
 
 // ─── NAVEGACIÓN ──────────────────────────────────────────────────────────────
@@ -544,7 +482,7 @@ function goTab(id, btn) {
   if (btn) btn.classList.add("active");
 }
 
-// ─── SYNC STATUS ─────────────────────────────────────────────────────────────
+// ─── SYNC ────────────────────────────────────────────────────────────────────
 function setSync(state, txt) {
   document.getElementById("sync-dot").className = "sync-dot " + state;
   document.getElementById("sync-txt").textContent = txt;
@@ -564,7 +502,6 @@ async function loadAll() {
 
     rankingCalc = calcRanking(jugadores, resultados);
 
-    // Mostrar contenido
     document.getElementById("ranking-loader").style.display    = "none";
     document.getElementById("resultados-loader").style.display = "none";
     document.getElementById("ranking-content").style.display   = "block";
@@ -572,7 +509,6 @@ async function loadAll() {
 
     renderRanking();
     renderResultados();
-    renderProximos();
 
     const hora = new Date().toLocaleTimeString("es-AR", { hour:"2-digit", minute:"2-digit" });
     setSync("ok", `Actualizado ${hora}`);
@@ -586,11 +522,9 @@ async function loadAll() {
     </div>`;
     document.getElementById("ranking-loader").innerHTML    = errHtml;
     document.getElementById("resultados-loader").innerHTML = errHtml;
-    document.getElementById("proximos-content").innerHTML  = errHtml;
   }
 }
 
-// Cargar al inicio y refrescar cada 3 minutos
 loadAll();
 setInterval(loadAll, 3 * 60 * 1000);
 </script>
