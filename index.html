@@ -6,9 +6,10 @@
 <title>Ranking Squash Tucumán 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0b1117;--surface:#111920;--surface2:#162030;--border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);--text:#e8eef5;--muted:#5a7a9a;--accent:#00c4ff;--accent2:#0077aa;--ca:#c084fc;--cb:#38bdf8;--cc:#4ade80;--cd:#fb923c;--up:#34d399;--down:#f87171;--warn:#fbbf24;}
+:root{--bg:#0b1117;--surface:#111920;--surface2:#162030;--border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);--text:#e8eef5;--muted:#5a7a9a;--accent:#00c4ff;--ca:#c084fc;--cb:#38bdf8;--cc:#4ade80;--cd:#fb923c;--up:#34d399;--down:#f87171;--warn:#fbbf24;}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;min-height:100vh;}
+
 header{background:var(--surface);border-bottom:1px solid var(--border2);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100;}
 .logo{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:3px;color:var(--accent);}
 .logo span{color:var(--text);}
@@ -20,22 +21,29 @@ header{background:var(--surface);border-bottom:1px solid var(--border2);padding:
 .sync-dot.err{background:var(--down);}
 .sync-dot.loading{background:var(--warn);animation:pulse 1s infinite;}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
 nav{background:var(--surface);border-bottom:1px solid var(--border);display:flex;overflow-x:auto;}
 .tab-btn{padding:14px 20px;font-size:13px;font-family:'DM Sans',sans-serif;font-weight:500;color:var(--muted);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;transition:color .2s;}
 .tab-btn:hover{color:var(--text);}
 .tab-btn.active{color:var(--accent);border-bottom-color:var(--accent);}
+
 main{max-width:860px;margin:0 auto;padding:24px 16px;}
 .tab-content{display:none;}
 .tab-content.active{display:block;}
+
 .loader{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 0;gap:14px;}
 .spinner{width:32px;height:32px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loader-txt{font-size:13px;color:var(--muted);}
-.error-box{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.25);border-radius:10px;padding:16px;font-size:13px;color:var(--down);margin:20px 0;}
+.error-box{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.25);border-radius:10px;padding:16px;font-size:13px;color:var(--down);margin:20px 0;line-height:1.6;}
+
+/* stats */
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;}
 .stat{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 16px;}
 .stat-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
 .stat-val{font-size:14px;font-weight:600;color:var(--text);}
+
+/* filtro categoría */
 .cat-filter{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
 .cat-btn{padding:5px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--border2);background:transparent;color:var(--muted);transition:all .15s;font-family:'DM Sans',sans-serif;}
 .cat-btn.active{background:var(--surface2);color:var(--text);border-color:var(--border2);}
@@ -43,6 +51,8 @@ main{max-width:860px;margin:0 auto;padding:24px 16px;}
 .cat-btn.act-b{background:rgba(56,189,248,.12);color:var(--cb);border-color:var(--cb);}
 .cat-btn.act-c{background:rgba(74,222,128,.12);color:var(--cc);border-color:var(--cc);}
 .cat-btn.act-d{background:rgba(251,146,60,.12);color:var(--cd);border-color:var(--cd);}
+
+/* tabla ranking */
 .table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
 table{width:100%;border-collapse:collapse;}
 thead th{padding:10px 12px;text-align:left;font-size:10px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid var(--border);}
@@ -65,74 +75,62 @@ td{padding:9px 12px;vertical-align:middle;}
 .var-same{color:var(--muted);display:flex;justify-content:center;}
 .arr-u{width:0;height:0;border-left:4px solid transparent;border-right:4px solid transparent;border-bottom:6px solid var(--up);display:inline-block;}
 .arr-d{width:0;height:0;border-left:4px solid transparent;border-right:4px solid transparent;border-top:6px solid var(--down);display:inline-block;}
-.dot{width:5px;height:5px;border-radius:50%;background:var(--muted);display:inline-block;}
-.fecha-block{margin-bottom:28px;}
-.fecha-header{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;color:var(--accent);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border);}
-.partido{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
-.partido.especial{border-color:rgba(192,132,252,.4);}
-.p-match{font-size:13px;font-weight:500;}
+.dot-same{width:5px;height:5px;border-radius:50%;background:var(--muted);display:inline-block;}
+
+/* resultados */
+.fecha-selector{display:flex;align-items:center;gap:12px;margin-bottom:20px;}
+.fecha-selector label{font-size:13px;color:var(--muted);white-space:nowrap;}
+.fecha-select{background:var(--surface);border:1px solid var(--border2);border-radius:8px;color:var(--text);padding:8px 14px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;cursor:pointer;min-width:180px;}
+.fecha-select:focus{border-color:var(--accent);}
+.fecha-select option{background:#0b1117;}
+
+.partido{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:13px 16px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.partido.especial{border-color:rgba(192,132,252,.4);background:rgba(192,132,252,.04);}
+.p-left{flex:1;}
+.p-match{font-size:13px;font-weight:500;line-height:1.4;}
 .p-ganador{color:var(--accent);}
 .p-perdedor{color:var(--muted);}
-.p-result{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--text);text-align:right;white-space:nowrap;}
-.p-sub{font-size:11px;color:var(--muted);font-family:'DM Sans',sans-serif;display:block;text-align:right;}
+.p-result{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--text);text-align:right;white-space:nowrap;line-height:1;}
+.p-sub{font-size:11px;color:var(--muted);font-family:'DM Sans',sans-serif;display:block;text-align:right;margin-top:3px;}
 .p-pending{color:var(--warn);font-size:12px;white-space:nowrap;}
-.especial-tag{font-size:10px;color:var(--ca);background:rgba(192,132,252,.12);padding:1px 7px;border-radius:8px;border:1px solid rgba(192,132,252,.25);margin-left:6px;}
-.note-box{background:rgba(0,196,255,.06);border:1px solid rgba(0,196,255,.2);border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:var(--accent);}
+.especial-tag{display:inline-block;font-size:10px;color:var(--ca);background:rgba(192,132,252,.12);padding:2px 8px;border-radius:8px;border:1px solid rgba(192,132,252,.25);margin-left:8px;vertical-align:middle;}
+.resumen-fecha{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:16px;display:flex;gap:24px;}
+.resumen-item{font-size:12px;color:var(--muted);}
+.resumen-item strong{color:var(--text);font-size:14px;display:block;margin-bottom:2px;}
+
+/* próximos */
+.note-box{background:rgba(0,196,255,.06);border:1px solid rgba(0,196,255,.2);border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:var(--accent);line-height:1.6;}
 .warn-box{background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.25);border-radius:10px;padding:14px 16px;margin-bottom:16px;font-size:13px;color:var(--warn);line-height:1.6;}
 .prox-card{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:12px 16px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.prox-info{font-size:13px;font-weight:500;line-height:1.5;}
 .prox-date{font-size:13px;font-weight:600;color:var(--cc);text-align:right;white-space:nowrap;}
 .prox-period{font-size:11px;color:var(--muted);display:block;text-align:right;margin-top:2px;}
+
+/* reglamento */
 .reg-wrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;}
 .reg-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:var(--accent);margin-bottom:16px;}
 .reg-item{padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;line-height:1.7;color:#b0c4d8;}
 .reg-item:last-child{border-bottom:none;}
 .reg-num{font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--accent);margin-right:8px;}
-.pwd-modal{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;z-index:200;}
-.pwd-modal.open{display:flex;}
-.modal-box{background:var(--surface);border:1px solid var(--border2);border-radius:14px;padding:28px;width:320px;}
-.modal-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;margin-bottom:16px;color:var(--accent);}
-.pwd-err{color:var(--down);font-size:12px;margin-top:8px;display:none;}
-.form-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px;}
-.form-title{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1px;color:var(--accent);margin-bottom:16px;}
-.form-grid{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:end;margin-bottom:12px;}
-.form-vs{color:var(--muted);font-size:12px;text-align:center;padding-bottom:8px;}
-.field-label{font-size:11px;color:var(--muted);display:block;margin-bottom:4px;}
-input,select{background:var(--bg);border:1px solid var(--border2);border-radius:8px;color:var(--text);padding:8px 12px;font-family:'DM Sans',sans-serif;font-size:13px;width:100%;outline:none;}
-input:focus,select:focus{border-color:var(--accent);}
-select option{background:#0b1117;}
-.btn{padding:10px 20px;background:var(--accent2);color:#fff;border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:background .2s;}
-.btn:hover{background:var(--accent);color:#000;}
-.btn-sm{padding:5px 12px;font-size:12px;}
-.btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border2);}
-.btn-ghost:hover{background:var(--surface2);color:var(--text);}
-.btn-success{background:rgba(52,211,153,.15);color:var(--up);border:1px solid rgba(52,211,153,.3);}
-.btn-success:hover{background:var(--up);color:#000;}
-.edit-row{display:grid;grid-template-columns:1fr 64px 64px auto;gap:8px;align-items:center;padding:10px 12px;background:var(--surface2);border-radius:8px;margin-bottom:6px;font-size:13px;border-left:3px solid transparent;transition:border-color .3s;}
-.edit-row.saved{border-left-color:var(--up);}
-.edit-games{text-align:center;padding:5px 8px;}
-@media(max-width:600px){.stats{grid-template-columns:1fr 1fr;}.form-grid{grid-template-columns:1fr;}.form-vs{display:none;}header{padding:0 12px;}.logo{font-size:20px;}.edit-row{grid-template-columns:1fr 50px 50px auto;}}
+
+@media(max-width:600px){
+  .stats{grid-template-columns:1fr 1fr;}
+  header{padding:0 12px;}
+  .logo{font-size:20px;}
+  .resumen-fecha{flex-wrap:wrap;gap:12px;}
+}
 </style>
 </head>
 <body>
-
-<div id="pwd-modal" class="pwd-modal">
-  <div class="modal-box">
-    <div class="modal-title">Área de administración</div>
-    <p style="font-size:13px;color:var(--muted);margin-bottom:14px">Ingresá la clave para cargar resultados</p>
-    <input type="password" id="pwd-input" placeholder="Contraseña" onkeydown="if(event.key==='Enter')checkPwd()">
-    <div class="pwd-err" id="pwd-err">Clave incorrecta</div>
-    <div style="display:flex;gap:8px;margin-top:14px">
-      <button class="btn" onclick="checkPwd()">Ingresar</button>
-      <button class="btn btn-ghost" onclick="closePwd()">Cancelar</button>
-    </div>
-  </div>
-</div>
 
 <header>
   <div class="logo">SQUASH <span>TUC</span></div>
   <div class="hdr-right">
     <div class="hdr-titulo">Ranking 2026</div>
-    <div class="hdr-sync"><span class="sync-dot loading" id="sync-dot"></span><span id="sync-txt">Cargando...</span></div>
+    <div class="hdr-sync">
+      <span class="sync-dot loading" id="sync-dot"></span>
+      <span id="sync-txt">Cargando...</span>
+    </div>
   </div>
 </header>
 
@@ -141,181 +139,186 @@ select option{background:#0b1117;}
   <button class="tab-btn" onclick="goTab('resultados',this)">Resultados</button>
   <button class="tab-btn" onclick="goTab('proximos',this)">Próximos partidos</button>
   <button class="tab-btn" onclick="goTab('reglamento',this)">Reglamento</button>
-  <button class="tab-btn" onclick="goTab('admin',this)" id="admin-tab-btn">+ Cargar resultados</button>
 </nav>
 
 <main>
 
-<div id="tab-ranking" class="tab-content active">
-  <div id="ranking-loader" class="loader"><div class="spinner"></div><div class="loader-txt">Calculando ranking...</div></div>
-  <div id="ranking-content" style="display:none">
-    <div class="stats">
-      <div class="stat"><div class="stat-label">Líder</div><div class="stat-val" id="stat-lider">—</div></div>
-      <div class="stat"><div class="stat-label">Mayor subida</div><div class="stat-val" id="stat-sube" style="color:var(--up)">—</div></div>
-      <div class="stat"><div class="stat-label">Mayor caída</div><div class="stat-val" id="stat-baja" style="color:var(--down)">—</div></div>
+  <!-- RANKING -->
+  <div id="tab-ranking" class="tab-content active">
+    <div id="ranking-loader" class="loader">
+      <div class="spinner"></div>
+      <div class="loader-txt">Calculando ranking...</div>
     </div>
-    <div class="cat-filter">
-      <button class="cat-btn active" onclick="filterCat('todos',this)">Todos</button>
-      <button class="cat-btn" onclick="filterCat('A',this)">Bombo A</button>
-      <button class="cat-btn" onclick="filterCat('B',this)">Bombo B</button>
-      <button class="cat-btn" onclick="filterCat('C',this)">Bombo C</button>
-      <button class="cat-btn" onclick="filterCat('D',this)">Bombo D</button>
-    </div>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>#</th><th>Jugador</th><th>Bombo</th><th style="text-align:center">Variación</th></tr></thead>
-        <tbody id="ranking-tbody"></tbody>
-      </table>
+    <div id="ranking-content" style="display:none">
+      <div class="stats">
+        <div class="stat"><div class="stat-label">Líder</div><div class="stat-val" id="stat-lider">—</div></div>
+        <div class="stat"><div class="stat-label">Mayor subida</div><div class="stat-val" id="stat-sube" style="color:var(--up)">—</div></div>
+        <div class="stat"><div class="stat-label">Mayor caída</div><div class="stat-val" id="stat-baja" style="color:var(--down)">—</div></div>
+      </div>
+      <div class="cat-filter">
+        <button class="cat-btn active" onclick="filterCat('todos',this)">Todos</button>
+        <button class="cat-btn" onclick="filterCat('A',this)">Bombo A</button>
+        <button class="cat-btn" onclick="filterCat('B',this)">Bombo B</button>
+        <button class="cat-btn" onclick="filterCat('C',this)">Bombo C</button>
+        <button class="cat-btn" onclick="filterCat('D',this)">Bombo D</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>#</th><th>Jugador</th><th>Bombo</th><th style="text-align:center">Variación</th>
+          </tr></thead>
+          <tbody id="ranking-tbody"></tbody>
+        </table>
+      </div>
     </div>
   </div>
-</div>
 
-<div id="tab-resultados" class="tab-content">
-  <div id="resultados-loader" class="loader"><div class="spinner"></div><div class="loader-txt">Cargando resultados...</div></div>
-  <div id="resultados-content" style="display:none"></div>
-</div>
-
-<div id="tab-proximos" class="tab-content">
-  <div id="proximos-content"><div class="loader"><div class="spinner"></div></div></div>
-</div>
-
-<div id="tab-reglamento" class="tab-content">
-  <div class="reg-wrap">
-    <div class="reg-title">Reglamento — Ranking x Desafíos 2026</div>
-    <div class="reg-item"><span class="reg-num">1</span>El Ranking se publicará en los canales de difusión de la asociación.</div>
-    <div class="reg-item"><span class="reg-num">2</span>Los jugadores de ranking <strong>par</strong> deberán desafiar al de ranking <strong>impar</strong> ubicado 3 puestos más arriba. Ej: #12 debe desafiar a #9.</div>
-    <div class="reg-item"><span class="reg-num">3</span>Si el par <strong>gana</strong>: sube 4 puestos, el impar baja 4. Si el par <strong>pierde</strong>: baja 1 puesto, el impar sube 1.</div>
-    <div class="reg-item"><span class="reg-num">4</span>Los desafíos se juegan en dos períodos mensuales: del 2 al 14, y del 16 al 30/31.</div>
-    <div class="reg-item"><span class="reg-num">5</span>El desafío implica la coordinación del encuentro (primeros 5 días de publicado el ranking). El partido deberá disputarse dentro de las fechas previstas.</div>
-    <div class="reg-item"><span class="reg-num">6</span>La comunicación del resultado deberá ser realizada por el par hasta el día 14 o hasta el 30/31 según corresponda.</div>
-    <div class="reg-item"><span class="reg-num">7</span>Los partidos se disputarán al mejor de 5 games.</div>
-    <div class="reg-item"><span class="reg-num">8</span>El ranking anual va de abril hasta el 15 de noviembre. Al finalizar se realiza el Torneo Master de fin de año.</div>
-    <div class="reg-item"><span class="reg-num">9</span>Cuota: $20.000 en abril, $12.000 en los meses siguientes.</div>
-    <div class="reg-item"><span class="reg-num">10</span>Se puede aplicar W.O. pasados los 15 minutos de la hora fijada.</div>
-    <div class="reg-item"><span class="reg-num">11</span>El sorteo se divide en dos bombos para lograr distribución equilibrada.</div>
-    <div class="reg-item"><span class="reg-num">12</span>El ranking está separado en 4 sectores: A, B, C y D. Los mejores de cada categoría disputarán el Torneo Master.</div>
-    <div class="reg-item"><span class="reg-num">13</span>La organización se reserva el derecho de ubicar a nuevos jugadores en la categoría o posición que considere pertinente.</div>
-  </div>
-</div>
-
-<div id="tab-admin" class="tab-content">
-  <div class="form-card">
-    <div class="form-title">Registrar resultado</div>
-    <div class="form-grid">
-      <div><span class="field-label">Desafiante (par)</span><select id="j1"><option value="">Seleccionar...</option></select></div>
-      <div class="form-vs">vs</div>
-      <div><span class="field-label">Aceptante (impar)</span><select id="j2"><option value="">Seleccionar...</option></select></div>
+  <!-- RESULTADOS -->
+  <div id="tab-resultados" class="tab-content">
+    <div id="resultados-loader" class="loader">
+      <div class="spinner"></div>
+      <div class="loader-txt">Cargando resultados...</div>
     </div>
-    <div style="display:flex;gap:10px;margin-bottom:12px">
-      <div style="flex:1"><span class="field-label">Games desafiante</span>
-        <select id="g1"><option value="">—</option><option>0</option><option>1</option><option>2</option><option>3</option></select></div>
-      <div style="flex:1"><span class="field-label">Games aceptante</span>
-        <select id="g2"><option value="">—</option><option>0</option><option>1</option><option>2</option><option>3</option></select></div>
+    <div id="resultados-content" style="display:none">
+      <div class="fecha-selector">
+        <label>Ver fecha:</label>
+        <select class="fecha-select" id="fecha-select" onchange="mostrarFecha(this.value)"></select>
+      </div>
+      <div id="resumen-box"></div>
+      <div id="partidos-list"></div>
     </div>
-    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">
-      <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);cursor:pointer">
-        <input type="checkbox" id="es-wo" style="width:auto">W.O. — el aceptante gana por incomparecencia</label>
-      <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);cursor:pointer">
-        <input type="checkbox" id="es-especial" style="width:auto">Partido especial (no aplica la regla par/impar estándar)</label>
-    </div>
-    <button class="btn" onclick="addResultado()">Registrar resultado</button>
-    <p style="font-size:11px;color:var(--muted);margin-top:10px">Al registrar, el ranking se actualiza en pantalla. Luego copiá los datos a la planilla de Sheets para que persistan.</p>
   </div>
 
-  <div class="form-card">
-    <div class="form-title">Editar resultados existentes</div>
-    <p style="font-size:13px;color:var(--muted);margin-bottom:14px">Cambiá el resultado de cualquier partido. El ranking se recalcula al guardar. Luego actualizá también la planilla de Sheets.</p>
-    <div style="display:grid;grid-template-columns:1fr 64px 64px auto;gap:8px;padding:6px 12px;margin-bottom:4px">
-      <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Partido</span>
-      <span style="font-size:10px;color:var(--muted);text-align:center">Des.</span>
-      <span style="font-size:10px;color:var(--muted);text-align:center">Acep.</span>
-      <span></span>
+  <!-- PRÓXIMOS -->
+  <div id="tab-proximos" class="tab-content">
+    <div id="proximos-content">
+      <div class="loader"><div class="spinner"></div></div>
     </div>
-    <div id="edit-list"><p style="color:var(--muted);font-size:13px">Cargando...</p></div>
   </div>
-</div>
+
+  <!-- REGLAMENTO -->
+  <div id="tab-reglamento" class="tab-content">
+    <div class="reg-wrap">
+      <div class="reg-title">Reglamento — Ranking x Desafíos 2026</div>
+      <div class="reg-item"><span class="reg-num">1</span>El Ranking se publicará en los canales de difusión de la asociación.</div>
+      <div class="reg-item"><span class="reg-num">2</span>Los jugadores de ranking <strong>par</strong> deberán desafiar al de ranking <strong>impar</strong> ubicado 3 puestos más arriba. Ej: #12 debe desafiar a #9.</div>
+      <div class="reg-item"><span class="reg-num">3</span>Si el par <strong>gana</strong>: sube 4 puestos, el impar baja 4. Si el par <strong>pierde</strong>: baja 1 puesto, el impar sube 1. Ej: #10 desafía a #7 — si gana #10 pasa a #6 y #7 pasa a #11. Si pierde, #10 va a #11 y #7 va a #6.</div>
+      <div class="reg-item"><span class="reg-num">4</span>Los desafíos se juegan en dos períodos mensuales: del 2 al 14, y del 16 al 30/31.</div>
+      <div class="reg-item"><span class="reg-num">5</span>El desafío implica la coordinación del encuentro (primeros 5 días de publicado el ranking). El partido deberá disputarse dentro de las fechas previstas.</div>
+      <div class="reg-item"><span class="reg-num">6</span>La comunicación del resultado deberá ser realizada por el par hasta el día 14 o el 30/31 según corresponda.</div>
+      <div class="reg-item"><span class="reg-num">7</span>Los partidos se disputarán al mejor de 5 games.</div>
+      <div class="reg-item"><span class="reg-num">8</span>El ranking anual va de abril hasta el 15 de noviembre. Al finalizar se realiza el Torneo Master de fin de año.</div>
+      <div class="reg-item"><span class="reg-num">9</span>Cuota: $20.000 en abril, $12.000 en los meses siguientes. Fondos destinados a escuelita, premios y gastos de la asociación.</div>
+      <div class="reg-item"><span class="reg-num">10</span>Se puede aplicar W.O. pasados los 15 minutos de la hora fijada.</div>
+      <div class="reg-item"><span class="reg-num">11</span>El sorteo se divide en dos bombos para lograr distribución equilibrada.</div>
+      <div class="reg-item"><span class="reg-num">12</span>El ranking está separado en 4 sectores: A, B, C y D. Los mejores de cada categoría disputarán el Torneo Master.</div>
+      <div class="reg-item"><span class="reg-num">13</span>La organización se reserva el derecho de ubicar a nuevos jugadores en la categoría o posición que considere pertinente.</div>
+    </div>
+  </div>
 
 </main>
 
 <script>
-const SHEET_ID  = "1w2nWgdB_ZBoA8EQhwf86ahNlE2O4dhQUVI7aUQRm76Y";
-const CSV_BASE  = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=`;
-const ADMIN_PWD = "squash2026";
+// ─── CONFIG ──────────────────────────────────────────────────────────────────
+const SHEET_ID   = "1w2nWgdB_ZBoA8EQhwf86ahNlE2O4dhQUVI7aUQRm76Y";
+const GID_JUG    = "41624303";   // hoja JUGADORES
+const GID_RES    = "0";          // hoja RESULTADOS
 
+function csvUrl(gid) {
+  return `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${gid}&cachebust=${Date.now()}`;
+}
+
+// ─── STATE ───────────────────────────────────────────────────────────────────
 let jugadores   = [];
 let resultados  = [];
 let rankingCalc = [];
+let fechaActual = "";
 let currentCat  = "todos";
-let adminOk     = false;
 
-// ── CSV parser ────────────────────────────────────────────────────────────────
+// ─── CSV PARSER ──────────────────────────────────────────────────────────────
 function parseCSV(text) {
   const lines = text.trim().split("\n");
   if (lines.length < 2) return [];
-  const headers = splitCSVLine(lines[0]).map(h => h.toUpperCase().trim());
-  return lines.slice(1).map(line => {
-    const vals = splitCSVLine(line);
-    const obj = {};
-    headers.forEach((h, i) => obj[h] = (vals[i] || "").trim());
-    return obj;
-  });
+  const headers = splitLine(lines[0]).map(h => h.toUpperCase().trim());
+  return lines.slice(1)
+    .map(line => {
+      const vals = splitLine(line);
+      const obj = {};
+      headers.forEach((h, i) => obj[h] = (vals[i] || "").trim());
+      return obj;
+    })
+    .filter(row => Object.values(row).some(v => v !== ""));
 }
 
-function splitCSVLine(line) {
+function splitLine(line) {
   const vals = []; let cur = "", inQ = false;
-  for (let c of line) {
+  for (const c of line) {
     if (c === '"') { inQ = !inQ; }
-    else if (c === "," && !inQ) { vals.push(cur); cur = ""; }
+    else if (c === ',' && !inQ) { vals.push(cur); cur = ""; }
     else cur += c;
   }
   vals.push(cur);
-  return vals.map(v => v.replace(/^"|"$/g, ""));
+  return vals.map(v => v.replace(/^"|"$/g, "").trim());
 }
 
-// ── fetch ─────────────────────────────────────────────────────────────────────
-async function fetchSheet(name) {
-  const url = CSV_BASE + encodeURIComponent(name) + "&cb=" + Date.now();
-  const r = await fetch(url);
-  if (!r.ok) throw new Error(`HTTP ${r.status} al cargar ${name}`);
-  return parseCSV(await r.text());
+// ─── FETCH ───────────────────────────────────────────────────────────────────
+async function fetchCSV(gid) {
+  const res = await fetch(csvUrl(gid));
+  if (!res.ok) throw new Error(`Error ${res.status}`);
+  const text = await res.text();
+  if (text.includes("<!DOCTYPE") || text.includes("<html")) {
+    throw new Error("La planilla no está publicada públicamente");
+  }
+  return parseCSV(text);
 }
 
-// ── motor de ranking ──────────────────────────────────────────────────────────
+// ─── MOTOR DE RANKING ────────────────────────────────────────────────────────
 function calcRanking(jug, res) {
   let players = jug
     .filter(j => j.NOMBRE && j.POS_INICIAL)
-    .map(j => ({ nombre: j.NOMBRE, bombo: j.BOMBO, pos_inicial: parseInt(j.POS_INICIAL) }))
+    .map(j => ({
+      nombre:      j.NOMBRE.trim(),
+      bombo:       (j.BOMBO || "B").trim().toUpperCase(),
+      pos_inicial: parseInt(j.POS_INICIAL)
+    }))
     .sort((a, b) => a.pos_inicial - b.pos_inicial);
 
-  function idx(nombre) {
+  function getIdx(nombre) {
     const n = nombre.toLowerCase().trim();
     return players.findIndex(p => p.nombre.toLowerCase().trim() === n);
   }
 
-  const sorted = [...res]
+  // Ordenar por fecha y procesar en orden
+  const ordered = [...res]
     .filter(r => r.DESAFIANTE && r.ACEPTANTE && r.GAMES_D !== "" && r.GAMES_A !== "")
     .sort((a, b) => parseInt(a.FECHA || 0) - parseInt(b.FECHA || 0));
 
-  for (const r of sorted) {
-    const gd = parseInt(r.GAMES_D), ga = parseInt(r.GAMES_A);
+  for (const r of ordered) {
+    const gd  = parseInt(r.GAMES_D);
+    const ga  = parseInt(r.GAMES_A);
     if (isNaN(gd) || isNaN(ga)) continue;
-    const nota = (r.NOTA || "").toUpperCase();
+
+    const nota    = (r.NOTA || "").toUpperCase().trim();
     const especial = nota === "ESPECIAL";
     const ganadorD = gd > ga;
-    const id = idx(r.DESAFIANTE), ia = idx(r.ACEPTANTE);
+    const id = getIdx(r.DESAFIANTE);
+    const ia = getIdx(r.ACEPTANTE);
     if (id === -1 || ia === -1) continue;
 
     if (especial) {
-      // Solo mueve al ganador a la posición del perdedor si está detrás
-      if (ganadorD && id > ia) players.splice(ia, 0, players.splice(id, 1)[0]);
-      else if (!ganadorD && ia > id) players.splice(id, 0, players.splice(ia, 1)[0]);
+      // Partido especial: el ganador toma la posición del perdedor si está detrás
+      if (ganadorD && id > ia) {
+        players.splice(ia, 0, players.splice(id, 1)[0]);
+      } else if (!ganadorD && ia > id) {
+        players.splice(id, 0, players.splice(ia, 1)[0]);
+      }
     } else {
       if (ganadorD) {
-        // par gana: sube 4
+        // par gana → sube 4
         const t = Math.max(0, id - 4);
         players.splice(t, 0, players.splice(id, 1)[0]);
       } else {
-        // par pierde: baja 1
+        // par pierde → baja 1
         const t = Math.min(players.length - 1, id + 1);
         players.splice(t, 0, players.splice(id, 1)[0]);
       }
@@ -323,12 +326,14 @@ function calcRanking(jug, res) {
   }
 
   return players.map((p, i) => ({
-    pos: i + 1, nombre: p.nombre, bombo: p.bombo,
-    var: p.pos_inicial - (i + 1)
+    pos:         i + 1,
+    nombre:      p.nombre,
+    bombo:       p.bombo,
+    var:         p.pos_inicial - (i + 1)
   }));
 }
 
-// ── render ranking ────────────────────────────────────────────────────────────
+// ─── RENDER RANKING ──────────────────────────────────────────────────────────
 const catCls = { A:"pill-a", B:"pill-b", C:"pill-c", D:"pill-d" };
 const catAct = { A:"act-a",  B:"act-b",  C:"act-c",  D:"act-d"  };
 
@@ -336,25 +341,30 @@ function renderRanking() {
   const tbody = document.getElementById("ranking-tbody");
   tbody.innerHTML = "";
   let maxUp = 0, maxDown = 0, topUp = "", topDown = "";
+
   rankingCalc.forEach(p => {
-    if (p.var > maxUp)   { maxUp = p.var;   topUp   = p.nombre; }
+    if (p.var > maxUp)   { maxUp   = p.var;  topUp   = p.nombre; }
     if (p.var < maxDown) { maxDown = p.var;  topDown = p.nombre; }
+
     const show   = currentCat === "todos" || p.bombo === currentCat;
     const posCls = p.pos === 1 ? "top1" : p.pos === 2 ? "top2" : p.pos === 3 ? "top3" : "";
-    let varHtml  = `<span class="var-same"><span class="dot"></span></span>`;
+    let varHtml  = `<span class="var-same"><span class="dot-same"></span></span>`;
     if (p.var > 0) varHtml = `<span class="var-up"><span class="arr-u"></span>${p.var}</span>`;
     if (p.var < 0) varHtml = `<span class="var-down"><span class="arr-d"></span>${Math.abs(p.var)}</span>`;
+
     const tr = document.createElement("tr");
     if (!show) tr.classList.add("hidden-row");
-    tr.innerHTML = `<td class="td-pos ${posCls}">${p.pos}</td>
+    tr.innerHTML = `
+      <td class="td-pos ${posCls}">${p.pos}</td>
       <td class="td-name">${p.nombre}</td>
-      <td><span class="cat-pill ${catCls[p.bombo]||'pill-b'}">${p.bombo}</span></td>
+      <td><span class="cat-pill ${catCls[p.bombo] || 'pill-b'}">${p.bombo}</span></td>
       <td class="td-var">${varHtml}</td>`;
     tbody.appendChild(tr);
   });
+
   if (rankingCalc.length) {
     document.getElementById("stat-lider").textContent = rankingCalc[0].nombre;
-    document.getElementById("stat-sube").textContent  = topUp   ? `+${maxUp} · ${topUp}`   : "—";
+    document.getElementById("stat-sube").textContent  = topUp   ? `+${maxUp} · ${topUp}`    : "—";
     document.getElementById("stat-baja").textContent  = topDown ? `${maxDown} · ${topDown}` : "—";
   }
 }
@@ -366,89 +376,138 @@ function filterCat(cat, btn) {
   renderRanking();
 }
 
-// ── render resultados ─────────────────────────────────────────────────────────
+// ─── RENDER RESULTADOS ───────────────────────────────────────────────────────
 function renderResultados() {
-  const el = document.getElementById("resultados-content");
-  const byFecha = {};
-  resultados.forEach(r => {
-    const f = r.FECHA || "1";
-    if (!byFecha[f]) byFecha[f] = [];
-    byFecha[f].push(r);
+  // Agrupar fechas únicas
+  const fechas = [...new Set(
+    resultados.filter(r => r.FECHA).map(r => r.FECHA.trim())
+  )].sort((a, b) => parseInt(a) - parseInt(b));
+
+  const sel = document.getElementById("fecha-select");
+  sel.innerHTML = "";
+  fechas.forEach(f => {
+    const opt = document.createElement("option");
+    opt.value = f;
+    opt.textContent = `Fecha ${f}`;
+    sel.appendChild(opt);
   });
-  let html = "";
-  Object.keys(byFecha).sort((a,b) => parseInt(a)-parseInt(b)).forEach(f => {
-    html += `<div class="fecha-block"><div class="fecha-header">Fecha ${f} — Resultados</div>`;
-    byFecha[f].forEach(r => {
-      const nota = (r.NOTA || "").toUpperCase();
-      const esEsp = nota === "ESPECIAL";
-      const gd = parseInt(r.GAMES_D), ga = parseInt(r.GAMES_A);
-      const ok  = !isNaN(gd) && !isNaN(ga);
-      const ganD = ok && gd > ga;
-      const ganNom = ganD ? r.DESAFIANTE : r.ACEPTANTE;
-      const perNom = ganD ? r.ACEPTANTE  : r.DESAFIANTE;
-      const mHtml  = ok
-        ? `<span class="p-ganador">${ganNom}</span> <span style="color:var(--muted)">vs</span> <span class="p-perdedor">${perNom}</span>`
-        : `${r.DESAFIANTE} <span style="color:var(--muted)">vs</span> ${r.ACEPTANTE}`;
-      const rHtml  = ok
-        ? `<div class="p-result">${gd}–${ga}<span class="p-sub">games</span></div>`
-        : `<div class="p-pending">pendiente</div>`;
-      html += `<div class="partido${esEsp?" especial":""}">
-        <div><div class="p-match">${mHtml}${esEsp?'<span class="especial-tag">especial</span>':''}</div></div>
-        <div>${rHtml}</div>
-      </div>`;
-    });
-    html += `</div>`;
-  });
-  el.innerHTML = html || `<p style="color:var(--muted);font-size:13px">No hay resultados cargados aún.</p>`;
+
+  // Mostrar la última fecha por defecto
+  if (fechas.length) {
+    const ultima = fechas[fechas.length - 1];
+    sel.value = ultima;
+    mostrarFecha(ultima);
+  } else {
+    document.getElementById("partidos-list").innerHTML =
+      `<p style="color:var(--muted);font-size:13px">No hay resultados cargados aún.</p>`;
+  }
 }
 
-// ── render próximos ───────────────────────────────────────────────────────────
+function mostrarFecha(fecha) {
+  fechaActual = fecha;
+  const partidos = resultados.filter(r => (r.FECHA || "").trim() === fecha);
+
+  // Resumen
+  const jugados  = partidos.filter(r => r.GAMES_D !== "" && r.GAMES_A !== "" && !isNaN(parseInt(r.GAMES_D)));
+  const pend     = partidos.length - jugados.length;
+  document.getElementById("resumen-box").innerHTML = `
+    <div class="resumen-fecha">
+      <div class="resumen-item"><strong>${partidos.length}</strong>partidos totales</div>
+      <div class="resumen-item"><strong>${jugados.length}</strong>jugados</div>
+      ${pend > 0 ? `<div class="resumen-item"><strong style="color:var(--warn)">${pend}</strong>pendientes</div>` : ""}
+    </div>`;
+
+  // Separar especiales de normales
+  const normales  = partidos.filter(r => (r.NOTA || "").toUpperCase().trim() !== "ESPECIAL");
+  const especiales = partidos.filter(r => (r.NOTA || "").toUpperCase().trim() === "ESPECIAL");
+
+  let html = "";
+  normales.forEach(r  => html += partidoHtml(r, false));
+
+  if (especiales.length) {
+    html += `<div style="margin-top:20px;margin-bottom:12px;font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:1px;color:var(--ca)">Partidos especiales</div>`;
+    especiales.forEach(r => html += partidoHtml(r, true));
+  }
+
+  document.getElementById("partidos-list").innerHTML = html ||
+    `<p style="color:var(--muted);font-size:13px">Sin partidos en esta fecha.</p>`;
+}
+
+function partidoHtml(r, esEsp) {
+  const gd = parseInt(r.GAMES_D), ga = parseInt(r.GAMES_A);
+  const ok = !isNaN(gd) && !isNaN(ga) && r.GAMES_D !== "" && r.GAMES_A !== "";
+  const ganD   = ok && gd > ga;
+  const ganNom = ganD ? r.DESAFIANTE : r.ACEPTANTE;
+  const perNom = ganD ? r.ACEPTANTE  : r.DESAFIANTE;
+
+  const matchHtml = ok
+    ? `<span class="p-ganador">${ganNom}</span> <span style="color:var(--muted)">vs</span> <span class="p-perdedor">${perNom}</span>${esEsp ? '<span class="especial-tag">especial</span>' : ''}`
+    : `${r.DESAFIANTE} <span style="color:var(--muted)">vs</span> ${r.ACEPTANTE}${esEsp ? '<span class="especial-tag">especial</span>' : ''}`;
+
+  const resHtml = ok
+    ? `<div class="p-result">${gd}–${ga}<span class="p-sub">games</span></div>`
+    : `<div class="p-pending">pendiente</div>`;
+
+  return `<div class="partido${esEsp ? " especial" : ""}">
+    <div class="p-left"><div class="p-match">${matchHtml}</div></div>
+    <div>${resHtml}</div>
+  </div>`;
+}
+
+// ─── RENDER PRÓXIMOS ─────────────────────────────────────────────────────────
 function renderProximos() {
-  const el = document.getElementById("proximos-content");
+  const el  = document.getElementById("proximos-content");
   const hoy = new Date();
   const dia = hoy.getDate();
 
-  // Publicar solo días 1–5 y 15–20
-  const enPeriodo = (dia >= 1 && dia <= 5) || (dia >= 15 && dia <= 20);
-  if (!enPeriodo) {
+  // Solo mostrar exactamente el día 1 o el día 15
+  if (dia !== 1 && dia !== 15) {
+    const proximoDia = dia < 15 ? 15 : 1;
+    const proximoMes = dia < 15 ? "" : " del mes que viene";
     el.innerHTML = `<div class="warn-box">
-      Los próximos partidos se publican los días <strong>1 al 5</strong> y <strong>15 al 20</strong> de cada mes,
-      una vez cerrada la fecha anterior.<br>Volvé en esas fechas para ver los nuevos cruces.
+      Los próximos partidos se publican el <strong>día 1</strong> y el <strong>día 15</strong> de cada mes,
+      una vez que todos los resultados de la fecha anterior estén cargados.<br>
+      Próxima publicación: <strong>día ${proximoDia}${proximoMes}</strong>.
     </div>`;
     return;
   }
 
   // Verificar pendientes en la última fecha
-  const ultimaFecha = resultados.length
-    ? Math.max(...resultados.filter(r=>r.FECHA).map(r => parseInt(r.FECHA)))
+  const ultimaFecha = resultados.filter(r => r.FECHA).length
+    ? Math.max(...resultados.filter(r => r.FECHA).map(r => parseInt(r.FECHA)))
     : 0;
 
   const pendientes = resultados.filter(r => {
-    if (parseInt(r.FECHA||0) !== ultimaFecha) return false;
-    const nota = (r.NOTA||"").toUpperCase();
-    if (nota === "ESPECIAL") return false;
+    if (parseInt(r.FECHA || 0) !== ultimaFecha) return false;
+    if ((r.NOTA || "").toUpperCase().trim() === "ESPECIAL") return false;
     return r.GAMES_D === "" || r.GAMES_A === "" || isNaN(parseInt(r.GAMES_D)) || isNaN(parseInt(r.GAMES_A));
   });
 
   if (pendientes.length > 0) {
     el.innerHTML = `<div class="warn-box">
-      Hay <strong>${pendientes.length} partido${pendientes.length>1?"s":""} pendiente${pendientes.length>1?"s":""}</strong>
-      sin resultado en la Fecha ${ultimaFecha}. Los próximos partidos se muestran cuando todos los resultados están cargados.
+      Hay <strong>${pendientes.length} partido${pendientes.length > 1 ? "s" : ""} pendiente${pendientes.length > 1 ? "s" : ""}</strong>
+      sin resultado en la Fecha ${ultimaFecha}.<br>
+      Los próximos partidos se publican cuando <strong>todos los resultados estén cargados</strong>.
     </div>
-    ${pendientes.map(p => `<div class="partido">
-      <div class="p-match">${p.DESAFIANTE} <span style="color:var(--muted)">vs</span> ${p.ACEPTANTE}</div>
-      <div class="p-pending">sin resultado</div>
-    </div>`).join("")}`;
+    ${pendientes.map(p => `
+      <div class="partido">
+        <div class="p-match">${p.DESAFIANTE} <span style="color:var(--muted)">vs</span> ${p.ACEPTANTE}</div>
+        <div class="p-pending">sin resultado</div>
+      </div>`).join("")}`;
     return;
   }
 
-  // Generar cruces
+  // Todo ok → generar cruces
   const sigFecha = ultimaFecha + 1;
-  const periodo  = (dia >= 1 && dia <= 5) ? 1 : 2;
-  const mes = hoy.toLocaleString("es-AR", { month:"long" });
-  const [ini, fin] = periodo === 1 ? ["2","14"] : ["16","30"];
+  const periodo  = dia === 1 ? 1 : 2;
+  const [ini, fin] = dia === 1 ? ["2", "14"] : ["16", "30"];
+  const mes = hoy.toLocaleString("es-AR", { month: "long" });
 
-  let html = `<div class="note-box">Fecha ${sigFecha} · Período ${periodo} · ${ini} al ${fin} de ${mes} — Los jugadores pares desafían al impar 3 puestos arriba</div>`;
+  let html = `<div class="note-box">
+    <strong>Fecha ${sigFecha} · Período ${periodo}</strong> &mdash; ${ini} al ${fin} de ${mes}<br>
+    <span style="opacity:.8">Los jugadores de posición par desafían al impar ubicado 3 puestos arriba.</span>
+  </div>`;
+
   let count = 0;
   rankingCalc.forEach(p => {
     if (p.pos % 2 === 0) {
@@ -456,11 +515,13 @@ function renderProximos() {
       if (rival) {
         count++;
         html += `<div class="prox-card">
-          <div style="font-size:13px;font-weight:500">
+          <div class="prox-info">
             <strong>#${p.pos} ${p.nombre}</strong>
             <span style="color:var(--muted);margin:0 8px">vs</span>
             <strong>#${rival.pos} ${rival.nombre}</strong>
-            <span style="margin-left:8px"><span class="cat-pill ${catCls[p.bombo]||'pill-b'}">${p.bombo}</span></span>
+            <span style="margin-left:8px">
+              <span class="cat-pill ${catCls[p.bombo] || 'pill-b'}">${p.bombo}</span>
+            </span>
           </div>
           <div>
             <div class="prox-date">${ini}–${fin} ${mes.slice(0,3)}</div>
@@ -470,138 +531,40 @@ function renderProximos() {
       }
     }
   });
+
   if (!count) html += `<p style="color:var(--muted);font-size:13px">No se encontraron cruces para generar.</p>`;
   el.innerHTML = html;
 }
 
-// ── render edit list ──────────────────────────────────────────────────────────
-function renderEditList() {
-  const el = document.getElementById("edit-list");
-  const res = resultados.filter(r => (r.NOTA||"").toUpperCase() !== "ESPECIAL" || true);
-  if (!res.length) { el.innerHTML = '<p style="color:var(--muted);font-size:13px">No hay resultados.</p>'; return; }
-  el.innerHTML = res.map((r, i) => {
-    const gd = r.GAMES_D, ga = r.GAMES_A;
-    return `<div class="edit-row" id="erow-${i}">
-      <span><strong style="font-size:12px">${r.DESAFIANTE} vs ${r.ACEPTANTE}</strong>
-        <span style="color:var(--muted);font-size:11px;margin-left:6px">F${r.FECHA}${r.NOTA?' · '+r.NOTA:''}</span></span>
-      <input class="edit-games" type="number" min="0" max="3" value="${gd}" id="gd-${i}">
-      <input class="edit-games" type="number" min="0" max="3" value="${ga}" id="ga-${i}">
-      <button class="btn btn-sm btn-success" onclick="saveEdit(${i})">Guardar</button>
-    </div>`;
-  }).join("");
-}
-
-function saveEdit(i) {
-  const newGd = document.getElementById(`gd-${i}`).value;
-  const newGa = document.getElementById(`ga-${i}`).value;
-  if (newGd === "" || newGa === "") { alert("Ingresá ambos values"); return; }
-  resultados[i].GAMES_D = newGd;
-  resultados[i].GAMES_A = newGa;
-  rankingCalc = calcRanking(jugadores, resultados);
-  renderRanking();
-  renderResultados();
-  renderProximos();
-  const row = document.getElementById(`erow-${i}`);
-  row.classList.add("saved");
-  setTimeout(() => row.classList.remove("saved"), 3000);
-  const r = resultados[i];
-  alert(`Ranking actualizado en pantalla.\n\nPara hacerlo permanente, actualizá la fila ${i+2} en la hoja RESULTADOS de Google Sheets:\nGAMES_D = ${newGd}  |  GAMES_A = ${newGa}`);
-}
-
-// ── admin ─────────────────────────────────────────────────────────────────────
+// ─── NAVEGACIÓN ──────────────────────────────────────────────────────────────
 function goTab(id, btn) {
-  if (id === "admin" && !adminOk) {
-    document.getElementById("pwd-modal").classList.add("open");
-    return;
-  }
   document.querySelectorAll(".tab-content").forEach(t => t.classList.remove("active"));
   document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
   document.getElementById("tab-" + id).classList.add("active");
   if (btn) btn.classList.add("active");
 }
 
-function checkPwd() {
-  if (document.getElementById("pwd-input").value === ADMIN_PWD) {
-    adminOk = true;
-    closePwd();
-    populateSelects();
-    renderEditList();
-    goTab("admin", document.getElementById("admin-tab-btn"));
-  } else {
-    document.getElementById("pwd-err").style.display = "block";
-  }
-}
-
-function closePwd() {
-  document.getElementById("pwd-modal").classList.remove("open");
-  document.getElementById("pwd-input").value = "";
-  document.getElementById("pwd-err").style.display = "none";
-}
-
-function populateSelects() {
-  ["j1","j2"].forEach(sid => {
-    const s = document.getElementById(sid);
-    s.innerHTML = '<option value="">Seleccionar...</option>';
-    rankingCalc.forEach(j => s.innerHTML += `<option value="${j.nombre}">#${j.pos} ${j.nombre}</option>`);
-  });
-}
-
-function addResultado() {
-  const d   = document.getElementById("j1").value;
-  const a   = document.getElementById("j2").value;
-  const g1  = document.getElementById("g1").value;
-  const g2  = document.getElementById("g2").value;
-  const wo  = document.getElementById("es-wo").checked;
-  const esp = document.getElementById("es-especial").checked;
-  if (!d || !a)          { alert("Seleccioná ambos jugadores"); return; }
-  if (d === a)           { alert("Los jugadores no pueden ser el mismo"); return; }
-  if (!wo && (!g1||!g2)) { alert("Ingresá el resultado en games"); return; }
-
-  const ultF = resultados.filter(r=>r.FECHA).length
-    ? Math.max(...resultados.filter(r=>r.FECHA).map(r=>parseInt(r.FECHA)))
-    : 1;
-
-  const nuevo = {
-    FECHA:      String(ultF),
-    DESAFIANTE: d,
-    ACEPTANTE:  a,
-    GAMES_D:    wo ? "3" : g1,
-    GAMES_A:    wo ? "0" : g2,
-    NOTA:       esp ? "ESPECIAL" : (wo ? "WO" : "")
-  };
-
-  resultados.push(nuevo);
-  rankingCalc = calcRanking(jugadores, resultados);
-  renderRanking();
-  renderResultados();
-  renderProximos();
-  renderEditList();
-
-  ["j1","j2","g1","g2"].forEach(id => document.getElementById(id).value = "");
-  document.getElementById("es-wo").checked = false;
-  document.getElementById("es-especial").checked = false;
-
-  alert(`Ranking actualizado.\n\nAgreg\u00e1 esta fila en la hoja RESULTADOS de Google Sheets para que sea permanente:\n\nFECHA: ${nuevo.FECHA}\nDESAFIANTE: ${nuevo.DESAFIANTE}\nACEPTANTE: ${nuevo.ACEPTANTE}\nGAMES_D: ${nuevo.GAMES_D}\nGAMES_A: ${nuevo.GAMES_A}\nNOTA: ${nuevo.NOTA}`);
-}
-
-// ── sync status ───────────────────────────────────────────────────────────────
+// ─── SYNC STATUS ─────────────────────────────────────────────────────────────
 function setSync(state, txt) {
   document.getElementById("sync-dot").className = "sync-dot " + state;
   document.getElementById("sync-txt").textContent = txt;
 }
 
-// ── carga principal ───────────────────────────────────────────────────────────
+// ─── CARGA PRINCIPAL ─────────────────────────────────────────────────────────
 async function loadAll() {
   setSync("loading", "Sincronizando...");
   try {
     [jugadores, resultados] = await Promise.all([
-      fetchSheet("JUGADORES"),
-      fetchSheet("RESULTADOS")
+      fetchCSV(GID_JUG),
+      fetchCSV(GID_RES)
     ]);
+
     jugadores  = jugadores.filter(j => j.NOMBRE && j.POS_INICIAL);
     resultados = resultados.filter(r => r.DESAFIANTE && r.ACEPTANTE);
+
     rankingCalc = calcRanking(jugadores, resultados);
 
+    // Mostrar contenido
     document.getElementById("ranking-loader").style.display    = "none";
     document.getElementById("resultados-loader").style.display = "none";
     document.getElementById("ranking-content").style.display   = "block";
@@ -610,21 +573,24 @@ async function loadAll() {
     renderRanking();
     renderResultados();
     renderProximos();
-    if (adminOk) { populateSelects(); renderEditList(); }
 
-    const hora = new Date().toLocaleTimeString("es-AR",{hour:"2-digit",minute:"2-digit"});
+    const hora = new Date().toLocaleTimeString("es-AR", { hour:"2-digit", minute:"2-digit" });
     setSync("ok", `Actualizado ${hora}`);
-  } catch(e) {
-    setSync("err", "Error al cargar");
-    document.getElementById("ranking-loader").innerHTML =
-      `<div class="error-box">No se pudo cargar la planilla. Verific\u00e1 que est\u00e9 publicada correctamente en Google Sheets.<br><small style="opacity:.7">${e.message}</small></div>`;
-    document.getElementById("resultados-loader").innerHTML =
-      `<div class="error-box">Error al cargar resultados.</div>`;
-    document.getElementById("proximos-content").innerHTML =
-      `<div class="error-box">Error al cargar datos.</div>`;
+
+  } catch (e) {
+    setSync("err", "Error al cargar datos");
+    const errHtml = `<div class="error-box">
+      No se pudo cargar la planilla de Google Sheets.<br>
+      Verificá que esté publicada: <em>Archivo → Compartir → Publicar en la web</em>.<br>
+      <small style="opacity:.7">${e.message}</small>
+    </div>`;
+    document.getElementById("ranking-loader").innerHTML    = errHtml;
+    document.getElementById("resultados-loader").innerHTML = errHtml;
+    document.getElementById("proximos-content").innerHTML  = errHtml;
   }
 }
 
+// Cargar al inicio y refrescar cada 3 minutos
 loadAll();
 setInterval(loadAll, 3 * 60 * 1000);
 </script>
