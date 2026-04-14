@@ -6,218 +6,191 @@
 <title>Ranking Squash Tucumán 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0b1117;
-    --surface: #111920;
-    --surface2: #162030;
-    --border: rgba(255,255,255,0.07);
-    --border2: rgba(255,255,255,0.12);
-    --text: #e8eef5;
-    --muted: #5a7a9a;
-    --accent: #00c4ff;
-    --accent2: #0077aa;
-    --cat-a: #c084fc;
-    --cat-b: #38bdf8;
-    --cat-c: #4ade80;
-    --cat-d: #fb923c;
-    --up: #34d399;
-    --down: #f87171;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 14px; min-height: 100vh; }
-
-  header { background: var(--surface); border-bottom: 1px solid var(--border2); padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 60px; position: sticky; top: 0; z-index: 100; }
-  .logo { font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 3px; color: var(--accent); }
-  .logo span { color: var(--text); }
-  .header-meta { font-size: 12px; color: var(--muted); text-align: right; }
-  .header-meta strong { color: var(--text); display: block; font-size: 13px; }
-
-  nav { background: var(--surface); border-bottom: 1px solid var(--border); display: flex; overflow-x: auto; }
-  .tab-btn { padding: 14px 20px; font-size: 13px; font-family: 'DM Sans', sans-serif; font-weight: 500; color: var(--muted); background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap; transition: color 0.2s; }
-  .tab-btn:hover { color: var(--text); }
-  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
-
-  main { max-width: 860px; margin: 0 auto; padding: 24px 16px; }
-  .tab-content { display: none; }
-  .tab-content.active { display: block; }
-
-  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
-  .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; }
-  .stat-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-  .stat-val { font-size: 14px; font-weight: 600; color: var(--text); }
-
-  .cat-filter { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
-  .cat-btn { padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 500; cursor: pointer; border: 1px solid var(--border2); background: transparent; color: var(--muted); transition: all 0.15s; font-family: 'DM Sans', sans-serif; }
-  .cat-btn.active { background: var(--surface2); color: var(--text); border-color: var(--border2); }
-  .cat-btn.act-a { background: rgba(192,132,252,0.12); color: var(--cat-a); border-color: var(--cat-a); }
-  .cat-btn.act-b { background: rgba(56,189,248,0.12); color: var(--cat-b); border-color: var(--cat-b); }
-  .cat-btn.act-c { background: rgba(74,222,128,0.12); color: var(--cat-c); border-color: var(--cat-c); }
-  .cat-btn.act-d { background: rgba(251,146,60,0.12); color: var(--cat-d); border-color: var(--cat-d); }
-
-  .table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
-  table { width: 100%; border-collapse: collapse; }
-  thead th { padding: 10px 12px; text-align: left; font-size: 10px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--border); }
-  tbody tr { border-bottom: 1px solid var(--border); transition: background 0.1s; }
-  tbody tr:last-child { border-bottom: none; }
-  tbody tr:hover { background: var(--surface2); }
-  tbody tr.hidden-row { display: none; }
-  td { padding: 9px 12px; vertical-align: middle; }
-
-  .td-pos { width: 40px; font-family: 'Bebas Neue', sans-serif; font-size: 17px; color: var(--muted); }
-  .top1 { color: #fbbf24; }
-  .top2 { color: #94a3b8; }
-  .top3 { color: #b87333; }
-  .td-name { font-weight: 500; color: var(--text); }
-  .td-cat { width: 50px; }
-  .td-var { width: 70px; text-align: center; }
-
-  .cat-pill { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 10px; }
-  .pill-a { background: rgba(192,132,252,0.15); color: var(--cat-a); border: 1px solid rgba(192,132,252,0.3); }
-  .pill-b { background: rgba(56,189,248,0.15); color: var(--cat-b); border: 1px solid rgba(56,189,248,0.3); }
-  .pill-c { background: rgba(74,222,128,0.15); color: var(--cat-c); border: 1px solid rgba(74,222,128,0.3); }
-  .pill-d { background: rgba(251,146,60,0.15); color: var(--cat-d); border: 1px solid rgba(251,146,60,0.3); }
-
-  .var-up { color: var(--up); font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 3px; }
-  .var-down { color: var(--down); font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 3px; }
-  .var-same { color: var(--muted); display: flex; justify-content: center; }
-  .arrow-u { width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-bottom: 6px solid var(--up); display: inline-block; }
-  .arrow-d { width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 6px solid var(--down); display: inline-block; }
-  .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--muted); display: inline-block; }
-
-  .fecha-header { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 2px; color: var(--accent); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
-  .note { background: rgba(0,196,255,0.06); border: 1px solid rgba(0,196,255,0.2); border-radius: 10px; padding: 12px 16px; margin-bottom: 16px; font-size: 13px; color: var(--accent); }
-
-  .partido { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-  .partido-matchup { font-size: 13px; font-weight: 500; }
-  .ganador { color: var(--accent); }
-  .perdedor { color: var(--muted); }
-  .partido-result { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 1px; color: var(--text); white-space: nowrap; text-align: right; }
-  .result-sub { font-size: 11px; color: var(--muted); font-family: 'DM Sans', sans-serif; display: block; text-align: right; }
-  .pendiente { color: #f59e0b; font-size: 12px; }
-
-  .proximo-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 0 10px 10px 0; padding: 12px 16px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-  .proximo-date { font-size: 13px; font-weight: 600; color: var(--cat-c); text-align: right; white-space: nowrap; }
-  .proximo-period { font-size: 11px; color: var(--muted); display: block; text-align: right; margin-top: 2px; }
-
-  .reglamento { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
-  .reg-title { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 2px; color: var(--accent); margin-bottom: 16px; }
-  .reg-item { padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13px; line-height: 1.7; color: #b0c4d8; }
-  .reg-item:last-child { border-bottom: none; }
-  .reg-num { font-family: 'Bebas Neue', sans-serif; font-size: 16px; color: var(--accent); margin-right: 8px; }
-
-  .form-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 16px; }
-  .form-title { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 1px; color: var(--accent); margin-bottom: 16px; }
-  .form-row { display: grid; grid-template-columns: 1fr auto 1fr; gap: 10px; align-items: center; margin-bottom: 10px; }
-  .form-vs { color: var(--muted); font-size: 12px; text-align: center; }
-  input, select { background: var(--bg); border: 1px solid var(--border2); border-radius: 8px; color: var(--text); padding: 8px 12px; font-family: 'DM Sans', sans-serif; font-size: 13px; width: 100%; outline: none; }
-  input:focus, select:focus { border-color: var(--accent); }
-  select option { background: #0b1117; }
-  .btn { padding: 10px 20px; background: var(--accent2); color: white; border: none; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: background 0.2s; }
-  .btn:hover { background: var(--accent); color: #000; }
-  .btn-sm { padding: 4px 10px; font-size: 11px; }
-  .btn-danger { background: rgba(248,113,113,0.15); color: var(--down); border: 1px solid rgba(248,113,113,0.3); }
-  .btn-danger:hover { background: var(--down); color: white; }
-  .preview-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: var(--surface2); border-radius: 8px; margin-bottom: 6px; font-size: 13px; }
-  label-sm { font-size: 11px; color: var(--muted); display: block; margin-bottom: 4px; }
-
-  .pwd-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.75); display: flex; align-items: center; justify-content: center; z-index: 200; }
-  .modal-box { background: var(--surface); border: 1px solid var(--border2); border-radius: 14px; padding: 28px; width: 320px; }
-  .modal-title { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 1px; margin-bottom: 16px; color: var(--accent); }
-  .pwd-error { color: var(--down); font-size: 12px; margin-top: 8px; display: none; }
-
-  @media(max-width:600px){
-    .stats { grid-template-columns: 1fr 1fr; }
-    .form-row { grid-template-columns: 1fr; }
-    .form-vs { display: none; }
-    header { padding: 0 12px; }
-    .logo { font-size: 20px; }
-  }
+:root{--bg:#0b1117;--surface:#111920;--surface2:#162030;--border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);--text:#e8eef5;--muted:#5a7a9a;--accent:#00c4ff;--accent2:#0077aa;--ca:#c084fc;--cb:#38bdf8;--cc:#4ade80;--cd:#fb923c;--up:#34d399;--down:#f87171;--warn:#fbbf24;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;min-height:100vh;}
+header{background:var(--surface);border-bottom:1px solid var(--border2);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100;}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:3px;color:var(--accent);}
+.logo span{color:var(--text);}
+.hdr-right{text-align:right;}
+.hdr-titulo{font-size:13px;font-weight:600;color:var(--text);}
+.hdr-sync{font-size:11px;color:var(--muted);}
+.sync-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--muted);margin-right:4px;vertical-align:middle;}
+.sync-dot.ok{background:var(--up);}
+.sync-dot.err{background:var(--down);}
+.sync-dot.loading{background:var(--warn);animation:pulse 1s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+nav{background:var(--surface);border-bottom:1px solid var(--border);display:flex;overflow-x:auto;}
+.tab-btn{padding:14px 20px;font-size:13px;font-family:'DM Sans',sans-serif;font-weight:500;color:var(--muted);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;transition:color .2s;}
+.tab-btn:hover{color:var(--text);}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent);}
+main{max-width:860px;margin:0 auto;padding:24px 16px;}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+.loader{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 0;gap:14px;}
+.spinner{width:32px;height:32px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loader-txt{font-size:13px;color:var(--muted);}
+.error-box{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.25);border-radius:10px;padding:16px;font-size:13px;color:var(--down);margin:20px 0;}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 16px;}
+.stat-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+.stat-val{font-size:14px;font-weight:600;color:var(--text);}
+.cat-filter{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+.cat-btn{padding:5px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--border2);background:transparent;color:var(--muted);transition:all .15s;font-family:'DM Sans',sans-serif;}
+.cat-btn.active{background:var(--surface2);color:var(--text);border-color:var(--border2);}
+.cat-btn.act-a{background:rgba(192,132,252,.12);color:var(--ca);border-color:var(--ca);}
+.cat-btn.act-b{background:rgba(56,189,248,.12);color:var(--cb);border-color:var(--cb);}
+.cat-btn.act-c{background:rgba(74,222,128,.12);color:var(--cc);border-color:var(--cc);}
+.cat-btn.act-d{background:rgba(251,146,60,.12);color:var(--cd);border-color:var(--cd);}
+.table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+table{width:100%;border-collapse:collapse;}
+thead th{padding:10px 12px;text-align:left;font-size:10px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid var(--border);}
+tbody tr{border-bottom:1px solid var(--border);transition:background .1s;}
+tbody tr:last-child{border-bottom:none;}
+tbody tr:hover{background:var(--surface2);}
+tbody tr.hidden-row{display:none;}
+td{padding:9px 12px;vertical-align:middle;}
+.td-pos{width:40px;font-family:'Bebas Neue',sans-serif;font-size:17px;color:var(--muted);}
+.top1{color:#fbbf24;}.top2{color:#94a3b8;}.top3{color:#b87333;}
+.td-name{font-weight:500;color:var(--text);}
+.td-var{width:72px;text-align:center;}
+.cat-pill{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;}
+.pill-a{background:rgba(192,132,252,.15);color:var(--ca);border:1px solid rgba(192,132,252,.3);}
+.pill-b{background:rgba(56,189,248,.15);color:var(--cb);border:1px solid rgba(56,189,248,.3);}
+.pill-c{background:rgba(74,222,128,.15);color:var(--cc);border:1px solid rgba(74,222,128,.3);}
+.pill-d{background:rgba(251,146,60,.15);color:var(--cd);border:1px solid rgba(251,146,60,.3);}
+.var-up{color:var(--up);font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:3px;}
+.var-down{color:var(--down);font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:3px;}
+.var-same{color:var(--muted);display:flex;justify-content:center;}
+.arr-u{width:0;height:0;border-left:4px solid transparent;border-right:4px solid transparent;border-bottom:6px solid var(--up);display:inline-block;}
+.arr-d{width:0;height:0;border-left:4px solid transparent;border-right:4px solid transparent;border-top:6px solid var(--down);display:inline-block;}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--muted);display:inline-block;}
+.fecha-block{margin-bottom:28px;}
+.fecha-header{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;color:var(--accent);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+.partido{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.partido.especial{border-color:rgba(192,132,252,.4);}
+.p-match{font-size:13px;font-weight:500;}
+.p-ganador{color:var(--accent);}
+.p-perdedor{color:var(--muted);}
+.p-result{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--text);text-align:right;white-space:nowrap;}
+.p-sub{font-size:11px;color:var(--muted);font-family:'DM Sans',sans-serif;display:block;text-align:right;}
+.p-pending{color:var(--warn);font-size:12px;white-space:nowrap;}
+.especial-tag{font-size:10px;color:var(--ca);background:rgba(192,132,252,.12);padding:1px 7px;border-radius:8px;border:1px solid rgba(192,132,252,.25);margin-left:6px;}
+.note-box{background:rgba(0,196,255,.06);border:1px solid rgba(0,196,255,.2);border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:var(--accent);}
+.warn-box{background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.25);border-radius:10px;padding:14px 16px;margin-bottom:16px;font-size:13px;color:var(--warn);line-height:1.6;}
+.prox-card{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:12px 16px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.prox-date{font-size:13px;font-weight:600;color:var(--cc);text-align:right;white-space:nowrap;}
+.prox-period{font-size:11px;color:var(--muted);display:block;text-align:right;margin-top:2px;}
+.reg-wrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;}
+.reg-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:var(--accent);margin-bottom:16px;}
+.reg-item{padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;line-height:1.7;color:#b0c4d8;}
+.reg-item:last-child{border-bottom:none;}
+.reg-num{font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--accent);margin-right:8px;}
+.pwd-modal{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;z-index:200;}
+.pwd-modal.open{display:flex;}
+.modal-box{background:var(--surface);border:1px solid var(--border2);border-radius:14px;padding:28px;width:320px;}
+.modal-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;margin-bottom:16px;color:var(--accent);}
+.pwd-err{color:var(--down);font-size:12px;margin-top:8px;display:none;}
+.form-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px;}
+.form-title{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1px;color:var(--accent);margin-bottom:16px;}
+.form-grid{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:end;margin-bottom:12px;}
+.form-vs{color:var(--muted);font-size:12px;text-align:center;padding-bottom:8px;}
+.field-label{font-size:11px;color:var(--muted);display:block;margin-bottom:4px;}
+input,select{background:var(--bg);border:1px solid var(--border2);border-radius:8px;color:var(--text);padding:8px 12px;font-family:'DM Sans',sans-serif;font-size:13px;width:100%;outline:none;}
+input:focus,select:focus{border-color:var(--accent);}
+select option{background:#0b1117;}
+.btn{padding:10px 20px;background:var(--accent2);color:#fff;border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:background .2s;}
+.btn:hover{background:var(--accent);color:#000;}
+.btn-sm{padding:5px 12px;font-size:12px;}
+.btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border2);}
+.btn-ghost:hover{background:var(--surface2);color:var(--text);}
+.btn-success{background:rgba(52,211,153,.15);color:var(--up);border:1px solid rgba(52,211,153,.3);}
+.btn-success:hover{background:var(--up);color:#000;}
+.edit-row{display:grid;grid-template-columns:1fr 64px 64px auto;gap:8px;align-items:center;padding:10px 12px;background:var(--surface2);border-radius:8px;margin-bottom:6px;font-size:13px;border-left:3px solid transparent;transition:border-color .3s;}
+.edit-row.saved{border-left-color:var(--up);}
+.edit-games{text-align:center;padding:5px 8px;}
+@media(max-width:600px){.stats{grid-template-columns:1fr 1fr;}.form-grid{grid-template-columns:1fr;}.form-vs{display:none;}header{padding:0 12px;}.logo{font-size:20px;}.edit-row{grid-template-columns:1fr 50px 50px auto;}}
 </style>
 </head>
 <body>
 
-<div id="pwd-modal" class="pwd-modal" style="display:none">
+<div id="pwd-modal" class="pwd-modal">
   <div class="modal-box">
     <div class="modal-title">Área de administración</div>
-    <p style="font-size:13px;color:var(--muted);margin-bottom:14px;">Ingresá la clave para cargar resultados</p>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:14px">Ingresá la clave para cargar resultados</p>
     <input type="password" id="pwd-input" placeholder="Contraseña" onkeydown="if(event.key==='Enter')checkPwd()">
-    <div class="pwd-error" id="pwd-error">Clave incorrecta</div>
-    <div style="display:flex;gap:8px;margin-top:14px;">
+    <div class="pwd-err" id="pwd-err">Clave incorrecta</div>
+    <div style="display:flex;gap:8px;margin-top:14px">
       <button class="btn" onclick="checkPwd()">Ingresar</button>
-      <button class="btn btn-danger" onclick="closePwd()">Cancelar</button>
+      <button class="btn btn-ghost" onclick="closePwd()">Cancelar</button>
     </div>
   </div>
 </div>
 
 <header>
   <div class="logo">SQUASH <span>TUC</span></div>
-  <div class="header-meta">
-    <strong>Ranking 2026</strong>
-    Fecha 1 · Abril 2026
+  <div class="hdr-right">
+    <div class="hdr-titulo">Ranking 2026</div>
+    <div class="hdr-sync"><span class="sync-dot loading" id="sync-dot"></span><span id="sync-txt">Cargando...</span></div>
   </div>
 </header>
 
 <nav>
   <button class="tab-btn active" onclick="goTab('ranking',this)">Ranking general</button>
-  <button class="tab-btn" onclick="goTab('resultados',this)">Resultados F1</button>
+  <button class="tab-btn" onclick="goTab('resultados',this)">Resultados</button>
   <button class="tab-btn" onclick="goTab('proximos',this)">Próximos partidos</button>
   <button class="tab-btn" onclick="goTab('reglamento',this)">Reglamento</button>
-  <button class="tab-btn" onclick="goTab('admin',this)">+ Cargar resultados</button>
+  <button class="tab-btn" onclick="goTab('admin',this)" id="admin-tab-btn">+ Cargar resultados</button>
 </nav>
 
 <main>
 
-<!-- RANKING -->
 <div id="tab-ranking" class="tab-content active">
-  <div class="stats">
-    <div class="stat"><div class="stat-label">Líder</div><div class="stat-val">Javi Foguet</div></div>
-    <div class="stat"><div class="stat-label">Mayor subida</div><div class="stat-val" style="color:var(--up)">+4 · varios</div></div>
-    <div class="stat"><div class="stat-label">Mayor caída</div><div class="stat-val" style="color:var(--down)">-4 · Pondal</div></div>
-  </div>
-  <div class="cat-filter">
-    <button class="cat-btn active" onclick="filterCat('todos',this)">Todos</button>
-    <button class="cat-btn" onclick="filterCat('A',this)">Bombo A</button>
-    <button class="cat-btn" onclick="filterCat('B',this)">Bombo B</button>
-    <button class="cat-btn" onclick="filterCat('C',this)">Bombo C</button>
-    <button class="cat-btn" onclick="filterCat('D',this)">Bombo D</button>
-  </div>
-  <div class="table-wrap">
-    <table>
-      <thead><tr>
-        <th>#</th><th>Jugador</th><th>Bombo</th><th style="text-align:center">Variación</th>
-      </tr></thead>
-      <tbody id="ranking-tbody"></tbody>
-    </table>
+  <div id="ranking-loader" class="loader"><div class="spinner"></div><div class="loader-txt">Calculando ranking...</div></div>
+  <div id="ranking-content" style="display:none">
+    <div class="stats">
+      <div class="stat"><div class="stat-label">Líder</div><div class="stat-val" id="stat-lider">—</div></div>
+      <div class="stat"><div class="stat-label">Mayor subida</div><div class="stat-val" id="stat-sube" style="color:var(--up)">—</div></div>
+      <div class="stat"><div class="stat-label">Mayor caída</div><div class="stat-val" id="stat-baja" style="color:var(--down)">—</div></div>
+    </div>
+    <div class="cat-filter">
+      <button class="cat-btn active" onclick="filterCat('todos',this)">Todos</button>
+      <button class="cat-btn" onclick="filterCat('A',this)">Bombo A</button>
+      <button class="cat-btn" onclick="filterCat('B',this)">Bombo B</button>
+      <button class="cat-btn" onclick="filterCat('C',this)">Bombo C</button>
+      <button class="cat-btn" onclick="filterCat('D',this)">Bombo D</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>#</th><th>Jugador</th><th>Bombo</th><th style="text-align:center">Variación</th></tr></thead>
+        <tbody id="ranking-tbody"></tbody>
+      </table>
+    </div>
   </div>
 </div>
 
-<!-- RESULTADOS -->
 <div id="tab-resultados" class="tab-content">
-  <div class="note">Resultado especial: Foguet venció a Navarro 3–2 y es el nuevo N°1 del ranking.</div>
-  <div class="fecha-header">Fecha 1 — Resultados</div>
-  <div id="resultados-list"></div>
+  <div id="resultados-loader" class="loader"><div class="spinner"></div><div class="loader-txt">Cargando resultados...</div></div>
+  <div id="resultados-content" style="display:none"></div>
 </div>
 
-<!-- PRÓXIMOS -->
 <div id="tab-proximos" class="tab-content">
-  <div class="fecha-header">Fecha 2 — Próximos partidos</div>
-  <p style="color:var(--muted);font-size:13px;margin-bottom:16px;">Período: 15 al 30 de abril 2026. Cada par desafía al impar ubicado 3 puestos arriba.</p>
-  <div id="proximos-list"></div>
+  <div id="proximos-content"><div class="loader"><div class="spinner"></div></div></div>
 </div>
 
-<!-- REGLAMENTO -->
 <div id="tab-reglamento" class="tab-content">
-  <div class="reglamento">
+  <div class="reg-wrap">
     <div class="reg-title">Reglamento — Ranking x Desafíos 2026</div>
     <div class="reg-item"><span class="reg-num">1</span>El Ranking se publicará en los canales de difusión de la asociación.</div>
     <div class="reg-item"><span class="reg-num">2</span>Los jugadores de ranking <strong>par</strong> deberán desafiar al de ranking <strong>impar</strong> ubicado 3 puestos más arriba. Ej: #12 debe desafiar a #9.</div>
-    <div class="reg-item"><span class="reg-num">3</span>Si el par <strong>gana</strong>: sube 4 puestos, el impar baja 4. Si el par <strong>pierde</strong>: baja 1 puesto, el impar sube 1. Ej: #10 vs #7 — si gana #10 → pasa a #6 y #7 pasa a #11. Si pierde #10 → pasa a #11 y #7 pasa a #6.</div>
+    <div class="reg-item"><span class="reg-num">3</span>Si el par <strong>gana</strong>: sube 4 puestos, el impar baja 4. Si el par <strong>pierde</strong>: baja 1 puesto, el impar sube 1.</div>
     <div class="reg-item"><span class="reg-num">4</span>Los desafíos se juegan en dos períodos mensuales: del 2 al 14, y del 16 al 30/31.</div>
     <div class="reg-item"><span class="reg-num">5</span>El desafío implica la coordinación del encuentro (primeros 5 días de publicado el ranking). El partido deberá disputarse dentro de las fechas previstas.</div>
     <div class="reg-item"><span class="reg-num">6</span>La comunicación del resultado deberá ser realizada por el par hasta el día 14 o hasta el 30/31 según corresponda.</div>
     <div class="reg-item"><span class="reg-num">7</span>Los partidos se disputarán al mejor de 5 games.</div>
     <div class="reg-item"><span class="reg-num">8</span>El ranking anual va de abril hasta el 15 de noviembre. Al finalizar se realiza el Torneo Master de fin de año.</div>
-    <div class="reg-item"><span class="reg-num">9</span>Cuota: $20.000 en abril, $12.000 en los meses siguientes. Fondos destinados a escuelita, premios y gastos de la asociación.</div>
+    <div class="reg-item"><span class="reg-num">9</span>Cuota: $20.000 en abril, $12.000 en los meses siguientes.</div>
     <div class="reg-item"><span class="reg-num">10</span>Se puede aplicar W.O. pasados los 15 minutos de la hora fijada.</div>
     <div class="reg-item"><span class="reg-num">11</span>El sorteo se divide en dos bombos para lograr distribución equilibrada.</div>
     <div class="reg-item"><span class="reg-num">12</span>El ranking está separado en 4 sectores: A, B, C y D. Los mejores de cada categoría disputarán el Torneo Master.</div>
@@ -225,207 +198,165 @@
   </div>
 </div>
 
-<!-- ADMIN -->
 <div id="tab-admin" class="tab-content">
   <div class="form-card">
     <div class="form-title">Registrar resultado</div>
-    <div class="form-row">
-      <div>
-        <div style="font-size:11px;color:var(--muted);margin-bottom:4px">Jugador par (desafiante)</div>
-        <select id="j1"><option value="">Seleccionar...</option></select>
-      </div>
-      <div class="form-vs" style="padding-top:18px">vs</div>
-      <div>
-        <div style="font-size:11px;color:var(--muted);margin-bottom:4px">Jugador impar (aceptante)</div>
-        <select id="j2"><option value="">Seleccionar...</option></select>
-      </div>
+    <div class="form-grid">
+      <div><span class="field-label">Desafiante (par)</span><select id="j1"><option value="">Seleccionar...</option></select></div>
+      <div class="form-vs">vs</div>
+      <div><span class="field-label">Aceptante (impar)</span><select id="j2"><option value="">Seleccionar...</option></select></div>
     </div>
     <div style="display:flex;gap:10px;margin-bottom:12px">
-      <div style="flex:1">
-        <div style="font-size:11px;color:var(--muted);margin-bottom:4px">Games del desafiante</div>
-        <select id="g1"><option value="">—</option><option>0</option><option>1</option><option>2</option><option>3</option></select>
-      </div>
-      <div style="flex:1">
-        <div style="font-size:11px;color:var(--muted);margin-bottom:4px">Games del aceptante</div>
-        <select id="g2"><option value="">—</option><option>0</option><option>1</option><option>2</option><option>3</option></select>
-      </div>
+      <div style="flex:1"><span class="field-label">Games desafiante</span>
+        <select id="g1"><option value="">—</option><option>0</option><option>1</option><option>2</option><option>3</option></select></div>
+      <div style="flex:1"><span class="field-label">Games aceptante</span>
+        <select id="g2"><option value="">—</option><option>0</option><option>1</option><option>2</option><option>3</option></select></div>
     </div>
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
-      <input type="checkbox" id="es-wo" style="width:auto">
-      <label for="es-wo" style="font-size:13px;color:var(--muted)">W.O. (walkover)</label>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">
+      <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);cursor:pointer">
+        <input type="checkbox" id="es-wo" style="width:auto">W.O. — el aceptante gana por incomparecencia</label>
+      <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);cursor:pointer">
+        <input type="checkbox" id="es-especial" style="width:auto">Partido especial (no aplica la regla par/impar estándar)</label>
     </div>
-    <button class="btn" onclick="addResultado()">Registrar</button>
+    <button class="btn" onclick="addResultado()">Registrar resultado</button>
+    <p style="font-size:11px;color:var(--muted);margin-top:10px">Al registrar, el ranking se actualiza en pantalla. Luego copiá los datos a la planilla de Sheets para que persistan.</p>
   </div>
+
   <div class="form-card">
-    <div class="form-title">Resultados de esta sesión</div>
-    <div id="preview-list"><p style="color:var(--muted);font-size:13px">Ningún resultado cargado aún.</p></div>
-    <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">
-      <button class="btn" onclick="exportar()">Copiar JSON para el admin</button>
+    <div class="form-title">Editar resultados existentes</div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:14px">Cambiá el resultado de cualquier partido. El ranking se recalcula al guardar. Luego actualizá también la planilla de Sheets.</p>
+    <div style="display:grid;grid-template-columns:1fr 64px 64px auto;gap:8px;padding:6px 12px;margin-bottom:4px">
+      <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Partido</span>
+      <span style="font-size:10px;color:var(--muted);text-align:center">Des.</span>
+      <span style="font-size:10px;color:var(--muted);text-align:center">Acep.</span>
+      <span></span>
     </div>
-    <p style="font-size:11px;color:var(--muted);margin-top:10px">Enviá el JSON al administrador para actualizar el ranking oficial.</p>
+    <div id="edit-list"><p style="color:var(--muted);font-size:13px">Cargando...</p></div>
   </div>
 </div>
 
 </main>
 
 <script>
-const RANKING = [
-  {pos:1,  nombre:"Javi Foguet",        cat:"B", var:1},
-  {pos:2,  nombre:"Marcelo Navarro",    cat:"B", var:-1},
-  {pos:3,  nombre:"Barraquero",         cat:"B", var:3},
-  {pos:4,  nombre:"Fer GH",             cat:"B", var:4},
-  {pos:5,  nombre:"Gabi Flores",        cat:"B", var:-2},
-  {pos:6,  nombre:"JC Argota",          cat:"B", var:-2},
-  {pos:7,  nombre:"Sergio Jorrat",      cat:"B", var:-2},
-  {pos:8,  nombre:"Leo Mosi",           cat:"B", var:-1},
-  {pos:9,  nombre:"Kechu",              cat:"B", var:0},
-  {pos:10, nombre:"Gury",               cat:"B", var:0},
-  {pos:11, nombre:"Mariano Pardo",      cat:"B", var:0},
-  {pos:12, nombre:"Turkitooo",          cat:"B", var:0},
-  {pos:13, nombre:"Fabri",              cat:"B", var:0},
-  {pos:14, nombre:"Fer Martínez",       cat:"B", var:4},
-  {pos:15, nombre:"José Andrés",        cat:"B", var:-1},
-  {pos:16, nombre:"Loi",                cat:"B", var:4},
-  {pos:17, nombre:"Chino Z",            cat:"B", var:-2},
-  {pos:18, nombre:"Luis B",             cat:"A", var:4},
-  {pos:19, nombre:"Chino Montero",      cat:"B", var:-3},
-  {pos:20, nombre:"Pachi",              cat:"B", var:-3},
-  {pos:21, nombre:"Fede Staff",         cat:"A", var:0},
-  {pos:22, nombre:"Diosque",            cat:"A", var:1},
-  {pos:23, nombre:"Pondal",             cat:"B", var:-4},
-  {pos:24, nombre:"Tomi",               cat:"A", var:1},
-  {pos:25, nombre:"Jauretche",          cat:"A", var:-1},
-  {pos:26, nombre:"Catu",               cat:"A", var:4},
-  {pos:27, nombre:"Raúl Albesa",        cat:"A", var:-1},
-  {pos:28, nombre:"Juan Pasteris",      cat:"A", var:-1},
-  {pos:29, nombre:"Pajarito",           cat:"A", var:0},
-  {pos:30, nombre:"Marangoni",          cat:"A", var:-2},
-  {pos:31, nombre:"Lucas Mario",        cat:"A", var:0},
-  {pos:32, nombre:"Maxi Mellace",       cat:"A", var:0},
-  {pos:33, nombre:"Tizi",               cat:"A", var:0},
-  {pos:34, nombre:"Marchese",           cat:"A", var:4},
-  {pos:35, nombre:"Varela",             cat:"A", var:-1},
-  {pos:36, nombre:"Araña",              cat:"A", var:4},
-  {pos:37, nombre:"Mario Elias",        cat:"A", var:-2},
-  {pos:38, nombre:"Tanque",             cat:"A", var:-2},
-  {pos:39, nombre:"Benejam",            cat:"A", var:-2},
-  {pos:40, nombre:"Bauti Gallardo",     cat:"C", var:4},
-  {pos:41, nombre:"Bernasconi",         cat:"A", var:-2},
-  {pos:42, nombre:"Abuin",              cat:"C", var:-1},
-  {pos:43, nombre:"Anita",              cat:"D", var:-1},
-  {pos:44, nombre:"Saracho",            cat:"C", var:1},
-  {pos:45, nombre:"JM Argota",          cat:"C", var:-2},
-  {pos:46, nombre:"Muge",               cat:"C", var:0},
-  {pos:47, nombre:"Clo",                cat:"D", var:0},
-  {pos:48, nombre:"Ana Inés",           cat:"D", var:4},
-  {pos:49, nombre:"Matías Torres",      cat:"C", var:-1},
-  {pos:50, nombre:"Cueto",              cat:"D", var:-1},
-  {pos:51, nombre:"Hernán Honorato",    cat:"D", var:-1},
-  {pos:52, nombre:"Sole",               cat:"D", var:1},
-  {pos:53, nombre:"Emi Pereyra",        cat:"D", var:-2},
-  {pos:54, nombre:"Golden",             cat:"C", var:0},
-  {pos:55, nombre:"Luis Allier",        cat:"C", var:0},
-  {pos:56, nombre:"Fanjul Queen",       cat:"C", var:4},
-  {pos:57, nombre:"Vir Roda",           cat:"D", var:-1},
-  {pos:58, nombre:"Alfredo Barberís",   cat:"D", var:4},
-  {pos:59, nombre:"Juampi Salomón",     cat:"C", var:-2},
-  {pos:60, nombre:"Marion",             cat:"D", var:-2},
-  {pos:61, nombre:"Sil Re",             cat:"D", var:-2},
-  {pos:62, nombre:"Rulo Azaresky",      cat:"B", var:-1},
-  {pos:63, nombre:"Metralleta",         cat:"C", var:0},
-  {pos:64, nombre:"JP",                 cat:"C", var:4},
-  {pos:65, nombre:"Luis Martínez M",    cat:"D", var:-1},
-  {pos:66, nombre:"Ferri",              cat:"C", var:-1},
-  {pos:67, nombre:"Vir Jairala",        cat:"D", var:0},
-  {pos:68, nombre:"Leandro Suárez",     cat:"C", var:1},
-  {pos:69, nombre:"Agus",               cat:"D", var:-3},
-  {pos:70, nombre:"Bruno Villarreal",   cat:"C", var:1},
-  {pos:71, nombre:"Manuel",             cat:"D", var:-1},
-  {pos:72, nombre:"Dani Licudis",       cat:"C", var:0},
-  {pos:73, nombre:"Aime",               cat:"D", var:0},
-  {pos:74, nombre:"Melli Di Riso",      cat:"D", var:0},
-  {pos:75, nombre:"Gi Salomón",         cat:"D", var:0},
-  {pos:76, nombre:"Vane Silvera",       cat:"D", var:0},
-  {pos:77, nombre:"Fede Roda",          cat:"D", var:0},
-  {pos:78, nombre:"Negro Ledesma",      cat:"C", var:4},
-  {pos:79, nombre:"Churro",             cat:"D", var:-1},
-  {pos:80, nombre:"Nacho Malmierca",    cat:"D", var:4},
-  {pos:81, nombre:"Viví Belmont",       cat:"C", var:-2},
-  {pos:82, nombre:"Sandoval",           cat:"D", var:-2},
-  {pos:83, nombre:"Denis",              cat:"D", var:-2},
-  {pos:84, nombre:"Ceci Córdoba",       cat:"D", var:-1},
-  {pos:85, nombre:"Daniel Lopez",       cat:"D", var:0},
-  {pos:86, nombre:"Coni",               cat:"D", var:1},
-  {pos:87, nombre:"Meli",               cat:"D", var:-1},
-];
+const SHEET_ID  = "1w2nWgdB_ZBoA8EQhwf86ahNlE2O4dhQUVI7aUQRm76Y";
+const CSV_BASE  = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=`;
+const ADMIN_PWD = "squash2026";
 
-const RESULTADOS_F1 = [
-  {n:1,  d:"JC Argota",        a:"Javi Foguet",      res:"2–3", g:"a"},
-  {n:2,  d:"Barraquero",       a:"Gabi Flores",      res:"3–0", g:"d"},
-  {n:3,  d:"Fer GH",           a:"Sergio Jorrat",    res:"3–0", g:"d"},
-  {n:4,  d:"Gury",             a:"Mosele",           res:"3–2", g:"d"},
-  {n:5,  d:"Turko Nazar",      a:"Kechu",            res:"0–3", g:"a"},
-  {n:6,  d:"José Andrés",      a:"Mariano Pardo",    res:null,  g:null},
-  {n:7,  d:"Chino Montero",    a:"Fabri",            res:null,  g:null},
-  {n:8,  d:"Fer Martínez",     a:"Chino Z",          res:"3–2", g:"d"},
-  {n:9,  d:"Loi",              a:"Pachi",            res:"3–0", g:"d"},
-  {n:10, d:"Luis B",           a:"Pondal",           res:"3–1", g:"d"},
-  {n:11, d:"Jauretche",        a:"Fede Staff",       res:"0–3", g:"a"},
-  {n:12, d:"Raúl Albesa",      a:"Diosque",          res:"0–3", g:"a"},
-  {n:13, d:"Marangoni",        a:"Tomi",             res:"0–3", g:"a"},
-  {n:14, d:"Catu",             a:"Juan Pasteris",    res:"3–0", g:"d"},
-  {n:15, d:"Maxi Mellace",     a:"Pajarito",         res:"0–3", g:"a"},
-  {n:16, d:"Varela",           a:"Lucas Mario",      res:null,  g:null},
-  {n:17, d:"Tanque",           a:"Tizi",             res:null,  g:null},
-  {n:18, d:"Marchese",         a:"Mario Elias",      res:"3–1", g:"d"},
-  {n:19, d:"Araña",            a:"Benejam",          res:"3–0", g:"d"},
-  {n:20, d:"Anita",            a:"Bernasconi",       res:null,  g:null},
-  {n:21, d:"Bauti Gallardo",   a:"Abuin",            res:"3–2", g:"d"},
-  {n:22, d:"Muge",             a:"JM Argota",        res:null,  g:null},
-  {n:23, d:"Matías Torres",    a:"Saracho",          res:"0–3", g:"a"},
-  {n:24, d:"Hernán Honorato",  a:"Clo",              res:null,  g:null},
-  {n:25, d:"Ana Inés",         a:"Cueto",            res:"3–2", g:"d"},
-  {n:26, d:"Golden",           a:"Emi Pereyra",      res:null,  g:null},
-  {n:27, d:"Vir Roda",         a:"Sole",             res:"0–3", g:"a"},
-  {n:28, d:"Marion",           a:"Luis Allier",      res:null,  g:null},
-  {n:29, d:"Fanjul Queen",     a:"Juampi Salomón",   res:"3–0", g:"d"},
-  {n:30, d:"Alfredo Barberís", a:"Sil Re",           res:"3–0", g:"d"},
-  {n:31, d:"Luis Martínez M",  a:"Rulo Azaresky",    res:null,  g:null},
-  {n:32, d:"Agus",             a:"Metralleta",       res:null,  g:null},
-  {n:33, d:"JP",               a:"Ferri",            res:"3–0", g:"d"},
-  {n:34, d:"Manuel",           a:"Vir Jairala",      res:"0–3", g:"a"},
-  {n:35, d:"Dani Licudis",     a:"Leandro Suárez",   res:"1–3", g:"a"},
-  {n:36, d:"Melli Di Riso",    a:"Bruno Villarreal", res:"1–3", g:"a"},
-  {n:37, d:"Vane Silvera",     a:"Aime",             res:null,  g:null},
-  {n:38, d:"Churro",           a:"Gi Salomón",       res:null,  g:null},
-  {n:39, d:"Sandoval",         a:"Fede Roda",        res:null,  g:null},
-  {n:40, d:"Negro Ledesma",    a:"Viví Belmont",     res:"3–0", g:"d"},
-  {n:41, d:"Nacho Malmierca",  a:"Denis",            res:"3–0", g:"d"},
-  {n:42, d:"Daniel Lopez",     a:"Ceci Córdoba",     res:null,  g:null},
-  {n:43, d:"Meli",             a:"Coni",             res:"0–3", g:"a"},
-];
+let jugadores   = [];
+let resultados  = [];
+let rankingCalc = [];
+let currentCat  = "todos";
+let adminOk     = false;
 
-const catCls = {A:"pill-a",B:"pill-b",C:"pill-c",D:"pill-d"};
-const catAct  = {A:"act-a", B:"act-b", C:"act-c", D:"act-d"};
-let currentCat = "todos";
+// ── CSV parser ────────────────────────────────────────────────────────────────
+function parseCSV(text) {
+  const lines = text.trim().split("\n");
+  if (lines.length < 2) return [];
+  const headers = splitCSVLine(lines[0]).map(h => h.toUpperCase().trim());
+  return lines.slice(1).map(line => {
+    const vals = splitCSVLine(line);
+    const obj = {};
+    headers.forEach((h, i) => obj[h] = (vals[i] || "").trim());
+    return obj;
+  });
+}
+
+function splitCSVLine(line) {
+  const vals = []; let cur = "", inQ = false;
+  for (let c of line) {
+    if (c === '"') { inQ = !inQ; }
+    else if (c === "," && !inQ) { vals.push(cur); cur = ""; }
+    else cur += c;
+  }
+  vals.push(cur);
+  return vals.map(v => v.replace(/^"|"$/g, ""));
+}
+
+// ── fetch ─────────────────────────────────────────────────────────────────────
+async function fetchSheet(name) {
+  const url = CSV_BASE + encodeURIComponent(name) + "&cb=" + Date.now();
+  const r = await fetch(url);
+  if (!r.ok) throw new Error(`HTTP ${r.status} al cargar ${name}`);
+  return parseCSV(await r.text());
+}
+
+// ── motor de ranking ──────────────────────────────────────────────────────────
+function calcRanking(jug, res) {
+  let players = jug
+    .filter(j => j.NOMBRE && j.POS_INICIAL)
+    .map(j => ({ nombre: j.NOMBRE, bombo: j.BOMBO, pos_inicial: parseInt(j.POS_INICIAL) }))
+    .sort((a, b) => a.pos_inicial - b.pos_inicial);
+
+  function idx(nombre) {
+    const n = nombre.toLowerCase().trim();
+    return players.findIndex(p => p.nombre.toLowerCase().trim() === n);
+  }
+
+  const sorted = [...res]
+    .filter(r => r.DESAFIANTE && r.ACEPTANTE && r.GAMES_D !== "" && r.GAMES_A !== "")
+    .sort((a, b) => parseInt(a.FECHA || 0) - parseInt(b.FECHA || 0));
+
+  for (const r of sorted) {
+    const gd = parseInt(r.GAMES_D), ga = parseInt(r.GAMES_A);
+    if (isNaN(gd) || isNaN(ga)) continue;
+    const nota = (r.NOTA || "").toUpperCase();
+    const especial = nota === "ESPECIAL";
+    const ganadorD = gd > ga;
+    const id = idx(r.DESAFIANTE), ia = idx(r.ACEPTANTE);
+    if (id === -1 || ia === -1) continue;
+
+    if (especial) {
+      // Solo mueve al ganador a la posición del perdedor si está detrás
+      if (ganadorD && id > ia) players.splice(ia, 0, players.splice(id, 1)[0]);
+      else if (!ganadorD && ia > id) players.splice(id, 0, players.splice(ia, 1)[0]);
+    } else {
+      if (ganadorD) {
+        // par gana: sube 4
+        const t = Math.max(0, id - 4);
+        players.splice(t, 0, players.splice(id, 1)[0]);
+      } else {
+        // par pierde: baja 1
+        const t = Math.min(players.length - 1, id + 1);
+        players.splice(t, 0, players.splice(id, 1)[0]);
+      }
+    }
+  }
+
+  return players.map((p, i) => ({
+    pos: i + 1, nombre: p.nombre, bombo: p.bombo,
+    var: p.pos_inicial - (i + 1)
+  }));
+}
+
+// ── render ranking ────────────────────────────────────────────────────────────
+const catCls = { A:"pill-a", B:"pill-b", C:"pill-c", D:"pill-d" };
+const catAct = { A:"act-a",  B:"act-b",  C:"act-c",  D:"act-d"  };
 
 function renderRanking() {
   const tbody = document.getElementById("ranking-tbody");
   tbody.innerHTML = "";
-  RANKING.forEach(p => {
-    const show = currentCat === "todos" || p.cat === currentCat;
-    const posCls = p.pos===1?"top1":p.pos===2?"top2":p.pos===3?"top3":"";
-    let varHtml = `<span class="var-same"><span class="dot"></span></span>`;
-    if (p.var > 0) varHtml = `<span class="var-up"><span class="arrow-u"></span>${p.var}</span>`;
-    if (p.var < 0) varHtml = `<span class="var-down"><span class="arrow-d"></span>${Math.abs(p.var)}</span>`;
+  let maxUp = 0, maxDown = 0, topUp = "", topDown = "";
+  rankingCalc.forEach(p => {
+    if (p.var > maxUp)   { maxUp = p.var;   topUp   = p.nombre; }
+    if (p.var < maxDown) { maxDown = p.var;  topDown = p.nombre; }
+    const show   = currentCat === "todos" || p.bombo === currentCat;
+    const posCls = p.pos === 1 ? "top1" : p.pos === 2 ? "top2" : p.pos === 3 ? "top3" : "";
+    let varHtml  = `<span class="var-same"><span class="dot"></span></span>`;
+    if (p.var > 0) varHtml = `<span class="var-up"><span class="arr-u"></span>${p.var}</span>`;
+    if (p.var < 0) varHtml = `<span class="var-down"><span class="arr-d"></span>${Math.abs(p.var)}</span>`;
     const tr = document.createElement("tr");
     if (!show) tr.classList.add("hidden-row");
     tr.innerHTML = `<td class="td-pos ${posCls}">${p.pos}</td>
       <td class="td-name">${p.nombre}</td>
-      <td class="td-cat"><span class="cat-pill ${catCls[p.cat]}">${p.cat}</span></td>
+      <td><span class="cat-pill ${catCls[p.bombo]||'pill-b'}">${p.bombo}</span></td>
       <td class="td-var">${varHtml}</td>`;
     tbody.appendChild(tr);
   });
+  if (rankingCalc.length) {
+    document.getElementById("stat-lider").textContent = rankingCalc[0].nombre;
+    document.getElementById("stat-sube").textContent  = topUp   ? `+${maxUp} · ${topUp}`   : "—";
+    document.getElementById("stat-baja").textContent  = topDown ? `${maxDown} · ${topDown}` : "—";
+  }
 }
 
 function filterCat(cat, btn) {
@@ -435,66 +366,152 @@ function filterCat(cat, btn) {
   renderRanking();
 }
 
+// ── render resultados ─────────────────────────────────────────────────────────
 function renderResultados() {
-  let html = "";
-  RESULTADOS_F1.forEach(p => {
-    const ganNombre = p.g === "d" ? p.d : p.a;
-    const perNombre = p.g === "d" ? p.a : p.d;
-    const resHtml = p.res
-      ? `<div class="partido-result">${p.res}<span class="result-sub">games</span></div>`
-      : `<div class="pendiente">pendiente</div>`;
-    const matchHtml = p.res
-      ? `<span class="ganador">${ganNombre}</span> <span style="color:var(--muted)">vs</span> <span class="perdedor">${perNombre}</span>`
-      : `${p.d} <span style="color:var(--muted)">vs</span> ${p.a}`;
-    html += `<div class="partido"><div class="partido-matchup">${matchHtml}</div><div>${resHtml}</div></div>`;
+  const el = document.getElementById("resultados-content");
+  const byFecha = {};
+  resultados.forEach(r => {
+    const f = r.FECHA || "1";
+    if (!byFecha[f]) byFecha[f] = [];
+    byFecha[f].push(r);
   });
-  html += `<div style="margin-top:20px"><div class="fecha-header" style="font-size:16px;color:var(--cat-a)">Partidos especiales</div></div>`;
-  html += `<div class="partido" style="border-color:rgba(192,132,252,0.3)">
-    <div class="partido-matchup"><span class="ganador">Javi Foguet</span> <span style="color:var(--muted)">vs</span> <span class="perdedor">JC Argota</span><div style="font-size:11px;color:var(--muted);margin-top:3px">Desempate — ganador desafía al N°1</div></div>
-    <div class="partido-result">3–2<span class="result-sub">games</span></div></div>`;
-  html += `<div class="partido" style="border-color:rgba(192,132,252,0.3)">
-    <div class="partido-matchup"><span class="ganador">Javi Foguet</span> <span style="color:var(--muted)">vs</span> <span class="perdedor">Marcelo Navarro</span><div style="font-size:11px;color:var(--muted);margin-top:3px">Final — definición del N°1</div></div>
-    <div class="partido-result">3–2<span class="result-sub">games</span></div></div>`;
-  document.getElementById("resultados-list").innerHTML = html;
+  let html = "";
+  Object.keys(byFecha).sort((a,b) => parseInt(a)-parseInt(b)).forEach(f => {
+    html += `<div class="fecha-block"><div class="fecha-header">Fecha ${f} — Resultados</div>`;
+    byFecha[f].forEach(r => {
+      const nota = (r.NOTA || "").toUpperCase();
+      const esEsp = nota === "ESPECIAL";
+      const gd = parseInt(r.GAMES_D), ga = parseInt(r.GAMES_A);
+      const ok  = !isNaN(gd) && !isNaN(ga);
+      const ganD = ok && gd > ga;
+      const ganNom = ganD ? r.DESAFIANTE : r.ACEPTANTE;
+      const perNom = ganD ? r.ACEPTANTE  : r.DESAFIANTE;
+      const mHtml  = ok
+        ? `<span class="p-ganador">${ganNom}</span> <span style="color:var(--muted)">vs</span> <span class="p-perdedor">${perNom}</span>`
+        : `${r.DESAFIANTE} <span style="color:var(--muted)">vs</span> ${r.ACEPTANTE}`;
+      const rHtml  = ok
+        ? `<div class="p-result">${gd}–${ga}<span class="p-sub">games</span></div>`
+        : `<div class="p-pending">pendiente</div>`;
+      html += `<div class="partido${esEsp?" especial":""}">
+        <div><div class="p-match">${mHtml}${esEsp?'<span class="especial-tag">especial</span>':''}</div></div>
+        <div>${rHtml}</div>
+      </div>`;
+    });
+    html += `</div>`;
+  });
+  el.innerHTML = html || `<p style="color:var(--muted);font-size:13px">No hay resultados cargados aún.</p>`;
 }
 
+// ── render próximos ───────────────────────────────────────────────────────────
 function renderProximos() {
-  let html = "";
-  RANKING.forEach(p => {
+  const el = document.getElementById("proximos-content");
+  const hoy = new Date();
+  const dia = hoy.getDate();
+
+  // Publicar solo días 1–5 y 15–20
+  const enPeriodo = (dia >= 1 && dia <= 5) || (dia >= 15 && dia <= 20);
+  if (!enPeriodo) {
+    el.innerHTML = `<div class="warn-box">
+      Los próximos partidos se publican los días <strong>1 al 5</strong> y <strong>15 al 20</strong> de cada mes,
+      una vez cerrada la fecha anterior.<br>Volvé en esas fechas para ver los nuevos cruces.
+    </div>`;
+    return;
+  }
+
+  // Verificar pendientes en la última fecha
+  const ultimaFecha = resultados.length
+    ? Math.max(...resultados.filter(r=>r.FECHA).map(r => parseInt(r.FECHA)))
+    : 0;
+
+  const pendientes = resultados.filter(r => {
+    if (parseInt(r.FECHA||0) !== ultimaFecha) return false;
+    const nota = (r.NOTA||"").toUpperCase();
+    if (nota === "ESPECIAL") return false;
+    return r.GAMES_D === "" || r.GAMES_A === "" || isNaN(parseInt(r.GAMES_D)) || isNaN(parseInt(r.GAMES_A));
+  });
+
+  if (pendientes.length > 0) {
+    el.innerHTML = `<div class="warn-box">
+      Hay <strong>${pendientes.length} partido${pendientes.length>1?"s":""} pendiente${pendientes.length>1?"s":""}</strong>
+      sin resultado en la Fecha ${ultimaFecha}. Los próximos partidos se muestran cuando todos los resultados están cargados.
+    </div>
+    ${pendientes.map(p => `<div class="partido">
+      <div class="p-match">${p.DESAFIANTE} <span style="color:var(--muted)">vs</span> ${p.ACEPTANTE}</div>
+      <div class="p-pending">sin resultado</div>
+    </div>`).join("")}`;
+    return;
+  }
+
+  // Generar cruces
+  const sigFecha = ultimaFecha + 1;
+  const periodo  = (dia >= 1 && dia <= 5) ? 1 : 2;
+  const mes = hoy.toLocaleString("es-AR", { month:"long" });
+  const [ini, fin] = periodo === 1 ? ["2","14"] : ["16","30"];
+
+  let html = `<div class="note-box">Fecha ${sigFecha} · Período ${periodo} · ${ini} al ${fin} de ${mes} — Los jugadores pares desafían al impar 3 puestos arriba</div>`;
+  let count = 0;
+  rankingCalc.forEach(p => {
     if (p.pos % 2 === 0) {
-      const targetPos = p.pos - 3;
-      if (targetPos >= 1) {
-        const rival = RANKING.find(r => r.pos === targetPos);
-        if (rival) {
-          html += `<div class="proximo-card">
-            <div>
-              <div style="font-size:13px;font-weight:500">
-                <strong>#${p.pos} ${p.nombre}</strong>
-                <span style="color:var(--muted);margin:0 8px">vs</span>
-                <strong>#${rival.pos} ${rival.nombre}</strong>
-                <span style="margin-left:8px"><span class="cat-pill ${catCls[p.cat]}">${p.cat}</span></span>
-              </div>
-            </div>
-            <div>
-              <div class="proximo-date">15–30 abr</div>
-              <div class="proximo-period">Período 2 · Fecha 2</div>
-            </div>
-          </div>`;
-        }
+      const rival = rankingCalc.find(r => r.pos === p.pos - 3);
+      if (rival) {
+        count++;
+        html += `<div class="prox-card">
+          <div style="font-size:13px;font-weight:500">
+            <strong>#${p.pos} ${p.nombre}</strong>
+            <span style="color:var(--muted);margin:0 8px">vs</span>
+            <strong>#${rival.pos} ${rival.nombre}</strong>
+            <span style="margin-left:8px"><span class="cat-pill ${catCls[p.bombo]||'pill-b'}">${p.bombo}</span></span>
+          </div>
+          <div>
+            <div class="prox-date">${ini}–${fin} ${mes.slice(0,3)}</div>
+            <div class="prox-period">Período ${periodo} · Fecha ${sigFecha}</div>
+          </div>
+        </div>`;
       }
     }
   });
-  document.getElementById("proximos-list").innerHTML = html || '<p style="color:var(--muted)">Sin partidos programados.</p>';
+  if (!count) html += `<p style="color:var(--muted);font-size:13px">No se encontraron cruces para generar.</p>`;
+  el.innerHTML = html;
 }
 
-// ADMIN
-const ADMIN_PWD = "squash2026";
-let adminOk = false;
-let sesion = [];
+// ── render edit list ──────────────────────────────────────────────────────────
+function renderEditList() {
+  const el = document.getElementById("edit-list");
+  const res = resultados.filter(r => (r.NOTA||"").toUpperCase() !== "ESPECIAL" || true);
+  if (!res.length) { el.innerHTML = '<p style="color:var(--muted);font-size:13px">No hay resultados.</p>'; return; }
+  el.innerHTML = res.map((r, i) => {
+    const gd = r.GAMES_D, ga = r.GAMES_A;
+    return `<div class="edit-row" id="erow-${i}">
+      <span><strong style="font-size:12px">${r.DESAFIANTE} vs ${r.ACEPTANTE}</strong>
+        <span style="color:var(--muted);font-size:11px;margin-left:6px">F${r.FECHA}${r.NOTA?' · '+r.NOTA:''}</span></span>
+      <input class="edit-games" type="number" min="0" max="3" value="${gd}" id="gd-${i}">
+      <input class="edit-games" type="number" min="0" max="3" value="${ga}" id="ga-${i}">
+      <button class="btn btn-sm btn-success" onclick="saveEdit(${i})">Guardar</button>
+    </div>`;
+  }).join("");
+}
 
+function saveEdit(i) {
+  const newGd = document.getElementById(`gd-${i}`).value;
+  const newGa = document.getElementById(`ga-${i}`).value;
+  if (newGd === "" || newGa === "") { alert("Ingresá ambos values"); return; }
+  resultados[i].GAMES_D = newGd;
+  resultados[i].GAMES_A = newGa;
+  rankingCalc = calcRanking(jugadores, resultados);
+  renderRanking();
+  renderResultados();
+  renderProximos();
+  const row = document.getElementById(`erow-${i}`);
+  row.classList.add("saved");
+  setTimeout(() => row.classList.remove("saved"), 3000);
+  const r = resultados[i];
+  alert(`Ranking actualizado en pantalla.\n\nPara hacerlo permanente, actualizá la fila ${i+2} en la hoja RESULTADOS de Google Sheets:\nGAMES_D = ${newGd}  |  GAMES_A = ${newGa}`);
+}
+
+// ── admin ─────────────────────────────────────────────────────────────────────
 function goTab(id, btn) {
   if (id === "admin" && !adminOk) {
-    document.getElementById("pwd-modal").style.display = "flex";
+    document.getElementById("pwd-modal").classList.add("open");
     return;
   }
   document.querySelectorAll(".tab-content").forEach(t => t.classList.remove("active"));
@@ -506,68 +523,110 @@ function goTab(id, btn) {
 function checkPwd() {
   if (document.getElementById("pwd-input").value === ADMIN_PWD) {
     adminOk = true;
-    document.getElementById("pwd-modal").style.display = "none";
+    closePwd();
     populateSelects();
-    goTab("admin", document.querySelectorAll(".tab-btn")[4]);
+    renderEditList();
+    goTab("admin", document.getElementById("admin-tab-btn"));
   } else {
-    document.getElementById("pwd-error").style.display = "block";
+    document.getElementById("pwd-err").style.display = "block";
   }
 }
 
 function closePwd() {
-  document.getElementById("pwd-modal").style.display = "none";
+  document.getElementById("pwd-modal").classList.remove("open");
   document.getElementById("pwd-input").value = "";
-  document.getElementById("pwd-error").style.display = "none";
+  document.getElementById("pwd-err").style.display = "none";
 }
 
 function populateSelects() {
-  ["j1","j2"].forEach(id => {
-    const s = document.getElementById(id);
+  ["j1","j2"].forEach(sid => {
+    const s = document.getElementById(sid);
     s.innerHTML = '<option value="">Seleccionar...</option>';
-    RANKING.forEach(j => s.innerHTML += `<option value="${j.pos}">#${j.pos} ${j.nombre}</option>`);
+    rankingCalc.forEach(j => s.innerHTML += `<option value="${j.nombre}">#${j.pos} ${j.nombre}</option>`);
   });
 }
 
 function addResultado() {
-  const j1v = document.getElementById("j1").value;
-  const j2v = document.getElementById("j2").value;
+  const d   = document.getElementById("j1").value;
+  const a   = document.getElementById("j2").value;
   const g1  = document.getElementById("g1").value;
   const g2  = document.getElementById("g2").value;
   const wo  = document.getElementById("es-wo").checked;
-  if (!j1v || !j2v) { alert("Seleccioná ambos jugadores"); return; }
-  if (!wo && (!g1 || !g2)) { alert("Ingresá el resultado en games"); return; }
-  const j1 = RANKING.find(j => j.pos == j1v);
-  const j2 = RANKING.find(j => j.pos == j2v);
-  const res = wo ? "W.O." : `${g1}–${g2}`;
-  const g = wo ? "a" : (parseInt(g1) > parseInt(g2) ? "d" : "a");
-  sesion.push({desafiante: j1.nombre, posD: j1.pos, aceptante: j2.nombre, posA: j2.pos, res, ganador: g, wo});
-  renderPreview();
-  document.getElementById("j1").value = "";
-  document.getElementById("j2").value = "";
-  document.getElementById("g1").value = "";
-  document.getElementById("g2").value = "";
+  const esp = document.getElementById("es-especial").checked;
+  if (!d || !a)          { alert("Seleccioná ambos jugadores"); return; }
+  if (d === a)           { alert("Los jugadores no pueden ser el mismo"); return; }
+  if (!wo && (!g1||!g2)) { alert("Ingresá el resultado en games"); return; }
+
+  const ultF = resultados.filter(r=>r.FECHA).length
+    ? Math.max(...resultados.filter(r=>r.FECHA).map(r=>parseInt(r.FECHA)))
+    : 1;
+
+  const nuevo = {
+    FECHA:      String(ultF),
+    DESAFIANTE: d,
+    ACEPTANTE:  a,
+    GAMES_D:    wo ? "3" : g1,
+    GAMES_A:    wo ? "0" : g2,
+    NOTA:       esp ? "ESPECIAL" : (wo ? "WO" : "")
+  };
+
+  resultados.push(nuevo);
+  rankingCalc = calcRanking(jugadores, resultados);
+  renderRanking();
+  renderResultados();
+  renderProximos();
+  renderEditList();
+
+  ["j1","j2","g1","g2"].forEach(id => document.getElementById(id).value = "");
   document.getElementById("es-wo").checked = false;
+  document.getElementById("es-especial").checked = false;
+
+  alert(`Ranking actualizado.\n\nAgreg\u00e1 esta fila en la hoja RESULTADOS de Google Sheets para que sea permanente:\n\nFECHA: ${nuevo.FECHA}\nDESAFIANTE: ${nuevo.DESAFIANTE}\nACEPTANTE: ${nuevo.ACEPTANTE}\nGAMES_D: ${nuevo.GAMES_D}\nGAMES_A: ${nuevo.GAMES_A}\nNOTA: ${nuevo.NOTA}`);
 }
 
-function renderPreview() {
-  const el = document.getElementById("preview-list");
-  if (!sesion.length) { el.innerHTML = '<p style="color:var(--muted);font-size:13px">Ningún resultado cargado aún.</p>'; return; }
-  el.innerHTML = sesion.map((r,i) => `<div class="preview-item">
-    <span><strong>${r.desafiante}</strong> vs <strong>${r.aceptante}</strong> — ${r.res}</span>
-    <button class="btn btn-danger btn-sm" onclick="quitarResultado(${i})">×</button>
-  </div>`).join("");
+// ── sync status ───────────────────────────────────────────────────────────────
+function setSync(state, txt) {
+  document.getElementById("sync-dot").className = "sync-dot " + state;
+  document.getElementById("sync-txt").textContent = txt;
 }
 
-function quitarResultado(i) { sesion.splice(i,1); renderPreview(); }
+// ── carga principal ───────────────────────────────────────────────────────────
+async function loadAll() {
+  setSync("loading", "Sincronizando...");
+  try {
+    [jugadores, resultados] = await Promise.all([
+      fetchSheet("JUGADORES"),
+      fetchSheet("RESULTADOS")
+    ]);
+    jugadores  = jugadores.filter(j => j.NOMBRE && j.POS_INICIAL);
+    resultados = resultados.filter(r => r.DESAFIANTE && r.ACEPTANTE);
+    rankingCalc = calcRanking(jugadores, resultados);
 
-function exportar() {
-  navigator.clipboard.writeText(JSON.stringify(sesion, null, 2))
-    .then(() => alert("JSON copiado. Envialo al administrador para actualizar el ranking."));
+    document.getElementById("ranking-loader").style.display    = "none";
+    document.getElementById("resultados-loader").style.display = "none";
+    document.getElementById("ranking-content").style.display   = "block";
+    document.getElementById("resultados-content").style.display = "block";
+
+    renderRanking();
+    renderResultados();
+    renderProximos();
+    if (adminOk) { populateSelects(); renderEditList(); }
+
+    const hora = new Date().toLocaleTimeString("es-AR",{hour:"2-digit",minute:"2-digit"});
+    setSync("ok", `Actualizado ${hora}`);
+  } catch(e) {
+    setSync("err", "Error al cargar");
+    document.getElementById("ranking-loader").innerHTML =
+      `<div class="error-box">No se pudo cargar la planilla. Verific\u00e1 que est\u00e9 publicada correctamente en Google Sheets.<br><small style="opacity:.7">${e.message}</small></div>`;
+    document.getElementById("resultados-loader").innerHTML =
+      `<div class="error-box">Error al cargar resultados.</div>`;
+    document.getElementById("proximos-content").innerHTML =
+      `<div class="error-box">Error al cargar datos.</div>`;
+  }
 }
 
-renderRanking();
-renderResultados();
-renderProximos();
+loadAll();
+setInterval(loadAll, 3 * 60 * 1000);
 </script>
 </body>
 </html>
