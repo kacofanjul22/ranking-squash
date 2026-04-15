@@ -285,24 +285,14 @@ function calcRanking(jug, res) {
     if (id === -1 || ia === -1) continue;
 
     if (especial) {
-      // Partido especial: el ganador ocupa la posición del perdedor
-      // Solo mueve si el ganador está detrás del perdedor en el ranking
+      // Partido especial: el ganador se convierte en el nuevo N°1
+      // El perdedor pasa al puesto que tenía el ganador antes del movimiento
       if (ganadorD) {
-        // Foguet (DESAFIANTE) gana a Navarro (ACEPTANTE)
-        // Foguet sube a donde está Navarro (posición más arriba = índice menor)
-        if (id > ia) {
-          players.splice(ia, 0, players.splice(id, 1)[0]);
-        } else {
-          // Ganador ya está arriba, igual lo ponemos en la posición del perdedor
-          players.splice(ia, 0, players.splice(id, 1)[0]);
-        }
+        // Foguet (DESAFIANTE) gana → va al puesto 0 (índice 0 = posición #1)
+        players.splice(0, 0, players.splice(id, 1)[0]);
       } else {
-        // ACEPTANTE gana
-        if (ia > id) {
-          players.splice(id, 0, players.splice(ia, 1)[0]);
-        } else {
-          players.splice(id, 0, players.splice(ia, 1)[0]);
-        }
+        // ACEPTANTE gana → va al puesto 0
+        players.splice(0, 0, players.splice(ia, 1)[0]);
       }
     } else {
       // Regla estándar par/impar
