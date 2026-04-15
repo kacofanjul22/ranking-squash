@@ -285,25 +285,20 @@ function calcRanking(jug, res) {
     if (id === -1 || ia === -1) continue;
 
     if (especial) {
-      // Partido especial: el ganador se convierte en el nuevo N°1
-      // El perdedor pasa al puesto que tenía el ganador antes del movimiento
-      if (ganadorD) {
-        // Foguet (DESAFIANTE) gana → va al puesto 0 (índice 0 = posición #1)
-        players.splice(0, 0, players.splice(id, 1)[0]);
-      } else {
-        // ACEPTANTE gana → va al puesto 0
-        players.splice(0, 0, players.splice(ia, 1)[0]);
-      }
+      // Partido especial: el ganador va directo al puesto #1
+      const ganIdx = ganadorD ? id : ia;
+      players.splice(0, 0, players.splice(ganIdx, 1)[0]);
     } else {
       // Regla estándar par/impar
       if (ganadorD) {
-        // par gana → sube 4 posiciones
+        // desafiante (par) gana → sube 4 posiciones
         const t = Math.max(0, id - 4);
         players.splice(t, 0, players.splice(id, 1)[0]);
       } else {
-        // par pierde → baja 1 posición
-        const t = Math.min(players.length - 1, id + 1);
-        players.splice(t, 0, players.splice(id, 1)[0]);
+        // desafiante (par) pierde → aceptante (impar) sube 1 posición
+        // IMPORTANTE: mover al ACEPTANTE (ia), no al desafiante
+        const t = Math.max(0, ia - 1);
+        players.splice(t, 0, players.splice(ia, 1)[0]);
       }
     }
   }
