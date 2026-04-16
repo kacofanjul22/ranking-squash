@@ -208,7 +208,6 @@
   .badge-c { background: #260d00; color: var(--sector-c); }
   .badge-d { background: #1a0026; color: var(--sector-d); }
   
-  /* VARIACION */
   .var-up { color: #4ade80; font-size: 0.75rem; font-weight: 600; }
   .var-down { color: #f87171; font-size: 0.75rem; font-weight: 600; }
   .var-same { color: var(--muted); font-size: 0.75rem; }
@@ -293,7 +292,22 @@
   .winner-mark { color: var(--accent); font-size: 0.75rem; margin-left: 4px; }
   .loser { color: var(--muted); }
 
-  /* LOADING / ERROR */
+  /* REGLAMENTO */
+  .rules-card {
+    background: var(--gray);
+    border-radius: 12px;
+    padding: 2rem;
+    border: 1px solid var(--gray3);
+    line-height: 1.8;
+  }
+  .rules-card h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    color: var(--accent);
+    letter-spacing: 2px;
+    margin-bottom: 1.5rem;
+  }
+
   .loading-msg, .error-msg {
     text-align: center;
     padding: 3rem;
@@ -367,18 +381,17 @@
 
   <div class="panel" id="panel-reglamento">
     <div class="rules-card">
-      <p style="color:var(--muted)">Reglamento oficial del torneo.</p>
+      <h2>Reglamento</h2>
+      <p style="color:var(--muted)">Reglamento oficial del torneo disponible en los canales de la asociación.</p>
     </div>
   </div>
 </main>
 
 <script>
-// --- CONFIGURACIÓN DIRECTA ---
 const SHEET_ID = '1w2nWgdB_ZBoA8EQhwf86ahNlE2O4dhQUVI7aUQRm76Y';
 const GID_RANKING    = '41624303';
 const GID_RESULTADOS = '0';
 
-// LISTA MANUAL PARA LA FECHA 2 (Sincronizada con tus nombres en MAYÚSCULAS)
 const RANKING_MANUAL = [
     "JAVIER FOGUET", "ROBERT BARRAQUERO", "MARCE NAVARRO", "FER GH", "JUAN C. ARGOTA",
     "GURY", "GABRIEL FLORES", "KECHU", "SERGIO JORRAT", "JOSE ANDRES",
@@ -402,6 +415,12 @@ const RANKING_MANUAL = [
 let rankingData = [];
 let resultadosData = [];
 let currentCategoria = 'todos';
+
+function cleanStr(str) {
+    return (str || "").toString().toUpperCase()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // Quitar acentos
+        .trim();
+}
 
 function parseCSV(text) {
   const lines = text.trim().split('\n');
@@ -427,16 +446,21 @@ async function loadRanking() {
     const text = await res.text();
     const rows = parseCSV(text);
     
-    // Procesamos datos de la planilla para obtener bombos y pos_inicial
+    // Identificar columnas por nombre del encabezado
+    const headers = rows[0].map(h => cleanStr(h));
+    const idxNombre = headers.indexOf("NOMBRE") !== -1 ? headers.indexOf("NOMBRE") : 1;
+    const idxBombo = headers.indexOf("BOMBO") !== -1 ? headers.indexOf("BOMBO") : 2;
+    const idxPosIni = headers.indexOf("POS_INICIAL") !== -1 ? headers.indexOf("POS_INICIAL") : 3;
+
     const planillaJugadores = rows.slice(1).map(r => ({
-      nombre: (r[1] || "").toUpperCase().trim(),
-      bombo: (r[2] || "B").toUpperCase().trim(),
-      pos_inicial: parseInt(r[3]) || 0
+      nombre: cleanStr(r[idxNombre]),
+      bombo: cleanStr(r[idxBombo]) || "B",
+      pos_inicial: parseInt(r[idxPosIni]) || 0
     }));
 
-    // Cruzamos la lista MANUAL con los datos de la planilla
     rankingData = RANKING_MANUAL.map((nombre, index) => {
-      const match = planillaJugadores.find(pj => pj.nombre === nombre);
+      const manualLimpio = cleanStr(nombre);
+      const match = planillaJugadores.find(pj => pj.nombre === manualLimpio);
       const posActual = index + 1;
       const posInicial = match ? match.pos_inicial : posActual;
       
@@ -450,7 +474,7 @@ async function loadRanking() {
 
     renderRanking();
   } catch (e) {
-    document.getElementById('ranking-content').innerHTML = `<div class="error-msg">Error de conexión con la planilla.</div>`;
+    console.error(e);
     setSyncError();
   }
 }
@@ -466,8 +490,8 @@ async function loadResultados() {
       if (!fecha) return null;
       return {
         fecha:      fecha,
-        desafiante: (row[1] || '').toUpperCase(),
-        aceptante:  (row[2] || '').toUpperCase(),
+        desafiante: cleanStr(row[1]),
+        aceptante:  cleanStr(row[2]),
         games_d:    row[3] !== undefined && row[3] !== '' ? row[3].toString() : null,
         games_a:    row[4] !== undefined && row[4] !== '' ? row[4].toString() : null,
       };
@@ -521,9 +545,7 @@ function populateFechaSelect() {
   const sel = document.getElementById('fecha-select');
   const fechas = [...new Set(resultadosData.map(r => r.fecha))].sort((a,b) => b-a);
   sel.innerHTML = fechas.map(f => `<option value="${f}">Fecha ${f}</option>`).join('');
-  if (fechas.length > 0) {
-      sel.value = fechas[0];
-  }
+  if (fechas.length > 0) sel.value = fechas[0];
 }
 
 function renderResultados() {
@@ -532,8 +554,8 @@ function renderResultados() {
   const container = document.getElementById('resultados-content');
   
   container.innerHTML = matches.map(m => {
-    const gd = m.games_d !== null ? parseInt(m.games_d) : null;
-    const ga = m.games_a !== null ? parseInt(m.games_a) : null;
+    const gd = parseInt(m.games_d);
+    const ga = parseInt(m.games_a);
     const hasScore = !isNaN(gd) && !isNaN(ga);
     const dWins = hasScore && gd > ga;
     const aWins = hasScore && ga > gd;
