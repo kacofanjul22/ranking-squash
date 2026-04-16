@@ -74,43 +74,25 @@ td{padding:9px 12px;vertical-align:middle;}
 .arr-d{width:0;height:0;border-left:4px solid transparent;border-right:4px solid transparent;border-top:6px solid var(--down);display:inline-block;}
 .dot-same{width:5px;height:5px;border-radius:50%;background:var(--muted);display:inline-block;}
 
-.fecha-selector{display:flex;align-items:center;gap:12px;margin-bottom:20px;}
-.fecha-selector label{font-size:13px;color:var(--muted);white-space:nowrap;}
-.fecha-select{background:var(--surface);border:1px solid var(--border2);border-radius:8px;color:var(--text);padding:8px 14px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;cursor:pointer;min-width:160px;}
-.fecha-select:focus{border-color:var(--accent);}
-.fecha-select option{background:#0b1117;}
-
-.resumen-fecha{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:16px;display:flex;gap:24px;flex-wrap:wrap;}
-.resumen-item{font-size:12px;color:var(--muted);}
-.resumen-item strong{color:var(--text);font-size:15px;display:block;margin-bottom:2px;}
-
 .partido{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:13px 16px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
-.partido.especial{border-color:rgba(192,132,252,.4);background:rgba(192,132,252,.04);}
-.partido.sancion-row{border-color:rgba(248,113,113,.4);background:rgba(248,113,113,.04);}
-.partido.pendiente-row{opacity:.6;}
-.p-left{flex:1;}
 .p-match{font-size:13px;font-weight:500;line-height:1.4;}
 .p-ganador{color:var(--accent);}
 .p-perdedor{color:var(--muted);}
 .p-result{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--text);text-align:right;white-space:nowrap;line-height:1;}
 .p-sub{font-size:11px;color:var(--muted);font-family:'DM Sans',sans-serif;display:block;text-align:right;margin-top:3px;}
-.p-pending{color:var(--warn);font-size:12px;white-space:nowrap;}
 .especial-tag{display:inline-block;font-size:10px;color:var(--ca);background:rgba(192,132,252,.12);padding:2px 8px;border-radius:8px;border:1px solid rgba(192,132,252,.25);margin-left:8px;vertical-align:middle;}
 .sancion-tag{display:inline-block;font-size:10px;color:var(--down);background:rgba(248,113,113,.12);padding:2px 8px;border-radius:8px;border:1px solid rgba(248,113,113,.25);margin-left:8px;vertical-align:middle;}
 
 .sec-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin:20px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--border);}
-
 .reg-wrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;}
 .reg-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:var(--accent);margin-bottom:16px;}
 .reg-item{padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;line-height:1.7;color:#b0c4d8;}
-.reg-item:last-child{border-bottom:none;}
 .reg-num{font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--accent);margin-right:8px;}
 
 @media(max-width:600px){
   .stats{grid-template-columns:1fr 1fr;}
   header{padding:0 12px;}
   .logo{font-size:20px;}
-  .resumen-fecha{gap:12px;}
 }
 </style>
 </head>
@@ -135,10 +117,7 @@ td{padding:9px 12px;vertical-align:middle;}
 
 <main>
   <div id="tab-ranking" class="tab-content active">
-    <div id="ranking-loader" class="loader">
-      <div class="spinner"></div>
-      <div class="loader-txt">Calculando ranking...</div>
-    </div>
+    <div id="ranking-loader" class="loader"><div class="spinner"></div><div class="loader-txt">Calculando ranking...</div></div>
     <div id="ranking-content" style="display:none">
       <div class="stats">
         <div class="stat"><div class="stat-label">Líder</div><div class="stat-val" id="stat-lider">—</div></div>
@@ -154,9 +133,7 @@ td{padding:9px 12px;vertical-align:middle;}
       </div>
       <div class="table-wrap">
         <table>
-          <thead><tr>
-            <th>#</th><th>Jugador</th><th>Bombo</th><th style="text-align:center">Variación</th>
-          </tr></thead>
+          <thead><tr><th>#</th><th>Jugador</th><th>Bombo</th><th style="text-align:center">Variación</th></tr></thead>
           <tbody id="ranking-tbody"></tbody>
         </table>
       </div>
@@ -164,10 +141,7 @@ td{padding:9px 12px;vertical-align:middle;}
   </div>
 
   <div id="tab-resultados" class="tab-content">
-    <div id="resultados-loader" class="loader">
-      <div class="spinner"></div>
-      <div class="loader-txt">Cargando resultados...</div>
-    </div>
+    <div id="resultados-loader" class="loader"><div class="spinner"></div><div class="loader-txt">Cargando resultados...</div></div>
     <div id="resultados-content" style="display:none">
       <div class="fecha-selector">
         <label>Ver fecha:</label>
@@ -181,19 +155,11 @@ td{padding:9px 12px;vertical-align:middle;}
   <div id="tab-reglamento" class="tab-content">
     <div class="reg-wrap">
       <div class="reg-title">Reglamento — Ranking x Desafíos 2026</div>
-      <div class="reg-item"><span class="reg-num">1</span>El Ranking se publicará en los canales de difusión de la asociación. [cite: 3]</div>
-      <div class="reg-item"><span class="reg-num">2</span>Los jugadores de ranking <strong>par</strong> deberán desafiar al de ranking <strong>impar</strong> ubicado 3 puestos más arriba. Ej: #12 debe desafiar a #9. [cite: 4, 5]</div>
-      <div class="reg-item"><span class="reg-num">3</span>Si el par <strong>gana</strong>: sube 4 puestos, el impar baja 4. Si el par <strong>pierde</strong>: baja 1 puesto, el impar sube 1. [cite: 6, 7, 8]</div>
-      <div class="reg-item"><span class="reg-num">4</span>Los desafíos se juegan en dos períodos mensuales: del 2 al 14, y del 16 al 30/31. [cite: 13, 14]</div>
-      <div class="reg-item"><span class="reg-num">5</span>El desafío implica la coordinación del encuentro (primeros 5 días). [cite: 15, 16]</div>
-      <div class="reg-item"><span class="reg-num">6</span>La comunicación del resultado deberá ser realizada por el par hasta el día 14 o el 30/31. [cite: 17]</div>
-      <div class="reg-item"><span class="reg-num">7</span>Los partidos se disputarán al mejor de 5 games. [cite: 18]</div>
-      <div class="reg-item"><span class="reg-num">8</span>El ranking anual va de abril hasta el 15 de noviembre. [cite: 19, 20]</div>
-      <div class="reg-item"><span class="reg-num">9</span>Cuota: $20.000 en abril, $12.000 meses siguientes. [cite: 22, 23]</div>
-      <div class="reg-item"><span class="reg-num">10</span>W.O. pasados los 15 minutos. [cite: 24]</div>
-      <div class="reg-item"><span class="reg-num">11</span>Sorteo dividido en bombos. [cite: 27, 28, 30, 31]</div>
-      <div class="reg-item"><span class="reg-num">12</span>Separación en 4 sectores: A, B, C y D. [cite: 33, 34]</div>
-      <div class="reg-item"><span class="reg-num">13</span>Derecho de ubicación para nuevos jugadores. [cite: 35]</div>
+      <div class="reg-item"><span class="reg-num">1</span>El Ranking se publicará en los canales de la asociación.</div>
+      <div class="reg-item"><span class="reg-num">2</span>Jugadores <strong>par</strong> desafían al <strong>impar</strong> 3 puestos arriba.</div>
+      <div class="reg-item"><span class="reg-num">3</span>Si el par <strong>gana</strong>: sube 4 y el impar baja 4. Si <strong>pierde</strong>: baja 1 y el impar sube 1.</div>
+      <div class="reg-item"><span class="reg-num">4</span>Desafíos en dos períodos mensuales: 2 al 14 y 16 al 30/31.</div>
+      <div class="reg-item"><span class="reg-num">5</span>Coordinación en los primeros 5 días.</div>
     </div>
   </div>
 </main>
@@ -203,9 +169,7 @@ const SHEET_ID = "1w2nWgdB_ZBoA8EQhwf86ahNlE2O4dhQUVI7aUQRm76Y";
 const GID_JUG  = "41624303";
 const GID_RES  = "0";
 
-function csvUrl(gid) {
-  return `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${gid}&cb=${Date.now()}`;
-}
+function csvUrl(gid) { return `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${gid}&cb=${Date.now()}`; }
 
 let jugadores = [];
 let resultados = [];
@@ -237,13 +201,11 @@ function parseCSV(text) {
 
 async function fetchCSV(gid) {
   const res = await fetch(csvUrl(gid));
-  if (!res.ok) throw new Error(`Error ${res.status}`);
   const text = await res.text();
   return parseCSV(text);
 }
 
 function calcRanking(jug, res) {
-  // 1. Cargar jugadores iniciales
   let players = jug
     .filter(j => j.NOMBRE && j.POS_INICIAL)
     .map(j => ({
@@ -258,7 +220,6 @@ function calcRanking(jug, res) {
     return players.findIndex(p => p.nombre.toLowerCase().trim() === n);
   }
 
-  // 2. Procesar resultados cronológicamente
   const ordered = [...res]
     .filter(r => r.DESAFIANTE && r.ACEPTANTE)
     .sort((a, b) => parseInt(a.FECHA || 0) - parseInt(b.FECHA || 0));
@@ -273,64 +234,47 @@ function calcRanking(jug, res) {
     const ga = parseInt(r.GAMES_A);
     const tieneRes = !isNaN(gd) && !isNaN(ga);
 
-    // --- LÓGICA DE SANCIÓN (Ambos bajan 1 puesto) ---
     if (nota === "SANCION") {
         const p1 = Math.min(id, ia);
         const p2 = Math.max(id, ia);
-        // Mover al de más abajo primero para no alterar el índice del de arriba
         if (p2 < players.length - 1) {
-            const temp = players.splice(p2, 1)[0];
-            players.splice(p2 + 1, 0, temp);
+            let item = players.splice(p2, 1)[0];
+            players.splice(p2 + 1, 0, item);
         }
         if (p1 < players.length - 1) {
-            const temp = players.splice(p1, 1)[0];
-            players.splice(p1 + 1, 0, temp);
+            let item = players.splice(p1, 1)[0];
+            players.splice(p1 + 1, 0, item);
         }
         continue;
     }
 
     if (!tieneRes) continue;
     const ganadorD = gd > ga;
+    const idxGanador = ganadorD ? id : ia;
+    const idxPerdedor = ganadorD ? ia : id;
 
-    // --- REGLA 3a: TOP (Intercambio de posiciones) ---
     if (nota === "TOP") {
-        const idxGanador = ganadorD ? id : ia;
-        const posMasAlta = Math.min(id, ia);
-        const pGanador = players.splice(idxGanador, 1)[0];
-        players.splice(posMasAlta, 0, pGanador);
-        continue;
-    }
-
-    // --- REGLA ESTÁNDAR (Puntos 3, 6, 7 y 8 del PDF) ---
-    if (ganadorD) {
-        // PAR GANA: Sube 4, IMPAR baja 4
-        const pPar = players.splice(id, 1)[0]; // Sacamos al par
-        const nuevaPosPar = Math.max(0, id - 4);
-        players.splice(nuevaPosPar, 0, pPar); // Lo insertamos 4 puestos arriba
-        
-        // El Impar ahora está en una nueva posición debido al desplazamiento anterior
-        const nuevoIdxImpar = getIdx(r.ACEPTANTE);
-        const pImpar = players.splice(nuevoIdxImpar, 1)[0];
-        const nuevaPosImpar = Math.min(players.length, nuevoIdxImpar + 4);
-        players.splice(nuevaPosImpar, 0, pImpar); // Lo insertamos 4 puestos abajo
+        const pMasAlta = Math.min(id, ia);
+        const ganadorObj = players.splice(idxGanador, 1)[0];
+        players.splice(pMasAlta, 0, ganadorObj);
+    } else if (nota === "ESPECIAL") {
+        players.splice(0, 0, players.splice(idxGanador, 1)[0]);
     } else {
-        // PAR PIERDE: Baja 1, IMPAR sube 1
-        const pPar = players.splice(id, 1)[0];
-        const nuevaPosPar = Math.min(players.length, id + 1);
-        players.splice(nuevaPosPar, 0, pPar);
-        
-        const nuevoIdxImpar = getIdx(r.ACEPTANTE);
-        const pImpar = players.splice(nuevoIdxImpar, 1)[0];
-        const nuevaPosImpar = Math.max(0, nuevoIdxImpar - 1);
-        players.splice(nuevaPosImpar, 0, pImpar);
+        // REGLA DUAL (Punto 3 del Reglamento)
+        const pDesafiante = players.splice(id, 1)[0];
+        const nuevaPosD = ganadorD ? Math.max(0, id - 4) : Math.min(players.length, id + 1);
+        players.splice(nuevaPosD, 0, pDesafiante);
+
+        // Volvemos a buscar al Aceptante porque los índices cambiaron
+        const nuevoIa = getIdx(r.ACEPTANTE);
+        const pAceptante = players.splice(nuevoIa, 1)[0];
+        const nuevaPosA = ganadorD ? Math.min(players.length, nuevoIa + 4) : Math.max(0, nuevoIa - 1);
+        players.splice(nuevaPosA, 0, pAceptante);
     }
   }
 
   return players.map((p, i) => ({
-    pos: i + 1,
-    nombre: p.nombre,
-    bombo: p.bombo,
-    var: p.pos_inicial - (i + 1)
+    pos: i + 1, nombre: p.nombre, bombo: p.bombo, var: p.pos_inicial - (i + 1)
   }));
 }
 
@@ -351,11 +295,7 @@ function renderRanking() {
 
     const tr = document.createElement("tr");
     if (!show) tr.classList.add("hidden-row");
-    tr.innerHTML = `
-      <td class="td-pos ${posCls}">${p.pos}</td>
-      <td class="td-name">${p.nombre}</td>
-      <td><span class="cat-pill ${catCls[p.bombo] || 'pill-b'}">${p.bombo}</span></td>
-      <td class="td-var">${varHtml}</td>`;
+    tr.innerHTML = `<td class="td-pos ${posCls}">${p.pos}</td><td class="td-name">${p.nombre}</td><td><span class="cat-pill ${catCls[p.bombo] || 'pill-b'}">${p.bombo}</span></td><td class="td-var">${varHtml}</td>`;
     tbody.appendChild(tr);
   });
 
@@ -394,98 +334,51 @@ function renderResultados() {
   if (fechas.length) {
     const ultima = fechas[fechas.length - 1];
     sel.value = ultima; mostrarFecha(ultima);
-  } else {
-    document.getElementById("partidos-list").innerHTML = `<p style="color:var(--muted);font-size:13px">No hay resultados cargados aún.</p>`;
   }
 }
 
-function tieneResultado(r) {
-  return r.GAMES_D !== "" && r.GAMES_A !== "" && !isNaN(parseInt(r.GAMES_D)) && !isNaN(parseInt(r.GAMES_A));
-}
+function tieneResultado(r) { return r.GAMES_D !== "" && r.GAMES_A !== "" && !isNaN(parseInt(r.GAMES_D)); }
 
 function mostrarFecha(fecha) {
   const partidos = resultados.filter(r => (r.FECHA || "").trim() === fecha);
-  const normJug = partidos.filter(r => !["ESPECIAL", "SANCION"].includes((r.NOTA||"").toUpperCase().trim()) && tieneResultado(r));
-  const normPend = partidos.filter(r => !["ESPECIAL", "SANCION"].includes((r.NOTA||"").toUpperCase().trim()) && !tieneResultado(r));
-  const especiales = partidos.filter(r => (r.NOTA||"").toUpperCase().trim() === "ESPECIAL");
-  const sanciones = partidos.filter(r => (r.NOTA||"").toUpperCase().trim() === "SANCION");
-
-  const total = partidos.length;
-  const jugados = normJug.length + especiales.filter(tieneResultado).length;
-  document.getElementById("resumen-box").innerHTML = `
-    <div class="resumen-fecha">
-      <div class="resumen-item"><strong>${total}</strong>partidos totales</div>
-      <div class="resumen-item"><strong>${jugados}</strong>jugados</div>
-      ${normPend.length > 0 ? `<div class="resumen-item"><strong style="color:var(--warn)">${normPend.length}</strong>pendientes</div>` : ""}
-    </div>`;
-
   let html = "";
-  normJug.forEach(r => html += partidoHtml(r, false, false));
-  if (especiales.length) {
-    html += `<div class="sec-label">Partidos especiales</div>`;
-    especiales.forEach(r => html += partidoHtml(r, true, false));
-  }
-  if (sanciones.length) {
-    html += `<div class="sec-label">Sanciones / Excepciones</div>`;
-    sanciones.forEach(r => html += partidoHtml(r, false, true));
-  }
-  if (normPend.length) {
-    html += `<div class="sec-label">Pendientes</div>`;
-    normPend.forEach(r => html += partidoHtml(r, false, false));
-  }
-  document.getElementById("partidos-list").innerHTML = html || `<p style="color:var(--muted);font-size:13px">Sin partidos.</p>`;
-}
-
-function partidoHtml(r, esEsp, esSanc) {
-  const gd = parseInt(r.GAMES_D);
-  const ga = parseInt(r.GAMES_A);
-  const ok = tieneResultado(r);
-  let matchHtml, resHtml;
-
-  if (ok) {
-    const ganadorD = gd > ga;
-    const ganNom = ganadorD ? r.DESAFIANTE : r.ACEPTANTE;
-    const perNom = ganadorD ? r.ACEPTANTE : r.DESAFIANTE;
-    matchHtml = `<span class="p-ganador">${ganNom}</span><span style="color:var(--muted)"> vs </span><span class="p-perdedor">${perNom}</span>`;
-    resHtml = `<div class="p-result">${Math.max(gd,ga)}–${Math.min(gd,ga)}<span class="p-sub">games</span></div>`;
-  } else {
-    matchHtml = `${r.DESAFIANTE}<span style="color:var(--muted)"> vs </span>${r.ACEPTANTE}`;
-    resHtml = esSanc ? `<div class="p-pending" style="color:var(--down)">sanción</div>` : `<div class="p-pending">pendiente</div>`;
-  }
-
-  if (esEsp) matchHtml += `<span class="especial-tag">especial</span>`;
-  if (esSanc) matchHtml += `<span class="sancion-tag">sanción</span>`;
-
-  return `<div class="partido${esEsp ? " especial" : ""}${esSanc ? " sancion-row" : ""}${!ok && !esSanc ? " pendiente-row" : ""}">
-    <div class="p-left"><div class="p-match">${matchHtml}</div></div>
-    <div>${resHtml}</div>
-  </div>`;
-}
-
-function setSync(state, txt) {
-  document.getElementById("sync-dot").className = "sync-dot " + state;
-  document.getElementById("sync-txt").textContent = txt;
+  partidos.forEach(r => {
+    const ok = tieneResultado(r);
+    const esEsp = (r.NOTA||"").toUpperCase() === "ESPECIAL";
+    const esSanc = (r.NOTA||"").toUpperCase() === "SANCION";
+    let matchHtml = `${r.DESAFIANTE} vs ${r.ACEPTANTE}`;
+    if (ok) {
+        const ganD = parseInt(r.GAMES_D) > parseInt(r.GAMES_A);
+        matchHtml = `<span class="p-ganador">${ganD ? r.DESAFIANTE : r.ACEPTANTE}</span> vs <span class="p-perdedor">${ganD ? r.ACEPTANTE : r.DESAFIANTE}</span>`;
+    }
+    if (esEsp) matchHtml += `<span class="especial-tag">especial</span>`;
+    if (esSanc) matchHtml += `<span class="sancion-tag">sanción</span>`;
+    
+    html += `<div class="partido">
+      <div class="p-match">${matchHtml}</div>
+      <div class="p-result">${ok ? Math.max(r.GAMES_D, r.GAMES_A)+'-'+Math.min(r.GAMES_D, r.GAMES_A) : 'pend'}</div>
+    </div>`;
+  });
+  document.getElementById("partidos-list").innerHTML = html;
 }
 
 async function loadAll() {
   setSync("loading", "Sincronizando...");
   try {
     [jugadores, resultados] = await Promise.all([fetchCSV(GID_JUG), fetchCSV(GID_RES)]);
-    jugadores = jugadores.filter(j => j.NOMBRE && j.POS_INICIAL);
-    resultados = resultados.filter(r => r.DESAFIANTE && r.ACEPTANTE);
     rankingCalc = calcRanking(jugadores, resultados);
-
     document.getElementById("ranking-loader").style.display = "none";
     document.getElementById("resultados-loader").style.display = "none";
     document.getElementById("ranking-content").style.display = "block";
     document.getElementById("resultados-content").style.display = "block";
-
     renderRanking(); renderResultados();
-    setSync("ok", `Actualizado ${new Date().toLocaleTimeString("es-AR", { hour:"2-digit", minute:"2-digit" })}`);
-  } catch (e) {
-    setSync("err", "Error de carga");
-    console.error(e);
-  }
+    setSync("ok", "Actualizado");
+  } catch (e) { setSync("err", "Error"); }
+}
+
+function setSync(state, txt) {
+  document.getElementById("sync-dot").className = "sync-dot " + state;
+  document.getElementById("sync-txt").textContent = txt;
 }
 
 loadAll();
