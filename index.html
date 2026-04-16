@@ -362,11 +362,11 @@
   <!-- RANKING PANEL -->
   <div class="panel active" id="panel-ranking">
     <div class="sector-tabs" id="sector-tabs">
-      <button class="sector-btn active-a" onclick="showSector('todos', this)">Todos</button>
-      <button class="sector-btn" onclick="showSector('A', this)">Sector A</button>
-      <button class="sector-btn" onclick="showSector('B', this)">Sector B</button>
-      <button class="sector-btn" onclick="showSector('C', this)">Sector C</button>
-      <button class="sector-btn" onclick="showSector('D', this)">Sector D</button>
+      <button class="sector-btn active-a" onclick="showCategoria('todos', this)">Todos</button>
+      <button class="sector-btn" onclick="showCategoria('A', this)">Categoría A</button>
+      <button class="sector-btn" onclick="showCategoria('B', this)">Categoría B</button>
+      <button class="sector-btn" onclick="showCategoria('C', this)">Categoría C</button>
+      <button class="sector-btn" onclick="showCategoria('D', this)">Categoría D</button>
     </div>
     <div class="ranking-table-wrap">
       <div id="ranking-content" class="loading-msg">Cargando ranking...</div>
@@ -402,7 +402,7 @@
         <li>El ranking va de <strong>abril al 15 de noviembre</strong>. Al finalizar se realiza el Torneo Master de fin de año.</li>
         <li>Se cobra <strong>$20.000</strong> el primer mes (abril) y <strong>$12.000</strong> los meses posteriores.</li>
         <li>Se aplica <strong>W.O.</strong> pasados 15 minutos de la hora fijada.</li>
-        <li>El ranking está separado en <strong>4 sectores: A, B, C y D</strong>. Los mejores clasificados de cada sector participarán en el Torneo Master de fin de año.</li>
+        <li>El ranking está separado en <strong>4 categorías: A, B, C y D</strong>. Los mejores clasificados de cada categoría participarán en el Torneo Master de fin de año.</li>
         <li>La organización se reserva el derecho de ubicar a nuevos jugadores en la categoría o posición que considere pertinente.</li>
       </ol>
     </div>
@@ -410,33 +410,93 @@
 </main>
 
 <script>
-const SHEET_ID = '1w2nWgdB_ZBoA8EQhwf86ahNlE2O4dhQUVI7aUQRm76Y';
-const API_KEY = 'AIzaSyD-9tSrke72NuVs5IXnHtf7tRLPbf4NlSY';
+// Published Google Sheets base URL (CSV export per sheet via gid)
+const BASE_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTJt7igbquOBdwX_4fRLxjuScNmkbskfHm7DrzoDYr-0ew12qnfAw8wiI1OlHTCe6GFszKF9eqnUiXD/pub';
+
+// Known gids — gid=0 is the first sheet (RESULTADOS), RANKING is the second
+// These are detected automatically below; fallback values here
+let GID_RESULTADOS = 0;
+let GID_RANKING    = null;
 
 let rankingData = [];
 let resultadosData = [];
-let currentSector = 'todos';
+let currentCategoria = 'todos';
 
-async function fetchSheet(range) {
-  const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(range)}?key=${API_KEY}`;
+function parseCSV(text) {
+  const lines = text.trim().split('\n');
+  return lines.map(line => {
+    const cols = [];
+    let cur = '', inQ = false;
+    for (let i = 0; i < line.length; i++) {
+      const c = line[i];
+      if (c === '"') { inQ = !inQ; }
+      else if (c === ',' && !inQ) { cols.push(cur.trim()); cur = ''; }
+      else { cur += c; }
+    }
+    cols.push(cur.trim());
+    return cols;
+  });
+}
+
+async function fetchCSV(gid) {
+  const url = `${BASE_URL}?gid=${gid}&single=true&output=csv`;
   const res = await fetch(url);
-  if (!res.ok) throw new Error('Error al cargar datos');
-  const data = await res.json();
-  return data.values || [];
+  if (!res.ok) throw new Error('HTTP ' + res.status);
+  const text = await res.text();
+  return parseCSV(text);
+}
+
+// Auto-detect sheet gids from the pubhtml index page
+async function detectGids() {
+  try {
+    const res = await fetch(`${BASE_URL}html`);
+    const html = await res.text();
+    // Find sheet links like #gid=NNNN with their labels
+    const matches = [...html.matchAll(/gid=(\d+)[^"]*"[^>]*>([^<]+)</g)];
+    for (const m of matches) {
+      const gid = m[1];
+      const label = m[2].trim().toUpperCase();
+      if (label.includes('RESULT')) GID_RESULTADOS = gid;
+      if (label.includes('RANKING')) GID_RANKING = gid;
+    }
+    // Fallback: try sheet nav li elements
+    if (!GID_RANKING) {
+      const nav = [...html.matchAll(/href="[^"]*gid=(\d+)[^"]*"[^>]*>([^<]+)</g)];
+      for (const m of nav) {
+        const label = m[2].trim().toUpperCase();
+        if (label.includes('RANKING')) GID_RANKING = m[1];
+        if (label.includes('RESULT')) GID_RESULTADOS = m[1];
+      }
+    }
+  } catch(e) { /* use defaults */ }
 }
 
 async function loadRanking() {
+  if (!GID_RANKING) {
+    // Try gid=1 and gid=2 as fallback candidates
+    for (const gid of ['1','2','3','4']) {
+      try {
+        const rows = await fetchCSV(gid);
+        if (rows.length > 0) {
+          const header = (rows[0] || []).join(',').toUpperCase();
+          if (header.includes('NOMBRE') || header.includes('JUGADOR') || header.includes('POS')) {
+            GID_RANKING = gid;
+            break;
+          }
+        }
+      } catch(e) {}
+    }
+  }
   try {
-    const values = await fetchSheet('RANKING!A:D');
+    const rows = await fetchCSV(GID_RANKING || '1');
     rankingData = [];
-    values.forEach((row, i) => {
-      if (i === 0) return;
+    rows.forEach((row, i) => {
+      if (i === 0) return; // header
       if (!row[0] && !row[1]) return;
       rankingData.push({
-        pos: row[0] || '',
-        nombre: row[1] || '',
-        sector: (row[2] || '').toString().trim().toUpperCase(),
-        extra: row[3] || ''
+        pos:       row[0] || '',
+        nombre:    row[1] || '',
+        categoria: (row[2] || '').toString().trim().toUpperCase(),
       });
     });
     renderRanking();
@@ -444,7 +504,7 @@ async function loadRanking() {
     document.getElementById('ranking-content').innerHTML = `
       <div class="error-msg">
         No se pudo cargar el ranking.<br>
-        <small style="display:block;margin-top:8px;color:#666;">Asegurate de tener una pestaña llamada "RANKING" en la planilla con columnas: Posición, Nombre, Sector</small>
+        <small style="display:block;margin-top:8px;color:#666;">Error: ${e.message}</small>
       </div>`;
     setSyncError();
   }
@@ -452,26 +512,25 @@ async function loadRanking() {
 
 async function loadResultados() {
   try {
-    const values = await fetchSheet('RESULTADOS!A:E');
+    const rows = await fetchCSV(GID_RESULTADOS);
     resultadosData = [];
-    values.forEach((row, i) => {
-      if (i === 0) return;
-      if (!row[0] && !row[1]) return;
+    rows.forEach((row, i) => {
+      if (i === 0) return; // header: FECHA, DESAFIANTE, ACEPTANTE, GAMES_D, GAMES_A
       const fecha = row[0] ? row[0].toString().trim() : '';
       if (!fecha) return;
       resultadosData.push({
-        fecha: fecha,
+        fecha:      fecha,
         desafiante: row[1] || '',
-        aceptante: row[2] || '',
-        games_d: row[3] !== undefined && row[3] !== '' ? row[3].toString() : null,
-        games_a: row[4] !== undefined && row[4] !== '' ? row[4].toString() : null,
+        aceptante:  row[2] || '',
+        games_d:    row[3] !== undefined && row[3] !== '' ? row[3].toString() : null,
+        games_a:    row[4] !== undefined && row[4] !== '' ? row[4].toString() : null,
       });
     });
     populateFechaSelect();
     renderResultados();
   } catch (e) {
     document.getElementById('resultados-content').innerHTML =
-      `<div class="error-msg">No se pudieron cargar los resultados.</div>`;
+      `<div class="error-msg">No se pudieron cargar los resultados. Error: ${e.message}</div>`;
     setSyncError();
   }
 }
@@ -499,18 +558,18 @@ function renderResultados() {
   container.innerHTML = matches.map(m => {
     const gd = m.games_d !== null ? parseInt(m.games_d) : null;
     const ga = m.games_a !== null ? parseInt(m.games_a) : null;
-    const haScore = gd !== null && ga !== null && !(gd === 0 && ga === 0);
-    const dWins = haScore && gd > ga;
-    const aWins = haScore && ga > gd;
-    const scoreHTML = haScore
+    const hasScore = gd !== null && ga !== null && (gd > 0 || ga > 0);
+    const dWins = hasScore && gd > ga;
+    const aWins = hasScore && ga > gd;
+    const scoreHTML = hasScore
       ? `<div class="match-score">${gd}&ndash;${ga}</div>`
       : `<div class="match-score pending">Pendiente</div>`;
     return `
       <div class="match-card">
         <div class="match-players">
-          <span class="player-pill ${dWins ? '' : aWins ? 'loser' : ''}">${m.desafiante || '—'}${dWins ? '<span class="winner-mark">✓</span>' : ''}</span>
+          <span class="player-pill ${aWins ? 'loser' : ''}">${m.desafiante || '—'}${dWins ? '<span class="winner-mark">✓</span>' : ''}</span>
           <span class="vs-sep">VS</span>
-          <span class="player-pill ${aWins ? '' : dWins ? 'loser' : ''}">${m.aceptante || '—'}${aWins ? '<span class="winner-mark">✓</span>' : ''}</span>
+          <span class="player-pill ${dWins ? 'loser' : ''}">${m.aceptante || '—'}${aWins ? '<span class="winner-mark">✓</span>' : ''}</span>
         </div>
         ${scoreHTML}
       </div>`;
@@ -519,21 +578,21 @@ function renderResultados() {
 
 function renderRanking() {
   const container = document.getElementById('ranking-content');
-  const filtered = currentSector === 'todos'
+  const filtered = currentCategoria === 'todos'
     ? rankingData
-    : rankingData.filter(r => r.sector === currentSector);
+    : rankingData.filter(r => r.categoria === currentCategoria);
 
   if (filtered.length === 0) {
-    container.innerHTML = `<div class="loading-msg">Sin jugadores en este sector.</div>`;
+    container.innerHTML = `<div class="loading-msg">Sin jugadores en esta categoría.</div>`;
     return;
   }
 
   const rows = filtered.map(p => {
     const posNum = parseInt(p.pos);
     const posClass = posNum <= 3 ? 'pos-top' : '';
-    const sectorColor = p.sector;
-    const badgeClass = sectorColor ? `badge-${sectorColor.toLowerCase()}` : '';
-    const badgeHTML = p.sector ? `<span class="sector-badge ${badgeClass}">${p.sector}</span>` : '';
+    const cat = p.categoria;
+    const badgeClass = cat ? `badge-${cat.toLowerCase()}` : '';
+    const badgeHTML = cat ? `<span class="sector-badge ${badgeClass}">${cat}</span>` : '';
     return `
       <tr>
         <td class="pos-cell ${posClass}">${p.pos}</td>
@@ -548,20 +607,18 @@ function renderRanking() {
         <tr>
           <th style="text-align:right;padding-right:1rem">#</th>
           <th>Jugador</th>
-          <th>Sector</th>
+          <th>Categoría</th>
         </tr>
       </thead>
       <tbody>${rows}</tbody>
     </table>`;
 }
 
-function showSector(sector, btn) {
-  currentSector = sector;
-  document.querySelectorAll('.sector-btn').forEach(b => {
-    b.className = 'sector-btn';
-  });
-  if (sector === 'todos') btn.className = 'sector-btn active-a';
-  else btn.className = `sector-btn active-${sector.toLowerCase()}`;
+function showCategoria(cat, btn) {
+  currentCategoria = cat;
+  document.querySelectorAll('.sector-btn').forEach(b => { b.className = 'sector-btn'; });
+  if (cat === 'todos') btn.className = 'sector-btn active-a';
+  else btn.className = `sector-btn active-${cat.toLowerCase()}`;
   renderRanking();
 }
 
@@ -584,6 +641,7 @@ function setSyncOk() {
 }
 
 async function loadAll() {
+  await detectGids();
   await Promise.all([loadRanking(), loadResultados()]);
   setSyncOk();
 }
