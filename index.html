@@ -243,6 +243,7 @@ async function fetchCSV(gid) {
 }
 
 function calcRanking(jug, res) {
+  // 1. Cargar jugadores iniciales
   let players = jug
     .filter(j => j.NOMBRE && j.POS_INICIAL)
     .map(j => ({
@@ -257,6 +258,7 @@ function calcRanking(jug, res) {
     return players.findIndex(p => p.nombre.toLowerCase().trim() === n);
   }
 
+  // 2. Procesar resultados cronológicamente
   const ordered = [...res]
     .filter(r => r.DESAFIANTE && r.ACEPTANTE)
     .sort((a, b) => parseInt(a.FECHA || 0) - parseInt(b.FECHA || 0));
@@ -271,37 +273,56 @@ function calcRanking(jug, res) {
     const ga = parseInt(r.GAMES_A);
     const tieneRes = !isNaN(gd) && !isNaN(ga);
 
+    // --- LÓGICA DE SANCIÓN (Ambos bajan 1 puesto) ---
     if (nota === "SANCION") {
         const p1 = Math.min(id, ia);
         const p2 = Math.max(id, ia);
+        // Mover al de más abajo primero para no alterar el índice del de arriba
         if (p2 < players.length - 1) {
-            let item = players.splice(p2, 1)[0];
-            players.splice(p2 + 1, 0, item);
+            const temp = players.splice(p2, 1)[0];
+            players.splice(p2 + 1, 0, temp);
         }
         if (p1 < players.length - 1) {
-            let item = players.splice(p1, 1)[0];
-            players.splice(p1 + 1, 0, item);
+            const temp = players.splice(p1, 1)[0];
+            players.splice(p1 + 1, 0, temp);
         }
         continue;
     }
 
     if (!tieneRes) continue;
     const ganadorD = gd > ga;
-    const idxGanador = ganadorD ? id : ia;
 
+    // --- REGLA 3a: TOP (Intercambio de posiciones) ---
     if (nota === "TOP") {
-        const topPos = Math.min(id, ia);
-        players.splice(topPos, 0, players.splice(idxGanador, 1)[0]);
-    } else if (nota === "ESPECIAL") {
-        players.splice(0, 0, players.splice(idxGanador, 1)[0]);
+        const idxGanador = ganadorD ? id : ia;
+        const posMasAlta = Math.min(id, ia);
+        const pGanador = players.splice(idxGanador, 1)[0];
+        players.splice(posMasAlta, 0, pGanador);
+        continue;
+    }
+
+    // --- REGLA ESTÁNDAR (Puntos 3, 6, 7 y 8 del PDF) ---
+    if (ganadorD) {
+        // PAR GANA: Sube 4, IMPAR baja 4
+        const pPar = players.splice(id, 1)[0]; // Sacamos al par
+        const nuevaPosPar = Math.max(0, id - 4);
+        players.splice(nuevaPosPar, 0, pPar); // Lo insertamos 4 puestos arriba
+        
+        // El Impar ahora está en una nueva posición debido al desplazamiento anterior
+        const nuevoIdxImpar = getIdx(r.ACEPTANTE);
+        const pImpar = players.splice(nuevoIdxImpar, 1)[0];
+        const nuevaPosImpar = Math.min(players.length, nuevoIdxImpar + 4);
+        players.splice(nuevaPosImpar, 0, pImpar); // Lo insertamos 4 puestos abajo
     } else {
-        if (ganadorD) {
-            const t = Math.max(0, id - 4);
-            players.splice(t, 0, players.splice(id, 1)[0]);
-        } else {
-            const t = Math.max(0, ia - 1);
-            players.splice(t, 0, players.splice(ia, 1)[0]);
-        }
+        // PAR PIERDE: Baja 1, IMPAR sube 1
+        const pPar = players.splice(id, 1)[0];
+        const nuevaPosPar = Math.min(players.length, id + 1);
+        players.splice(nuevaPosPar, 0, pPar);
+        
+        const nuevoIdxImpar = getIdx(r.ACEPTANTE);
+        const pImpar = players.splice(nuevoIdxImpar, 1)[0];
+        const nuevaPosImpar = Math.max(0, nuevoIdxImpar - 1);
+        players.splice(nuevaPosImpar, 0, pImpar);
     }
   }
 
