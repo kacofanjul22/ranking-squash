@@ -207,6 +207,11 @@
   .badge-b { background: #001e26; color: var(--sector-b); }
   .badge-c { background: #260d00; color: var(--sector-c); }
   .badge-d { background: #1a0026; color: var(--sector-d); }
+  
+  /* VARIACION */
+  .var-up { color: #4ade80; font-size: 0.75rem; font-weight: 600; }
+  .var-down { color: #f87171; font-size: 0.75rem; font-weight: 600; }
+  .var-same { color: var(--muted); font-size: 0.75rem; }
 
   /* RESULTS */
   .fecha-select-wrap {
@@ -288,30 +293,6 @@
   .winner-mark { color: var(--accent); font-size: 0.75rem; margin-left: 4px; }
   .loser { color: var(--muted); }
 
-  /* REGLAMENTO */
-  .rules-card {
-    background: var(--gray);
-    border-radius: 12px;
-    padding: 2rem;
-    border: 1px solid var(--gray3);
-    line-height: 1.8;
-  }
-  .rules-card h2 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.6rem;
-    color: var(--accent);
-    letter-spacing: 2px;
-    margin-bottom: 1.5rem;
-  }
-  .rules-card ol { padding-left: 1.2rem; }
-  .rules-card li {
-    font-size: 0.92rem;
-    color: #ccc;
-    margin-bottom: 1rem;
-    padding-left: 0.5rem;
-  }
-  .rules-card li strong { color: var(--white); }
-
   /* LOADING / ERROR */
   .loading-msg, .error-msg {
     text-align: center;
@@ -359,7 +340,6 @@
 </nav>
 
 <main>
-  <!-- RANKING PANEL -->
   <div class="panel active" id="panel-ranking">
     <div class="sector-tabs" id="sector-tabs">
       <button class="sector-btn active-a" onclick="showCategoria('todos', this)">Todos</button>
@@ -373,7 +353,6 @@
     </div>
   </div>
 
-  <!-- RESULTADOS PANEL -->
   <div class="panel" id="panel-resultados">
     <div class="fecha-select-wrap">
       <label>Fecha</label>
@@ -386,37 +365,39 @@
     </div>
   </div>
 
-  <!-- REGLAMENTO PANEL -->
   <div class="panel" id="panel-reglamento">
     <div class="rules-card">
-      <h2>Reglamento</h2>
-      <ol>
-        <li>El Ranking se publicará en los canales de difusión de la asociación.</li>
-        <li>Los jugadores de ranking <strong>"par"</strong> deberán desafiar al de ranking <strong>"impar"</strong> ubicado 3 puestos más arriba. El impar debe aceptarlo.</li>
-        <li>Si el <strong>#par pierde</strong> baja 1 posición. Si el <strong>#par gana</strong> sube 4 puestos. Si el <strong>#impar pierde</strong> baja 4 posiciones y si gana sube 1.<br><em>Ej: si #10 desafía a #7; si #10 pierde → pasa a #11 (y #7 a #6). Si #10 gana → pasa a #6 (y #7 a #11).</em></li>
-        <li><strong>Excepciones:</strong> a) El #4 desafía al #2; el ganador desafía al #1. b) Si el último jugador es impar, desafía al ubicado 2 puestos arriba. c) Si el último es par, el penúltimo gana sin jugar.</li>
-        <li>Los desafíos se coordinan y juegan en <strong>dos períodos mensuales</strong>: del día 2 al 14, y del 16 al 30/31. Entre ambos habrá 2 días de actualización del ranking.</li>
-        <li>El desafío implica la <strong>coordinación</strong> (primeros 5 días); el partido se juega dentro del período del punto 4.</li>
-        <li>La comunicación del resultado la realiza el <strong>par</strong> hasta el día 14 o 30/31 de cada período.</li>
-        <li>Los partidos se disputarán al <strong>mejor de 5 games</strong>.</li>
-        <li>El ranking va de <strong>abril al 15 de noviembre</strong>. Al finalizar se realiza el Torneo Master de fin de año.</li>
-        <li>Se cobra <strong>$20.000</strong> el primer mes (abril) y <strong>$12.000</strong> los meses posteriores.</li>
-        <li>Se aplica <strong>W.O.</strong> pasados 15 minutos de la hora fijada.</li>
-        <li>El ranking está separado en <strong>4 categorías: A, B, C y D</strong>. Los mejores clasificados de cada categoría participarán en el Torneo Master de fin de año.</li>
-        <li>La organización se reserva el derecho de ubicar a nuevos jugadores en la categoría o posición que considere pertinente.</li>
-      </ol>
+      <p style="color:var(--muted)">Reglamento oficial del torneo.</p>
     </div>
   </div>
 </main>
 
 <script>
-// Published Google Sheets base URL (CSV export per sheet via gid)
-const BASE_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTJt7igbquOBdwX_4fRLxjuScNmkbskfHm7DrzoDYr-0ew12qnfAw8wiI1OlHTCe6GFszKF9eqnUiXD/pub';
+// --- CONFIGURACIÓN DIRECTA ---
+const SHEET_ID = '1w2nWgdB_ZBoA8EQhwf86ahNlE2O4dhQUVI7aUQRm76Y';
+const GID_RANKING    = '41624303';
+const GID_RESULTADOS = '0';
 
-// Known gids — gid=0 is the first sheet (RESULTADOS), RANKING is the second
-// These are detected automatically below; fallback values here
-let GID_RESULTADOS = 0;
-let GID_RANKING    = null;
+// LISTA MANUAL PARA LA FECHA 2 (Sincronizada con tus nombres en MAYÚSCULAS)
+const RANKING_MANUAL = [
+    "JAVIER FOGUET", "ROBERT BARRAQUERO", "MARCE NAVARRO", "FER GH", "JUAN C. ARGOTA",
+    "GURY", "GABRIEL FLORES", "KECHU", "SERGIO JORRAT", "JOSE ANDRES",
+    "MOSELE", "FABRI", "TURKO NAZAR", "FER MARTINEZ", "MARIANO PARDO",
+    "LOI", "CHINO MONTERO", "LUIS B.", "CHINO Z", "FEDE STAFF", "PACHI ARGOTA",
+    "RAUL ALBESA", "PONDAL", "TOMI G", "JAURETCHE", "CATU", "DIOSQUE",
+    "PAJARITO", "MARANGONI", "ISCHUCK LUCAS", "JUAN PASTERIS", "TANQUE",
+    "MELLACE MAXI", "MARCHESE", "VARELA", "ARAÑA", "TIZI", "BERNASCONI",
+    "MARITO ELIAS", "BAUTI G", "BENEJAM", "JUAN M ARGOTA", "MONCHO GALLARDO",
+    "SARACHO", "ABUIN", "CLO", "MUGE", "ANA INES",
+    "TORRES MATIAS", "GOLDEN", "HERNAN HONORATO", "SOLE", "CUETO", "LUIS ALLIER",
+    "EMI PEREYRA", "FANJUL QUEEN", "CUCHU GUIUDICE", "ALFRED BARBERIS", "MARION",
+    "RULO AZARESTKY", "JUAMPI SALOMON", "METRALLETA", "SIL RE", "JP",
+    "LUIS MARTINEZ M.", "VIR JAIRALA", "AGUS", "LEANDRO SUAREZ", "FERRI",
+    "BRUNO VILLAREAL", "MANUELA", "DANI LICUDIS", "CHURRO", "AIME",
+    "MELLI LEA", "FEDE RODA", "VANE SILVERA", "NEGRO LEDESMA", "GI SALOMON",
+    "NACHO MALMIERCA", "SANDOVAL", "CECI CORDOBA", "VIVI BELMONT", "CONI",
+    "DENIS", "MELI", "LUCIANA GUIUDICE"
+];
 
 let rankingData = [];
 let resultadosData = [];
@@ -438,142 +419,65 @@ function parseCSV(text) {
   });
 }
 
-async function fetchCSV(gid) {
-  const url = `${BASE_URL}?gid=${gid}&single=true&output=csv`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error('HTTP ' + res.status);
-  const text = await res.text();
-  return parseCSV(text);
-}
-
-// Auto-detect sheet gids from the pubhtml index page
-async function detectGids() {
-  try {
-    const res = await fetch(`${BASE_URL}html`);
-    const html = await res.text();
-    // Find sheet links like #gid=NNNN with their labels
-    const matches = [...html.matchAll(/gid=(\d+)[^"]*"[^>]*>([^<]+)</g)];
-    for (const m of matches) {
-      const gid = m[1];
-      const label = m[2].trim().toUpperCase();
-      if (label.includes('RESULT')) GID_RESULTADOS = gid;
-      if (label.includes('RANKING')) GID_RANKING = gid;
-    }
-    // Fallback: try sheet nav li elements
-    if (!GID_RANKING) {
-      const nav = [...html.matchAll(/href="[^"]*gid=(\d+)[^"]*"[^>]*>([^<]+)</g)];
-      for (const m of nav) {
-        const label = m[2].trim().toUpperCase();
-        if (label.includes('RANKING')) GID_RANKING = m[1];
-        if (label.includes('RESULT')) GID_RESULTADOS = m[1];
-      }
-    }
-  } catch(e) { /* use defaults */ }
-}
+const getCsvUrl = (gid) => `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${gid}&cb=${Date.now()}`;
 
 async function loadRanking() {
-  if (!GID_RANKING) {
-    // Try gid=1 and gid=2 as fallback candidates
-    for (const gid of ['1','2','3','4']) {
-      try {
-        const rows = await fetchCSV(gid);
-        if (rows.length > 0) {
-          const header = (rows[0] || []).join(',').toUpperCase();
-          if (header.includes('NOMBRE') || header.includes('JUGADOR') || header.includes('POS')) {
-            GID_RANKING = gid;
-            break;
-          }
-        }
-      } catch(e) {}
-    }
-  }
   try {
-    const rows = await fetchCSV(GID_RANKING || '1');
-    rankingData = [];
-    rows.forEach((row, i) => {
-      if (i === 0) return; // header
-      if (!row[0] && !row[1]) return;
-      rankingData.push({
-        pos:       row[0] || '',
-        nombre:    row[1] || '',
-        categoria: (row[2] || '').toString().trim().toUpperCase(),
-      });
+    const res = await fetch(getCsvUrl(GID_RANKING));
+    const text = await res.text();
+    const rows = parseCSV(text);
+    
+    // Procesamos datos de la planilla para obtener bombos y pos_inicial
+    const planillaJugadores = rows.slice(1).map(r => ({
+      nombre: (r[1] || "").toUpperCase().trim(),
+      bombo: (r[2] || "B").toUpperCase().trim(),
+      pos_inicial: parseInt(r[3]) || 0
+    }));
+
+    // Cruzamos la lista MANUAL con los datos de la planilla
+    rankingData = RANKING_MANUAL.map((nombre, index) => {
+      const match = planillaJugadores.find(pj => pj.nombre === nombre);
+      const posActual = index + 1;
+      const posInicial = match ? match.pos_inicial : posActual;
+      
+      return {
+        pos: posActual,
+        nombre: nombre,
+        categoria: match ? match.bombo : "B",
+        variacion: posInicial - posActual
+      };
     });
+
     renderRanking();
   } catch (e) {
-    document.getElementById('ranking-content').innerHTML = `
-      <div class="error-msg">
-        No se pudo cargar el ranking.<br>
-        <small style="display:block;margin-top:8px;color:#666;">Error: ${e.message}</small>
-      </div>`;
+    document.getElementById('ranking-content').innerHTML = `<div class="error-msg">Error de conexión con la planilla.</div>`;
     setSyncError();
   }
 }
 
 async function loadResultados() {
   try {
-    const rows = await fetchCSV(GID_RESULTADOS);
-    resultadosData = [];
-    rows.forEach((row, i) => {
-      if (i === 0) return; // header: FECHA, DESAFIANTE, ACEPTANTE, GAMES_D, GAMES_A
+    const res = await fetch(getCsvUrl(GID_RESULTADOS));
+    const text = await res.text();
+    const rows = parseCSV(text);
+    
+    resultadosData = rows.slice(1).map(row => {
       const fecha = row[0] ? row[0].toString().trim() : '';
-      if (!fecha) return;
-      resultadosData.push({
+      if (!fecha) return null;
+      return {
         fecha:      fecha,
-        desafiante: row[1] || '',
-        aceptante:  row[2] || '',
+        desafiante: (row[1] || '').toUpperCase(),
+        aceptante:  (row[2] || '').toUpperCase(),
         games_d:    row[3] !== undefined && row[3] !== '' ? row[3].toString() : null,
         games_a:    row[4] !== undefined && row[4] !== '' ? row[4].toString() : null,
-      });
-    });
+      };
+    }).filter(r => r !== null);
+
     populateFechaSelect();
     renderResultados();
   } catch (e) {
-    document.getElementById('resultados-content').innerHTML =
-      `<div class="error-msg">No se pudieron cargar los resultados. Error: ${e.message}</div>`;
     setSyncError();
   }
-}
-
-function populateFechaSelect() {
-  const sel = document.getElementById('fecha-select');
-  const fechas = [...new Set(resultadosData.map(r => r.fecha))].sort((a, b) => {
-    const na = parseFloat(a), nb = parseFloat(b);
-    if (!isNaN(na) && !isNaN(nb)) return na - nb;
-    return a.localeCompare(b);
-  });
-  sel.innerHTML = fechas.map(f => `<option value="${f}">Fecha ${f}</option>`).join('');
-  if (fechas.length > 0) sel.value = fechas[0];
-}
-
-function renderResultados() {
-  const sel = document.getElementById('fecha-select');
-  const fecha = sel.value;
-  const matches = resultadosData.filter(r => r.fecha === fecha);
-  const container = document.getElementById('resultados-content');
-  if (matches.length === 0) {
-    container.innerHTML = '<div class="loading-msg">Sin resultados para esta fecha.</div>';
-    return;
-  }
-  container.innerHTML = matches.map(m => {
-    const gd = m.games_d !== null ? parseInt(m.games_d) : null;
-    const ga = m.games_a !== null ? parseInt(m.games_a) : null;
-    const hasScore = gd !== null && ga !== null && (gd > 0 || ga > 0);
-    const dWins = hasScore && gd > ga;
-    const aWins = hasScore && ga > gd;
-    const scoreHTML = hasScore
-      ? `<div class="match-score">${gd}&ndash;${ga}</div>`
-      : `<div class="match-score pending">Pendiente</div>`;
-    return `
-      <div class="match-card">
-        <div class="match-players">
-          <span class="player-pill ${aWins ? 'loser' : ''}">${m.desafiante || '—'}${dWins ? '<span class="winner-mark">✓</span>' : ''}</span>
-          <span class="vs-sep">VS</span>
-          <span class="player-pill ${dWins ? 'loser' : ''}">${m.aceptante || '—'}${aWins ? '<span class="winner-mark">✓</span>' : ''}</span>
-        </div>
-        ${scoreHTML}
-      </div>`;
-  }).join('');
 }
 
 function renderRanking() {
@@ -582,22 +486,20 @@ function renderRanking() {
     ? rankingData
     : rankingData.filter(r => r.categoria === currentCategoria);
 
-  if (filtered.length === 0) {
-    container.innerHTML = `<div class="loading-msg">Sin jugadores en esta categoría.</div>`;
-    return;
-  }
-
   const rows = filtered.map(p => {
-    const posNum = parseInt(p.pos);
-    const posClass = posNum <= 3 ? 'pos-top' : '';
-    const cat = p.categoria;
-    const badgeClass = cat ? `badge-${cat.toLowerCase()}` : '';
-    const badgeHTML = cat ? `<span class="sector-badge ${badgeClass}">${cat}</span>` : '';
+    const posClass = p.pos <= 3 ? 'pos-top' : '';
+    const badgeClass = `badge-${p.categoria.toLowerCase()}`;
+    
+    let varHTML = `<span class="var-same">●</span>`;
+    if (p.variacion > 0) varHTML = `<span class="var-up">▲ ${p.variacion}</span>`;
+    if (p.variacion < 0) varHTML = `<span class="var-down">▼ ${Math.abs(p.variacion)}</span>`;
+
     return `
       <tr>
         <td class="pos-cell ${posClass}">${p.pos}</td>
         <td class="player-name">${p.nombre}</td>
-        <td>${badgeHTML}</td>
+        <td><span class="sector-badge ${badgeClass}">${p.categoria}</span></td>
+        <td style="text-align:center">${varHTML}</td>
       </tr>`;
   }).join('');
 
@@ -608,10 +510,44 @@ function renderRanking() {
           <th style="text-align:right;padding-right:1rem">#</th>
           <th>Jugador</th>
           <th>Categoría</th>
+          <th style="text-align:center">Var</th>
         </tr>
       </thead>
       <tbody>${rows}</tbody>
     </table>`;
+}
+
+function populateFechaSelect() {
+  const sel = document.getElementById('fecha-select');
+  const fechas = [...new Set(resultadosData.map(r => r.fecha))].sort((a,b) => b-a);
+  sel.innerHTML = fechas.map(f => `<option value="${f}">Fecha ${f}</option>`).join('');
+  if (fechas.length > 0) {
+      sel.value = fechas[0];
+  }
+}
+
+function renderResultados() {
+  const fecha = document.getElementById('fecha-select').value;
+  const matches = resultadosData.filter(r => r.fecha === fecha);
+  const container = document.getElementById('resultados-content');
+  
+  container.innerHTML = matches.map(m => {
+    const gd = m.games_d !== null ? parseInt(m.games_d) : null;
+    const ga = m.games_a !== null ? parseInt(m.games_a) : null;
+    const hasScore = !isNaN(gd) && !isNaN(ga);
+    const dWins = hasScore && gd > ga;
+    const aWins = hasScore && ga > gd;
+    
+    return `
+      <div class="match-card">
+        <div class="match-players">
+          <span class="player-pill ${aWins ? 'loser' : ''}">${m.desafiante}${dWins ? '<span class="winner-mark">✓</span>' : ''}</span>
+          <span class="vs-sep">VS</span>
+          <span class="player-pill ${dWins ? 'loser' : ''}">${m.aceptante}${aWins ? '<span class="winner-mark">✓</span>' : ''}</span>
+        </div>
+        <div class="match-score ${!hasScore?'pending':''}">${hasScore ? gd+'–'+ga : 'Pendiente'}</div>
+      </div>`;
+  }).join('');
 }
 
 function showCategoria(cat, btn) {
@@ -631,7 +567,7 @@ function showTab(name, btn) {
 
 function setSyncError() {
   document.getElementById('sync-dot').classList.remove('live');
-  document.getElementById('sync-text').textContent = 'Sin conexión';
+  document.getElementById('sync-text').textContent = 'Error de conexión';
 }
 
 function setSyncOk() {
@@ -641,13 +577,12 @@ function setSyncOk() {
 }
 
 async function loadAll() {
-  await detectGids();
   await Promise.all([loadRanking(), loadResultados()]);
   setSyncOk();
 }
 
 loadAll();
-setInterval(loadAll, 60000);
+setInterval(loadAll, 120000);
 </script>
 </body>
 </html>
