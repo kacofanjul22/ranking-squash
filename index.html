@@ -86,6 +86,7 @@ td{padding:9px 12px;vertical-align:middle;}
 
 .partido{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:13px 16px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
 .partido.especial{border-color:rgba(192,132,252,.4);background:rgba(192,132,252,.04);}
+.partido.sancion-row{border-color:rgba(248,113,113,.4);background:rgba(248,113,113,.04);}
 .partido.pendiente-row{opacity:.6;}
 .p-left{flex:1;}
 .p-match{font-size:13px;font-weight:500;line-height:1.4;}
@@ -95,6 +96,7 @@ td{padding:9px 12px;vertical-align:middle;}
 .p-sub{font-size:11px;color:var(--muted);font-family:'DM Sans',sans-serif;display:block;text-align:right;margin-top:3px;}
 .p-pending{color:var(--warn);font-size:12px;white-space:nowrap;}
 .especial-tag{display:inline-block;font-size:10px;color:var(--ca);background:rgba(192,132,252,.12);padding:2px 8px;border-radius:8px;border:1px solid rgba(192,132,252,.25);margin-left:8px;vertical-align:middle;}
+.sancion-tag{display:inline-block;font-size:10px;color:var(--down);background:rgba(248,113,113,.12);padding:2px 8px;border-radius:8px;border:1px solid rgba(248,113,113,.25);margin-left:8px;vertical-align:middle;}
 
 .sec-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin:20px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--border);}
 
@@ -132,8 +134,6 @@ td{padding:9px 12px;vertical-align:middle;}
 </nav>
 
 <main>
-
-  <!-- RANKING -->
   <div id="tab-ranking" class="tab-content active">
     <div id="ranking-loader" class="loader">
       <div class="spinner"></div>
@@ -163,7 +163,6 @@ td{padding:9px 12px;vertical-align:middle;}
     </div>
   </div>
 
-  <!-- RESULTADOS -->
   <div id="tab-resultados" class="tab-content">
     <div id="resultados-loader" class="loader">
       <div class="spinner"></div>
@@ -179,30 +178,27 @@ td{padding:9px 12px;vertical-align:middle;}
     </div>
   </div>
 
-  <!-- REGLAMENTO -->
   <div id="tab-reglamento" class="tab-content">
     <div class="reg-wrap">
       <div class="reg-title">Reglamento — Ranking x Desafíos 2026</div>
-      <div class="reg-item"><span class="reg-num">1</span>El Ranking se publicará en los canales de difusión de la asociación.</div>
-      <div class="reg-item"><span class="reg-num">2</span>Los jugadores de ranking <strong>par</strong> deberán desafiar al de ranking <strong>impar</strong> ubicado 3 puestos más arriba. Ej: #12 debe desafiar a #9.</div>
-      <div class="reg-item"><span class="reg-num">3</span>Si el par <strong>gana</strong>: sube 4 puestos, el impar baja 4. Si el par <strong>pierde</strong>: baja 1 puesto, el impar sube 1. Ej: #10 desafía a #7 — si gana #10 pasa a #6 y #7 a #11. Si pierde, #10 va a #11 y #7 va a #6.</div>
-      <div class="reg-item"><span class="reg-num">4</span>Los desafíos se juegan en dos períodos mensuales: del 2 al 14, y del 16 al 30/31.</div>
-      <div class="reg-item"><span class="reg-num">5</span>El desafío implica la coordinación del encuentro (primeros 5 días de publicado el ranking). El partido deberá disputarse dentro de las fechas previstas.</div>
-      <div class="reg-item"><span class="reg-num">6</span>La comunicación del resultado deberá ser realizada por el par hasta el día 14 o el 30/31 según corresponda.</div>
-      <div class="reg-item"><span class="reg-num">7</span>Los partidos se disputarán al mejor de 5 games.</div>
-      <div class="reg-item"><span class="reg-num">8</span>El ranking anual va de abril hasta el 15 de noviembre. Al finalizar se realiza el Torneo Master de fin de año.</div>
-      <div class="reg-item"><span class="reg-num">9</span>Cuota: $20.000 en abril, $12.000 en los meses siguientes. Fondos destinados a escuelita, premios y gastos de la asociación.</div>
-      <div class="reg-item"><span class="reg-num">10</span>Se puede aplicar W.O. pasados los 15 minutos de la hora fijada.</div>
-      <div class="reg-item"><span class="reg-num">11</span>El sorteo se divide en dos bombos para lograr distribución equilibrada.</div>
-      <div class="reg-item"><span class="reg-num">12</span>El ranking está separado en 4 sectores: A, B, C y D. Los mejores de cada categoría disputarán el Torneo Master.</div>
-      <div class="reg-item"><span class="reg-num">13</span>La organización se reserva el derecho de ubicar a nuevos jugadores en la categoría o posición que considere pertinente.</div>
+      <div class="reg-item"><span class="reg-num">1</span>El Ranking se publicará en los canales de difusión de la asociación. [cite: 3]</div>
+      <div class="reg-item"><span class="reg-num">2</span>Los jugadores de ranking <strong>par</strong> deberán desafiar al de ranking <strong>impar</strong> ubicado 3 puestos más arriba. Ej: #12 debe desafiar a #9. [cite: 4, 5]</div>
+      <div class="reg-item"><span class="reg-num">3</span>Si el par <strong>gana</strong>: sube 4 puestos, el impar baja 4. Si el par <strong>pierde</strong>: baja 1 puesto, el impar sube 1. [cite: 6, 7, 8]</div>
+      <div class="reg-item"><span class="reg-num">4</span>Los desafíos se juegan en dos períodos mensuales: del 2 al 14, y del 16 al 30/31. [cite: 13, 14]</div>
+      <div class="reg-item"><span class="reg-num">5</span>El desafío implica la coordinación del encuentro (primeros 5 días). [cite: 15, 16]</div>
+      <div class="reg-item"><span class="reg-num">6</span>La comunicación del resultado deberá ser realizada por el par hasta el día 14 o el 30/31. [cite: 17]</div>
+      <div class="reg-item"><span class="reg-num">7</span>Los partidos se disputarán al mejor de 5 games. [cite: 18]</div>
+      <div class="reg-item"><span class="reg-num">8</span>El ranking anual va de abril hasta el 15 de noviembre. [cite: 19, 20]</div>
+      <div class="reg-item"><span class="reg-num">9</span>Cuota: $20.000 en abril, $12.000 meses siguientes. [cite: 22, 23]</div>
+      <div class="reg-item"><span class="reg-num">10</span>W.O. pasados los 15 minutos. [cite: 24]</div>
+      <div class="reg-item"><span class="reg-num">11</span>Sorteo dividido en bombos. [cite: 27, 28, 30, 31]</div>
+      <div class="reg-item"><span class="reg-num">12</span>Separación en 4 sectores: A, B, C y D. [cite: 33, 34]</div>
+      <div class="reg-item"><span class="reg-num">13</span>Derecho de ubicación para nuevos jugadores. [cite: 35]</div>
     </div>
   </div>
-
 </main>
 
 <script>
-// ─── CONFIG ──────────────────────────────────────────────────────────────────
 const SHEET_ID = "1w2nWgdB_ZBoA8EQhwf86ahNlE2O4dhQUVI7aUQRm76Y";
 const GID_JUG  = "41624303";
 const GID_RES  = "0";
@@ -211,12 +207,11 @@ function csvUrl(gid) {
   return `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${gid}&cb=${Date.now()}`;
 }
 
-let jugadores   = [];
-let resultados  = [];
+let jugadores = [];
+let resultados = [];
 let rankingCalc = [];
-let currentCat  = "todos";
+let currentCat = "todos";
 
-// ─── CSV PARSER ──────────────────────────────────────────────────────────────
 function splitLine(line) {
   const vals = []; let cur = "", inQ = false;
   for (const c of line) {
@@ -232,32 +227,27 @@ function parseCSV(text) {
   const lines = text.trim().split("\n");
   if (lines.length < 2) return [];
   const headers = splitLine(lines[0]).map(h => h.toUpperCase().trim());
-  return lines.slice(1)
-    .map(line => {
-      const vals = splitLine(line);
-      const obj  = {};
-      headers.forEach((h, i) => obj[h] = (vals[i] || "").trim());
-      return obj;
-    })
-    .filter(row => Object.values(row).some(v => v !== ""));
+  return lines.slice(1).map(line => {
+    const vals = splitLine(line);
+    const obj = {};
+    headers.forEach((h, i) => obj[h] = (vals[i] || "").trim());
+    return obj;
+  }).filter(row => Object.values(row).some(v => v !== ""));
 }
 
 async function fetchCSV(gid) {
   const res = await fetch(csvUrl(gid));
   if (!res.ok) throw new Error(`Error ${res.status}`);
   const text = await res.text();
-  if (text.includes("<!DOCTYPE") || text.includes("<html"))
-    throw new Error("La planilla no está publicada públicamente");
   return parseCSV(text);
 }
 
-// ─── MOTOR DE RANKING ────────────────────────────────────────────────────────
 function calcRanking(jug, res) {
   let players = jug
     .filter(j => j.NOMBRE && j.POS_INICIAL)
     .map(j => ({
-      nombre:      j.NOMBRE.trim(),
-      bombo:       (j.BOMBO || "B").trim().toUpperCase(),
+      nombre: j.NOMBRE.trim(),
+      bombo: (j.BOMBO || "B").trim().toUpperCase(),
       pos_inicial: parseInt(j.POS_INICIAL)
     }))
     .sort((a, b) => a.pos_inicial - b.pos_inicial);
@@ -267,53 +257,61 @@ function calcRanking(jug, res) {
     return players.findIndex(p => p.nombre.toLowerCase().trim() === n);
   }
 
-  // Procesar en orden de fecha
   const ordered = [...res]
-    .filter(r => r.DESAFIANTE && r.ACEPTANTE && r.GAMES_D !== "" && r.GAMES_A !== "")
+    .filter(r => r.DESAFIANTE && r.ACEPTANTE)
     .sort((a, b) => parseInt(a.FECHA || 0) - parseInt(b.FECHA || 0));
 
   for (const r of ordered) {
-    const gd = parseInt(r.GAMES_D);
-    const ga = parseInt(r.GAMES_A);
-    if (isNaN(gd) || isNaN(ga)) continue;
-
-    const nota     = (r.NOTA || "").toUpperCase().trim();
-    const especial = nota === "ESPECIAL";
-    const ganadorD = gd > ga;   // ganó el DESAFIANTE?
+    const nota = (r.NOTA || "").toUpperCase().trim();
     const id = getIdx(r.DESAFIANTE);
     const ia = getIdx(r.ACEPTANTE);
     if (id === -1 || ia === -1) continue;
 
-    if (especial) {
-      // Partido especial: el ganador va directo al puesto #1
-      const ganIdx = ganadorD ? id : ia;
-      players.splice(0, 0, players.splice(ganIdx, 1)[0]);
+    const gd = parseInt(r.GAMES_D);
+    const ga = parseInt(r.GAMES_A);
+    const tieneRes = !isNaN(gd) && !isNaN(ga);
+
+    if (nota === "SANCION") {
+        const p1 = Math.min(id, ia);
+        const p2 = Math.max(id, ia);
+        if (p2 < players.length - 1) {
+            let item = players.splice(p2, 1)[0];
+            players.splice(p2 + 1, 0, item);
+        }
+        if (p1 < players.length - 1) {
+            let item = players.splice(p1, 1)[0];
+            players.splice(p1 + 1, 0, item);
+        }
+        continue;
+    }
+
+    if (!tieneRes) continue;
+    const ganadorD = gd > ga;
+    const idxGanador = ganadorD ? id : ia;
+
+    if (nota === "TOP") {
+        const topPos = Math.min(id, ia);
+        players.splice(topPos, 0, players.splice(idxGanador, 1)[0]);
+    } else if (nota === "ESPECIAL") {
+        players.splice(0, 0, players.splice(idxGanador, 1)[0]);
     } else {
-      // Regla estándar par/impar
-      if (ganadorD) {
-        // desafiante (par) gana → sube 4 posiciones
-        const t = Math.max(0, id - 4);
-        players.splice(t, 0, players.splice(id, 1)[0]);
-      } else {
-        // desafiante (par) pierde → aceptante (impar) sube 1 posición
-        // IMPORTANTE: mover al ACEPTANTE (ia), no al desafiante
-        const t = Math.max(0, ia - 1);
-        players.splice(t, 0, players.splice(ia, 1)[0]);
-      }
+        if (ganadorD) {
+            const t = Math.max(0, id - 4);
+            players.splice(t, 0, players.splice(id, 1)[0]);
+        } else {
+            const t = Math.max(0, ia - 1);
+            players.splice(t, 0, players.splice(ia, 1)[0]);
+        }
     }
   }
 
   return players.map((p, i) => ({
-    pos:         i + 1,
-    nombre:      p.nombre,
-    bombo:       p.bombo,
-    var:         p.pos_inicial - (i + 1)
+    pos: i + 1,
+    nombre: p.nombre,
+    bombo: p.bombo,
+    var: p.pos_inicial - (i + 1)
   }));
 }
-
-// ─── RENDER RANKING ──────────────────────────────────────────────────────────
-const catCls = { A:"pill-a", B:"pill-b", C:"pill-c", D:"pill-d" };
-const catAct = { A:"act-a",  B:"act-b",  C:"act-c",  D:"act-d"  };
 
 function renderRanking() {
   const tbody = document.getElementById("ranking-tbody");
@@ -321,12 +319,12 @@ function renderRanking() {
   let maxUp = 0, maxDown = 0, topUp = "", topDown = "";
 
   rankingCalc.forEach(p => {
-    if (p.var > maxUp)   { maxUp   = p.var;  topUp   = p.nombre; }
-    if (p.var < maxDown) { maxDown = p.var;  topDown = p.nombre; }
+    if (p.var > maxUp) { maxUp = p.var; topUp = p.nombre; }
+    if (p.var < maxDown) { maxDown = p.var; topDown = p.nombre; }
 
-    const show   = currentCat === "todos" || p.bombo === currentCat;
+    const show = currentCat === "todos" || p.bombo === currentCat;
     const posCls = p.pos === 1 ? "top1" : p.pos === 2 ? "top2" : p.pos === 3 ? "top3" : "";
-    let varHtml  = `<span class="var-same"><span class="dot-same"></span></span>`;
+    let varHtml = `<span class="var-same"><span class="dot-same"></span></span>`;
     if (p.var > 0) varHtml = `<span class="var-up"><span class="arr-u"></span>${p.var}</span>`;
     if (p.var < 0) varHtml = `<span class="var-down"><span class="arr-d"></span>${Math.abs(p.var)}</span>`;
 
@@ -342,10 +340,13 @@ function renderRanking() {
 
   if (rankingCalc.length) {
     document.getElementById("stat-lider").textContent = rankingCalc[0].nombre;
-    document.getElementById("stat-sube").textContent  = topUp   ? `+${maxUp} · ${topUp}`    : "—";
+    document.getElementById("stat-sube").textContent  = topUp ? `+${maxUp} · ${topUp}` : "—";
     document.getElementById("stat-baja").textContent  = topDown ? `${maxDown} · ${topDown}` : "—";
   }
 }
+
+const catCls = { A:"pill-a", B:"pill-b", C:"pill-c", D:"pill-d" };
+const catAct = { A:"act-a",  B:"act-b",  C:"act-c",  D:"act-d"  };
 
 function filterCat(cat, btn) {
   currentCat = cat;
@@ -354,112 +355,6 @@ function filterCat(cat, btn) {
   renderRanking();
 }
 
-// ─── RENDER RESULTADOS ───────────────────────────────────────────────────────
-function renderResultados() {
-  const fechas = [...new Set(
-    resultados.filter(r => r.FECHA).map(r => r.FECHA.trim())
-  )].sort((a, b) => parseInt(a) - parseInt(b));
-
-  const sel = document.getElementById("fecha-select");
-  sel.innerHTML = "";
-  fechas.forEach(f => {
-    const opt = document.createElement("option");
-    opt.value = f;
-    opt.textContent = `Fecha ${f}`;
-    sel.appendChild(opt);
-  });
-
-  if (fechas.length) {
-    const ultima = fechas[fechas.length - 1];
-    sel.value = ultima;
-    mostrarFecha(ultima);
-  } else {
-    document.getElementById("partidos-list").innerHTML =
-      `<p style="color:var(--muted);font-size:13px">No hay resultados cargados aún.</p>`;
-  }
-}
-
-function tieneResultado(r) {
-  return r.GAMES_D !== "" && r.GAMES_A !== "" &&
-         !isNaN(parseInt(r.GAMES_D)) && !isNaN(parseInt(r.GAMES_A));
-}
-
-function mostrarFecha(fecha) {
-  const partidos = resultados.filter(r => (r.FECHA || "").trim() === fecha);
-
-  // Separar: normales jugados / normales pendientes / especiales
-  const normJugados  = partidos.filter(r => (r.NOTA||"").toUpperCase().trim() !== "ESPECIAL" &&  tieneResultado(r));
-  const normPendient = partidos.filter(r => (r.NOTA||"").toUpperCase().trim() !== "ESPECIAL" && !tieneResultado(r));
-  const especiales   = partidos.filter(r => (r.NOTA||"").toUpperCase().trim() === "ESPECIAL");
-
-  // Resumen
-  const total   = partidos.length;
-  const jugados = normJugados.length + especiales.filter(tieneResultado).length;
-  const pend    = normPendient.length;
-  document.getElementById("resumen-box").innerHTML = `
-    <div class="resumen-fecha">
-      <div class="resumen-item"><strong>${total}</strong>partidos totales</div>
-      <div class="resumen-item"><strong>${jugados}</strong>jugados</div>
-      ${pend > 0 ? `<div class="resumen-item"><strong style="color:var(--warn)">${pend}</strong>pendientes</div>` : ""}
-    </div>`;
-
-  let html = "";
-
-  // Primero los jugados
-  normJugados.forEach(r => { html += partidoHtml(r, false); });
-
-  // Especiales
-  if (especiales.length) {
-    html += `<div class="sec-label">Partidos especiales</div>`;
-    especiales.forEach(r => { html += partidoHtml(r, true); });
-  }
-
-  // Pendientes al final
-  if (normPendient.length) {
-    html += `<div class="sec-label">Pendientes</div>`;
-    normPendient.forEach(r => { html += partidoHtml(r, false); });
-  }
-
-  document.getElementById("partidos-list").innerHTML = html ||
-    `<p style="color:var(--muted);font-size:13px">Sin partidos en esta fecha.</p>`;
-}
-
-function partidoHtml(r, esEsp) {
-  const gd = parseInt(r.GAMES_D);
-  const ga = parseInt(r.GAMES_A);
-  const ok = tieneResultado(r);
-
-  // El ganador siempre aparece primero con su score mayor
-  // Si ganó el DESAFIANTE: mostrar "Desafiante gana_score – pierde_score Aceptante"
-  // Si ganó el ACEPTANTE:  mostrar "Aceptante gana_score – pierde_score Desafiante"
-  let matchHtml, resHtml;
-
-  if (ok) {
-    const ganadorD = gd > ga;
-    const ganNom   = ganadorD ? r.DESAFIANTE : r.ACEPTANTE;
-    const perNom   = ganadorD ? r.ACEPTANTE  : r.DESAFIANTE;
-    const ganScore = ganadorD ? gd : ga;   // siempre el mayor (score del ganador)
-    const perScore = ganadorD ? ga : gd;   // siempre el menor (score del perdedor)
-
-    matchHtml = `<span class="p-ganador">${ganNom}</span>`
-              + `<span style="color:var(--muted)"> vs </span>`
-              + `<span class="p-perdedor">${perNom}</span>`
-              + (esEsp ? `<span class="especial-tag">especial</span>` : "");
-
-    resHtml = `<div class="p-result">${ganScore}–${perScore}<span class="p-sub">games</span></div>`;
-  } else {
-    matchHtml = `${r.DESAFIANTE}<span style="color:var(--muted)"> vs </span>${r.ACEPTANTE}`
-              + (esEsp ? `<span class="especial-tag">especial</span>` : "");
-    resHtml = `<div class="p-pending">pendiente</div>`;
-  }
-
-  return `<div class="partido${esEsp ? " especial" : ""}${!ok ? " pendiente-row" : ""}">
-    <div class="p-left"><div class="p-match">${matchHtml}</div></div>
-    <div>${resHtml}</div>
-  </div>`;
-}
-
-// ─── NAVEGACIÓN ──────────────────────────────────────────────────────────────
 function goTab(id, btn) {
   document.querySelectorAll(".tab-content").forEach(t => t.classList.remove("active"));
   document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
@@ -467,46 +362,108 @@ function goTab(id, btn) {
   if (btn) btn.classList.add("active");
 }
 
-// ─── SYNC ────────────────────────────────────────────────────────────────────
+function renderResultados() {
+  const fechas = [...new Set(resultados.filter(r => r.FECHA).map(r => r.FECHA.trim()))].sort((a, b) => parseInt(a) - parseInt(b));
+  const sel = document.getElementById("fecha-select");
+  sel.innerHTML = "";
+  fechas.forEach(f => {
+    const opt = document.createElement("option");
+    opt.value = f; opt.textContent = `Fecha ${f}`; sel.appendChild(opt);
+  });
+  if (fechas.length) {
+    const ultima = fechas[fechas.length - 1];
+    sel.value = ultima; mostrarFecha(ultima);
+  } else {
+    document.getElementById("partidos-list").innerHTML = `<p style="color:var(--muted);font-size:13px">No hay resultados cargados aún.</p>`;
+  }
+}
+
+function tieneResultado(r) {
+  return r.GAMES_D !== "" && r.GAMES_A !== "" && !isNaN(parseInt(r.GAMES_D)) && !isNaN(parseInt(r.GAMES_A));
+}
+
+function mostrarFecha(fecha) {
+  const partidos = resultados.filter(r => (r.FECHA || "").trim() === fecha);
+  const normJug = partidos.filter(r => !["ESPECIAL", "SANCION"].includes((r.NOTA||"").toUpperCase().trim()) && tieneResultado(r));
+  const normPend = partidos.filter(r => !["ESPECIAL", "SANCION"].includes((r.NOTA||"").toUpperCase().trim()) && !tieneResultado(r));
+  const especiales = partidos.filter(r => (r.NOTA||"").toUpperCase().trim() === "ESPECIAL");
+  const sanciones = partidos.filter(r => (r.NOTA||"").toUpperCase().trim() === "SANCION");
+
+  const total = partidos.length;
+  const jugados = normJug.length + especiales.filter(tieneResultado).length;
+  document.getElementById("resumen-box").innerHTML = `
+    <div class="resumen-fecha">
+      <div class="resumen-item"><strong>${total}</strong>partidos totales</div>
+      <div class="resumen-item"><strong>${jugados}</strong>jugados</div>
+      ${normPend.length > 0 ? `<div class="resumen-item"><strong style="color:var(--warn)">${normPend.length}</strong>pendientes</div>` : ""}
+    </div>`;
+
+  let html = "";
+  normJug.forEach(r => html += partidoHtml(r, false, false));
+  if (especiales.length) {
+    html += `<div class="sec-label">Partidos especiales</div>`;
+    especiales.forEach(r => html += partidoHtml(r, true, false));
+  }
+  if (sanciones.length) {
+    html += `<div class="sec-label">Sanciones / Excepciones</div>`;
+    sanciones.forEach(r => html += partidoHtml(r, false, true));
+  }
+  if (normPend.length) {
+    html += `<div class="sec-label">Pendientes</div>`;
+    normPend.forEach(r => html += partidoHtml(r, false, false));
+  }
+  document.getElementById("partidos-list").innerHTML = html || `<p style="color:var(--muted);font-size:13px">Sin partidos.</p>`;
+}
+
+function partidoHtml(r, esEsp, esSanc) {
+  const gd = parseInt(r.GAMES_D);
+  const ga = parseInt(r.GAMES_A);
+  const ok = tieneResultado(r);
+  let matchHtml, resHtml;
+
+  if (ok) {
+    const ganadorD = gd > ga;
+    const ganNom = ganadorD ? r.DESAFIANTE : r.ACEPTANTE;
+    const perNom = ganadorD ? r.ACEPTANTE : r.DESAFIANTE;
+    matchHtml = `<span class="p-ganador">${ganNom}</span><span style="color:var(--muted)"> vs </span><span class="p-perdedor">${perNom}</span>`;
+    resHtml = `<div class="p-result">${Math.max(gd,ga)}–${Math.min(gd,ga)}<span class="p-sub">games</span></div>`;
+  } else {
+    matchHtml = `${r.DESAFIANTE}<span style="color:var(--muted)"> vs </span>${r.ACEPTANTE}`;
+    resHtml = esSanc ? `<div class="p-pending" style="color:var(--down)">sanción</div>` : `<div class="p-pending">pendiente</div>`;
+  }
+
+  if (esEsp) matchHtml += `<span class="especial-tag">especial</span>`;
+  if (esSanc) matchHtml += `<span class="sancion-tag">sanción</span>`;
+
+  return `<div class="partido${esEsp ? " especial" : ""}${esSanc ? " sancion-row" : ""}${!ok && !esSanc ? " pendiente-row" : ""}">
+    <div class="p-left"><div class="p-match">${matchHtml}</div></div>
+    <div>${resHtml}</div>
+  </div>`;
+}
+
 function setSync(state, txt) {
   document.getElementById("sync-dot").className = "sync-dot " + state;
   document.getElementById("sync-txt").textContent = txt;
 }
 
-// ─── CARGA PRINCIPAL ─────────────────────────────────────────────────────────
 async function loadAll() {
   setSync("loading", "Sincronizando...");
   try {
-    [jugadores, resultados] = await Promise.all([
-      fetchCSV(GID_JUG),
-      fetchCSV(GID_RES)
-    ]);
-
-    jugadores  = jugadores.filter(j => j.NOMBRE && j.POS_INICIAL);
+    [jugadores, resultados] = await Promise.all([fetchCSV(GID_JUG), fetchCSV(GID_RES)]);
+    jugadores = jugadores.filter(j => j.NOMBRE && j.POS_INICIAL);
     resultados = resultados.filter(r => r.DESAFIANTE && r.ACEPTANTE);
-
     rankingCalc = calcRanking(jugadores, resultados);
 
-    document.getElementById("ranking-loader").style.display    = "none";
+    document.getElementById("ranking-loader").style.display = "none";
     document.getElementById("resultados-loader").style.display = "none";
-    document.getElementById("ranking-content").style.display   = "block";
+    document.getElementById("ranking-content").style.display = "block";
     document.getElementById("resultados-content").style.display = "block";
 
-    renderRanking();
-    renderResultados();
-
-    const hora = new Date().toLocaleTimeString("es-AR", { hour:"2-digit", minute:"2-digit" });
-    setSync("ok", `Actualizado ${hora}`);
-
+    renderRanking(); renderResultados();
+    setSync("ok", `Actualizado ${new Date().toLocaleTimeString("es-AR", { hour:"2-digit", minute:"2-digit" })}`);
   } catch (e) {
-    setSync("err", "Error al cargar datos");
-    const errHtml = `<div class="error-box">
-      No se pudo cargar la planilla de Google Sheets.<br>
-      Verificá que esté publicada: <em>Archivo → Compartir → Publicar en la web</em>.<br>
-      <small style="opacity:.7">${e.message}</small>
-    </div>`;
-    document.getElementById("ranking-loader").innerHTML    = errHtml;
-    document.getElementById("resultados-loader").innerHTML = errHtml;
+    setSync("err", "Error de carga");
+    console.error(e);
   }
 }
 
