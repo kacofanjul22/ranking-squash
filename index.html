@@ -410,13 +410,8 @@
 </main>
 
 <script>
-// Published Google Sheets base URL (CSV export per sheet via gid)
-const BASE_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTJt7igbquOBdwX_4fRLxjuScNmkbskfHm7DrzoDYr-0ew12qnfAw8wiI1OlHTCe6GFszKF9eqnUiXD/pub';
-
-// Known gids — gid=0 is the first sheet (RESULTADOS), RANKING is the second
-// These are detected automatically below; fallback values here
-let GID_RESULTADOS = 0;
-let GID_RANKING    = null;
+const CSV_RESULTADOS = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTJt7igbquOBdwX_4fRLxjuScNmkbskfHm7DrzoDYr-0ew12qnfAw8wiI1OlHTCe6GFszKF9eqnUiXD/pub?gid=0&single=true&output=csv';
+const CSV_RANKING    = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTJt7igbquOBdwX_4fRLxjuScNmkbskfHm7DrzoDYr-0ew12qnfAw8wiI1OlHTCe6GFszKF9eqnUiXD/pub?gid=1935327508&single=true&output=csv';
 
 let rankingData = [];
 let resultadosData = [];
@@ -438,75 +433,32 @@ function parseCSV(text) {
   });
 }
 
-async function fetchCSV(gid) {
-  const url = `${BASE_URL}?gid=${gid}&single=true&output=csv`;
+async function fetchCSV(url) {
   const res = await fetch(url);
   if (!res.ok) throw new Error('HTTP ' + res.status);
-  const text = await res.text();
-  return parseCSV(text);
-}
-
-// Auto-detect sheet gids from the pubhtml index page
-async function detectGids() {
-  try {
-    const res = await fetch(`${BASE_URL}html`);
-    const html = await res.text();
-    // Find sheet links like #gid=NNNN with their labels
-    const matches = [...html.matchAll(/gid=(\d+)[^"]*"[^>]*>([^<]+)</g)];
-    for (const m of matches) {
-      const gid = m[1];
-      const label = m[2].trim().toUpperCase();
-      if (label.includes('RESULT')) GID_RESULTADOS = gid;
-      if (label.includes('RANKING')) GID_RANKING = gid;
-    }
-    // Fallback: try sheet nav li elements
-    if (!GID_RANKING) {
-      const nav = [...html.matchAll(/href="[^"]*gid=(\d+)[^"]*"[^>]*>([^<]+)</g)];
-      for (const m of nav) {
-        const label = m[2].trim().toUpperCase();
-        if (label.includes('RANKING')) GID_RANKING = m[1];
-        if (label.includes('RESULT')) GID_RESULTADOS = m[1];
-      }
-    }
-  } catch(e) { /* use defaults */ }
+  return parseCSV(await res.text());
 }
 
 async function loadRanking() {
-  if (!GID_RANKING) {
-    // Try gid=1 and gid=2 as fallback candidates
-    for (const gid of ['1','2','3','4']) {
-      try {
-        const rows = await fetchCSV(gid);
-        if (rows.length > 0) {
-          const header = (rows[0] || []).join(',').toUpperCase();
-          if (header.includes('NOMBRE') || header.includes('JUGADOR') || header.includes('POS')) {
-            GID_RANKING = gid;
-            break;
-          }
-        }
-      } catch(e) {}
-    }
-  }
   try {
-    const rows = await fetchCSV(GID_RANKING || '1');
+    const rows = await fetchCSV(CSV_RANKING);
     rankingData = [];
 
-    // Detect columns from header row dynamically
+    // Detect columns from header row
     let colPos = 0, colNombre = 1, colCat = 2;
     if (rows.length > 0) {
-      const header = rows[0].map(h => h.toString().toUpperCase().trim());
-      const posIdx   = header.findIndex(h => h.includes('POS') || h === '#' || h.includes('PUEST'));
-      const nomIdx   = header.findIndex(h => h.includes('NOM') || h.includes('JUGAD') || h.includes('PLAYER'));
-      const catIdx   = header.findIndex(h => h.includes('CAT') || h.includes('GRUP') || h.includes('BOMB') || h.includes('SECC'));
-      if (posIdx >= 0) colPos = posIdx;
-      if (nomIdx >= 0) colNombre = nomIdx;
-      if (catIdx >= 0) colCat = catIdx;
-      // If headers not found, log for debugging
-      console.log('RANKING headers:', header, '→ pos:', colPos, 'nombre:', colNombre, 'cat:', colCat);
+      const h = rows[0].map(x => x.toString().toUpperCase().trim());
+      const pi = h.findIndex(x => x.includes('POS') || x === '#');
+      const ni = h.findIndex(x => x.includes('NOM') || x.includes('JUGAD'));
+      const ci = h.findIndex(x => x.includes('CAT') || x.includes('GRUP') || x.includes('BOMB'));
+      if (pi >= 0) colPos = pi;
+      if (ni >= 0) colNombre = ni;
+      if (ci >= 0) colCat = ci;
+      console.log('Headers RANKING:', h, '| pos:', colPos, 'nombre:', colNombre, 'cat:', colCat);
     }
 
     rows.forEach((row, i) => {
-      if (i === 0) return; // skip header
+      if (i === 0) return;
       if (!row[colPos] && !row[colNombre]) return;
       const cat = (row[colCat] || '').toString().trim().toUpperCase();
       rankingData.push({
@@ -516,37 +468,34 @@ async function loadRanking() {
       });
     });
     renderRanking();
-  } catch (e) {
-    document.getElementById('ranking-content').innerHTML = `
-      <div class="error-msg">
-        No se pudo cargar el ranking.<br>
-        <small style="display:block;margin-top:8px;color:#666;">Error: ${e.message}</small>
-      </div>`;
+  } catch(e) {
+    document.getElementById('ranking-content').innerHTML =
+      `<div class="error-msg">No se pudo cargar el ranking.<br><small>${e.message}</small></div>`;
     setSyncError();
   }
 }
 
 async function loadResultados() {
   try {
-    const rows = await fetchCSV(GID_RESULTADOS);
+    const rows = await fetchCSV(CSV_RESULTADOS);
     resultadosData = [];
     rows.forEach((row, i) => {
-      if (i === 0) return; // header: FECHA, DESAFIANTE, ACEPTANTE, GAMES_D, GAMES_A
-      const fecha = row[0] ? row[0].toString().trim() : '';
+      if (i === 0) return;
+      const fecha = (row[0] || '').toString().trim();
       if (!fecha) return;
       resultadosData.push({
-        fecha:      fecha,
+        fecha,
         desafiante: row[1] || '',
         aceptante:  row[2] || '',
-        games_d:    row[3] !== undefined && row[3] !== '' ? row[3].toString() : null,
-        games_a:    row[4] !== undefined && row[4] !== '' ? row[4].toString() : null,
+        games_d: row[3] !== undefined && row[3] !== '' ? row[3].toString() : null,
+        games_a: row[4] !== undefined && row[4] !== '' ? row[4].toString() : null,
       });
     });
     populateFechaSelect();
     renderResultados();
-  } catch (e) {
+  } catch(e) {
     document.getElementById('resultados-content').innerHTML =
-      `<div class="error-msg">No se pudieron cargar los resultados. Error: ${e.message}</div>`;
+      `<div class="error-msg">No se pudieron cargar los resultados.<br><small>${e.message}</small></div>`;
     setSyncError();
   }
 }
@@ -633,8 +582,7 @@ function renderRanking() {
 function showCategoria(cat, btn) {
   currentCategoria = cat;
   document.querySelectorAll('.sector-btn').forEach(b => { b.className = 'sector-btn'; });
-  if (cat === 'todos') btn.className = 'sector-btn active-a';
-  else btn.className = `sector-btn active-${cat.toLowerCase()}`;
+  btn.className = cat === 'todos' ? 'sector-btn active-a' : `sector-btn active-${cat.toLowerCase()}`;
   renderRanking();
 }
 
@@ -653,11 +601,11 @@ function setSyncError() {
 function setSyncOk() {
   document.getElementById('sync-dot').classList.add('live');
   const now = new Date();
-  document.getElementById('sync-text').textContent = `Actualizado ${now.toLocaleTimeString('es-AR', {hour:'2-digit',minute:'2-digit'})}`;
+  document.getElementById('sync-text').textContent =
+    `Actualizado ${now.toLocaleTimeString('es-AR', {hour:'2-digit', minute:'2-digit'})}`;
 }
 
 async function loadAll() {
-  await detectGids();
   await Promise.all([loadRanking(), loadResultados()]);
   setSyncOk();
 }
